@@ -1,0 +1,2 @@
+# sqd-indexer
+Subsquid Indexer
