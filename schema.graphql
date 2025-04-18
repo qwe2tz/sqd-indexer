@@ -1,6 +1,5 @@
 type Transaction @entity {
   id: ID!
-  block: BigInt! @index
   blockHash: String! @index
   blockNumber: BigInt! @index
   transactionHash: String! @index
@@ -15,10 +14,5 @@ type Log @entity {
   blockHash: String! @index
   timestamp: BigInt! @index
   address: String! @index
-  topic0: String! @index
-  topic1: String
-  topic2: String
-  topic3: String
   data: String
-  transaction: [Transaction] @hasInverse(fields: [transactionHash], references: [id])
 }

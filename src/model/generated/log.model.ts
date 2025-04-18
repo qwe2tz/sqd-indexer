@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Transaction {
-    constructor(props?: Partial<Transaction>) {
+export class Log {
+    constructor(props?: Partial<Log>) {
         Object.assign(this, props)
     }
 
@@ -11,7 +11,7 @@ export class Transaction {
 
     @Index_()
     @StringColumn_({nullable: false})
-    blockHash!: string
+    transactionHash!: string
 
     @Index_()
     @BigIntColumn_({nullable: false})
@@ -19,7 +19,7 @@ export class Transaction {
 
     @Index_()
     @StringColumn_({nullable: false})
-    transactionHash!: string
+    blockHash!: string
 
     @Index_()
     @BigIntColumn_({nullable: false})
@@ -27,5 +27,8 @@ export class Transaction {
 
     @Index_()
     @StringColumn_({nullable: false})
-    from!: string
+    address!: string
+
+    @StringColumn_({nullable: true})
+    data!: string | undefined | null
 }
