@@ -9,10 +9,12 @@ type Transaction @entity {
 
 type Log @entity {
   id: ID!
+  contract: String! @index
+  name: String! @index
   transactionHash: String! @index
   blockNumber: BigInt! @index
   blockHash: String! @index
   timestamp: BigInt! @index
   address: String! @index
-  data: String
+  data: String! @index
 }

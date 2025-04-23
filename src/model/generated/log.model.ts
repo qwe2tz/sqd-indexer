@@ -11,6 +11,14 @@ export class Log {
 
     @Index_()
     @StringColumn_({nullable: false})
+    contract!: string
+
+    @Index_()
+    @StringColumn_({nullable: false})
+    name!: string
+
+    @Index_()
+    @StringColumn_({nullable: false})
     transactionHash!: string
 
     @Index_()
@@ -29,6 +37,7 @@ export class Log {
     @StringColumn_({nullable: false})
     address!: string
 
-    @StringColumn_({nullable: true})
-    data!: string | undefined | null
+    @Index_()
+    @StringColumn_({nullable: false})
+    data!: string
 }
