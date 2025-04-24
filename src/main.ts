@@ -4,12 +4,17 @@ import { Transaction, Log as LogModel } from "./model";
 import { EventRegistry, EventType } from "./constants/types";
 import { serializeWithBigInt } from "./utils";
 
-// TODO: Call HUB contract and check for address of existing contracts dynamically
+// TODO: Call HUB contract and check for address of existing contracts dynamicaly
+
+
 const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 const processor = new EvmBatchProcessor()
-  .setRpcEndpoint({ url: process.env.RPC_ENDPOINT, rateLimit: parseInt(process.env.RATE_LIMIT) })
-  .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
-  .setFinalityConfirmation(parseInt(process.env.FINALITY_CONFIRMATIONS))
+  .setRpcEndpoint({
+    url: "https://lofar-testnet.origin-trail.network",
+    rateLimit: 100,
+  })
+  .setBlockRange({ from: 7064034 })
+  .setFinalityConfirmation(75)
   .addLog({
     address: process.env.CONTRACTS.split(";"),
     topic0: topics0List,
