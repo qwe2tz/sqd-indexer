@@ -1,55 +1,24 @@
-import { EvmBatchProcessor, Log } from "@subsquid/evm-processor";
+import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Transaction, Log as LogModel } from "./model";
-import * as hubAbi from "./abi/hub";
-import * as randomSamplingAbi from "./abi/random-sampling";
+import { EventRegistry, EventType } from "./constants/types";
+import { serializeWithBigInt } from "./utils";
 
-const eventRegistry = {
-  NewContract: hubAbi.events.NewContract,
-  NewAssetStorage: hubAbi.events.NewAssetStorage,
-  ContractChanged: hubAbi.events.ContractChanged,
-  ContractRemoved: hubAbi.events.ContractRemoved,
-  OwnershipTransferred: hubAbi.events.OwnershipTransferred,
-  ChallengeCreated: randomSamplingAbi.events.ChallengeCreated,
-  ValidProofSubmitted: randomSamplingAbi.events.ValidProofSubmitted,
-  AvgBlockTimeUpdated: randomSamplingAbi.events.AvgBlockTimeUpdated,
-  ProofingPeriodDurationInBlocksUpdated:
-    randomSamplingAbi.events.ProofingPeriodDurationInBlocksUpdated,
-};
-
-const extractLog = (evmLog: Log) => {
-  let result = {
-    contract: "",
-    name: "",
-    decoded: {},
-  };
-  if (evmLog.topics[0] === eventRegistry.NewContract.topic) {
-    result["decoded"] = eventRegistry.NewContract.decode(evmLog);
-    result["contract"] = "Hub";
-    result["name"] = "NewContract";
-  } else if (evmLog.topics[0] === eventRegistry.ContractChanged.topic) {
-    result["decoded"] = eventRegistry.ContractChanged.decode(evmLog);
-    result["contract"] = "Hub";
-    result["name"] = "ContractChanged";
-  } else if (evmLog.topics[0] === eventRegistry.ContractRemoved.topic) {
-    result["decoded"] = eventRegistry.ContractRemoved.decode(evmLog);
-    result["contract"] = "Hub";
-    result["name"] = "ContractChanged";
-  }
-
-  return result;
-};
-
+// TODO: Call HUB contract and check for address of existing contracts dynamically
+const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 const processor = new EvmBatchProcessor()
-  // .setGateway("https://v2.archive.subsquid.io/network/base-sepolia")
-  .setRpcEndpoint({ url: process.env.RPC_ENDPOINT, rateLimit: 100 })
-  .setBlockRange({ from: 7064034 })
-  .setFinalityConfirmation(75)
+  .setRpcEndpoint({ url: process.env.RPC_ENDPOINT, rateLimit: parseInt(process.env.RATE_LIMIT) })
+  .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
+  .setFinalityConfirmation(parseInt(process.env.FINALITY_CONFIRMATIONS))
   .addLog({
     address: process.env.CONTRACTS.split(";"),
-    topic0: Object.keys(eventRegistry).map((e) => eventRegistry[e].topic),
+    topic0: topics0List,
   })
   .addTransaction({});
+
+if (process.env.GATEWAY) {
+  processor.setGateway(process.env.GATEWAY);
+}
 
 const db = new TypeormDatabase();
 processor.run(db, async (ctx) => {
@@ -58,21 +27,25 @@ processor.run(db, async (ctx) => {
 
   for (let block of ctx.blocks) {
     for (const log of block.logs) {
-      const decodedLog = extractLog(log);
-      if (!decodedLog) {
+      const event = EventRegistry[log.topics[0]] as EventType;
+      const decoded = event.abi.decode(log);
+
+      if (!decoded) {
         continue;
       }
+
       logs.push(
         new LogModel({
           id: log.transaction.hash + log.logIndex,
-          contract: decodedLog.contract,
-          name: decodedLog.name,
+          contract: event.contract,
+          name: event.name,
           blockHash: block.header.hash,
           blockNumber: BigInt(block.header.height),
           transactionHash: log.transaction.hash,
           timestamp: BigInt(block.header.timestamp),
           address: log.address,
-          data: JSON.stringify(decodedLog.decoded),
+          data: serializeWithBigInt(decoded),
+          createdAt: new Date(),
         })
       );
     }
@@ -86,6 +59,7 @@ processor.run(db, async (ctx) => {
           transactionHash: tx.hash,
           timestamp: BigInt(block.header.timestamp),
           from: tx.from,
+          createdAt: new Date(),
         })
       );
     }

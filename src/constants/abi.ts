@@ -1,0 +1,16 @@
+export * as Ask from "../abi/Ask";
+export * as AskStorage from "../abi/AskStorage";
+export * as Hub from "../abi/Hub";
+export * as HubLib from "../abi/HubLib";
+export * as RandomSampling from "../abi/RandomSampling";
+export * as RandomSamplingStorage from "../abi/RandomSamplingStorage";
+export * as StakingStorage from "../abi/StakingStorage";
+export * as KnowledgeCollection from "../abi/KnowledgeCollection";
+export * as KnowledgeCollectionStorage from "../abi/KnowledgeCollectionStorage";
+export * as Paranet from "../abi/Paranet";
+export * as Identity from "../abi/Identity";
+export * as IdentityStorage from "../abi/IdentityStorage";
+export * as DelegatorsInfo from "../abi/DelegatorsInfo";
+export * as Profile from "../abi/Profile";
+export * as ProfileStorage from "../abi/ProfileStorage";
+export * as ContractStatus from "../abi/ContractStatus";

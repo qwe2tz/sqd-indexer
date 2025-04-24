@@ -5,6 +5,7 @@ type Transaction @entity {
   transactionHash: String! @index
   timestamp: BigInt! @index
   from: String! @index
+  createdAt: DateTime! @index
 }
 
 type Log @entity {
@@ -17,4 +18,5 @@ type Log @entity {
   timestamp: BigInt! @index
   address: String! @index
   data: String! @index
+  createdAt: DateTime! @index
 }
