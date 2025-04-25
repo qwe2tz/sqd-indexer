@@ -1,6 +1,6 @@
 import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-import { Transaction } from "./model";
+// import { Transaction } from "./model";
 import { EventRegistry, EventType } from "./constants/types";
 import { serializeWithBigInt } from "./utils";
 
@@ -37,21 +37,6 @@ processor.run(db, async (ctx) => {
       if (!decoded) {
         continue;
       }
-
-      // logs.push(
-      //   new LogModel({
-      //     id: log.transaction.hash + log.logIndex,
-      //     contract: event.contract,
-      //     name: event.name,
-      //     blockHash: block.header.hash,
-      //     blockNumber: BigInt(block.header.height),
-      //     transactionHash: log.transaction.hash,
-      //     timestamp: BigInt(block.header.timestamp),
-      //     address: log.address,
-      //     data: serializeWithBigInt(decoded),
-      //     createdAt: new Date(),
-      //   })
-      // );
     }
 
     for (const tx of block.transactions) {

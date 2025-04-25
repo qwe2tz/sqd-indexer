@@ -1,18 +1,17 @@
 interface Base {
   id: ID!
-  createdAt: DateTime! @index
-  updatedAt: DateTime! @index
-}
-
-interface Event implements Base {
-  contract: String! @index
-  name: String! @index
-  transaction: Transaction! @index
+  contract: String!
+  name: String!
+  createdAt: DateTime!
 }
 
 type Transaction implements Base @entity {
-  id: ID!
   blockHash: String! @index
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   blockNumber: BigInt! @index
   transactionHash: String! @index
   timestamp: BigInt! @index
@@ -21,72 +20,137 @@ type Transaction implements Base @entity {
 }
 
 # =================== HUB =================== #
-type NewContract implements Event @entity {
+type NewContract implements Base @entity {
+  contractName: String
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  newContractAddress: String!
+}
+
+type ContractChanged implements Base @entity {
+  contractName: String
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  newContractAddress: String!
+}
+
+type NewAssetStorage implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   contractName: String!
   newContractAddress: String!
 }
 
-type ContractChanged implements Event @entity {
+type AssetStorageChanged implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   contractName: String!
   newContractAddress: String!
 }
 
-type NewAssetStorage implements Event @entity {
-  contractName: String!
-  newContractAddress: String!
-}
+type ContractRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
 
-type AssetStorageChanged implements Event @entity {
-  contractName: String!
-  newContractAddress: String!
-}
-
-type ContractRemoved implements Event @entity {
   contractName: String!
   contractAddress: String!
 }
 
-type AssetStorageRemoved implements Event @entity {
+type AssetStorageRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   contractName: String!
   contractAddress: String!
 }
 
 # =================== GUARDIAN =================== #
-type TokenTransferred implements Event @entity {
+type TokenTransferred implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   custodian: String! @index
   amount: BigInt! @index
 }
 
-type MisplacedEtherWithdrawn implements Event @entity {
+type MisplacedEtherWithdrawn implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   custodian: String! @index
   amount: BigInt! @index
 }
 
-type MisplacedERC20Withdrawn implements Event @entity {
+type MisplacedERC20Withdrawn implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   custodian: String! @index
   tokenContract: String! @index
   amount: BigInt! @index
 }
 
 # =================== DELEGATORS INFO =================== #
-type DelegatorAdded implements Event @entity {
+type DelegatorAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegator: String! @index
 }
 
-type DelegatorRemoved implements Event @entity {
+type DelegatorRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegator: String! @index
 }
 
 # =================== EPOCH STORAGE =================== #
-type EpochProducedKnowledgeValueAdded implements Event @entity {
+type EpochProducedKnowledgeValueAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   epoch: BigInt! @index
   knowledgeValue: BigInt!
 }
 
-type TokensAddedToEpochRange implements Event @entity {
+type TokensAddedToEpochRange implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   shardId: BigInt! @index
   startEpoch: BigInt!
   endEpoch: BigInt!
@@ -94,26 +158,38 @@ type TokensAddedToEpochRange implements Event @entity {
   remainder: BigInt!
 }
 
-type EpochTokensPaidOut implements Event @entity {
+type EpochTokensPaidOut implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   shardId: BigInt! @index
   epoch: BigInt! @index
   identityId: BigInt! @index
   amount: BigInt!
 }
 
-type EpochsFinalized implements Event @entity {
+type EpochsFinalized implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   shardId: BigInt! @index
   startEpoch: BigInt!
   endEpoch: BigInt!
 }
 
 # =================== KNOWLEDGE COLLECTION =================== #
-interface KCBase implements Event {
-  id: BigInt! @index
-}
+type KnowledgeCollectionCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
 
-type KnowledgeCollectionCreated implements KCBase @entity {
-  publishOperationId: String!
+  eventId: BigInt! @index
+  publishOperationId: String
   merkleRoot: String!
   byteSize: BigInt!
   startEpoch: BigInt!
@@ -122,253 +198,507 @@ type KnowledgeCollectionCreated implements KCBase @entity {
   isImmutable: Boolean!
 }
 
-type KnowledgeCollectionUpdated implements KCBase @entity {
-  updateOperationId: String!
+type KnowledgeCollectionUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
   merkleRoot: String!
   byteSize: BigInt!
   tokenAmount: BigInt!
+  updateOperationId: String
 }
 
-type KnowledgeAssetsMinted implements KCBase @entity {
-  to: String! @index
+type KnowledgeAssetsMinted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
   startId: BigInt!
   endId: BigInt!
+  to: String! @index
 }
 
-type KnowledgeAssetsBurned implements KCBase @entity {
+type KnowledgeAssetsBurned implements Base @entity {
   from: String! @index
-  tokenIds: [BigInt!]!
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  tokenIds: [String!]!
 }
 
-type KnowledgeCollectionPublisherUpdated implements KCBase @entity {
-  publisher: String!
+type KnowledgeCollectionPublisherUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  publisher: String
+  eventId: BigInt! @index
 }
 
-type KnowledgeCollectionMerkleRootsUpdated implements KCBase @entity {
-  merkleRoots: [String!]!
+type KnowledgeCollectionMerkleRootsUpdated implements Base @entity {
+  merkleRoots: [String!]
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
 }
 
-type KnowledgeCollectionMerkleRootAdded implements KCBase @entity {
-  merkleRoot: String!
+type KnowledgeCollectionMerkleRootAdded implements Base @entity {
+  merkleRoot: String
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
 }
 
-type KnowledgeCollectionMerkleRootRemoved implements KCBase @entity {
-  merkleRoot: String!
+type KnowledgeCollectionMerkleRootRemoved implements Base @entity {
+  merkleRoot: String
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
 }
 
-type KnowledgeCollectionMintedUpdated implements KCBase @entity {
-  minted: BigInt!
+type KnowledgeCollectionMintedUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  minted: BigInt
 }
 
-type KnowledgeCollectionBurnedUpdated implements KCBase @entity {
-  burned: [BigInt!]!
+type KnowledgeCollectionBurnedUpdated implements Base @entity {
+  burned: [String!]
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
 }
 
-type KnowledgeCollectionByteSizeUpdated implements KCBase @entity {
-  byteSize: BigInt!
+type KnowledgeCollectionByteSizeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  byteSize: BigInt
 }
 
-type KnowledgeCollectionChunksAmountUpdated implements KCBase @entity {
-  chunksAmount: BigInt!
+type KnowledgeCollectionChunksAmountUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  chunksAmount: BigInt
 }
 
-type KnowledgeCollectionTokenAmountUpdated implements KCBase @entity {
-  tokenAmount: BigInt!
+type KnowledgeCollectionTokenAmountUpdated implements Base @entity {
+  id: ID!
+  name: String! @index
+  contract: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  tokenAmount: BigInt
 }
 
-type KnowledgeCollectionStartEpochUpdated implements KCBase @entity {
-  startEpoch: BigInt!
+type KnowledgeCollectionStartEpochUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  startEpoch: BigInt
 }
 
-type KnowledgeCollectionEndEpochUpdated implements KCBase @entity {
-  endEpoch: BigInt!
+type KnowledgeCollectionEndEpochUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  eventId: BigInt! @index
+  endEpoch: BigInt
 }
 
 # =================== PARAMETERS STORAGE =================== #
-type ParameterChanged implements Event @entity {
+type ParameterChanged implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   parameterName: String!
   parameterValue: BigInt!
 }
 
 # =================== PAYMASTER MANAGER =================== #
-type PaymasterDeployed implements Event @entity {
+type PaymasterDeployed implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   deployer: String! @index
   paymasterAddress: String! @index
 }
 
 # =================== PROFILE STORAGE =================== #
-type ProfileCreated implements Event @entity {
+type ProfileCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   nodeName: String!
   nodeId: String!
   initialOperatorFee: BigInt!
 }
 
-type ProfileDeleted implements Event @entity {
+type ProfileDeleted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   nodeId: String!
 }
 
-type NodeNameUpdated implements Event @entity {
+type NodeNameUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   oldName: String!
   newName: String!
 }
 
-type NodeIdUpdated implements Event @entity {
+type NodeIdUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   oldNodeId: String!
   newNodeId: String!
 }
 
-type NodeAskUpdated implements Event @entity {
+type NodeAskUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   oldAsk: BigInt!
   newAsk: BigInt!
 }
 
-type OperatorFeeAdded implements Event @entity {
+type OperatorFeeAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   feePercentage: BigInt!
   effectiveDate: BigInt!
 }
 
-type OperatorFeesReplaced implements Event @entity {
+type OperatorFeesReplaced implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   oldFeePercentage: BigInt!
   newFeePercentage: BigInt!
   effectiveDate: BigInt!
 }
 
-type OperatorFeesUpdated implements Event @entity {
+type OperatorFeesUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   # TODO: Doublecheck mapping
   operatorFees: [String!]!
 }
 
 # =================== RANDOM SAMPLING STORAGE =================== #
-type ProofingPeriodDurationAdded implements Event @entity {
+type ProofingPeriodDurationAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   durationInBlocks: BigInt!
   effectiveEpoch: BigInt! @index
 }
 
-type PendingProofingPeriodDurationReplaced implements Event @entity {
+type PendingProofingPeriodDurationReplaced implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldDurationInBlocks: BigInt!
   newDurationInBlocks: BigInt!
   effectiveEpoch: BigInt! @index
 }
 
 # =================== SHARDING TABLE STORAGE =================== #
-type NodesCountIncremented implements Event @entity {
+type NodesCountIncremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   newCount: BigInt!
 }
 
-type NodesCountDecremented implements Event @entity {
+type NodesCountDecremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   newCount: BigInt!
 }
 
-type NodeObjectCreated implements Event @entity {
+type NodeObjectCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   nodeId: String!
   hashRingPosition: BigInt!
   index: BigInt!
 }
 
-type NodeObjectDeleted implements Event @entity {
+type NodeObjectDeleted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
 }
 
-type NodeIndexIncremented implements Event @entity {
+type NodeIndexIncremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   newIndex: BigInt!
 }
 
-type NodeIndexDecremented implements Event @entity {
+type NodeIndexDecremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   newIndex: BigInt!
 }
 
-type IdentityIdIndexSet implements Event @entity {
+type IdentityIdIndexSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   index: BigInt!
 }
 
 # =================== STAKING STORAGE =================== #
-type TotalStakeUpdated implements Event @entity {
+type TotalStakeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   totalStake: BigInt!
 }
 
-type NodeStakeUpdated implements Event @entity {
+type NodeStakeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   stake: BigInt!
 }
 
-type NodeRewardIndexUpdated implements Event @entity {
+type NodeRewardIndexUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   rewardIndex: BigInt!
 }
 
-type NodeCumulativeEarnedRewardsUpdated implements Event @entity {
+type NodeCumulativeEarnedRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   cumulativeEarnedRewards: BigInt!
 }
 
-type NodeCumulativePaidOutRewardsUpdated implements Event @entity {
+type NodeCumulativePaidOutRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   cumulativePaidOutRewards: BigInt!
 }
 
-type DelegatorCountUpdated implements Event @entity {
+type DelegatorCountUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorsCount: BigInt!
 }
 
-type OperatorFeeBalanceUpdated implements Event @entity {
+type OperatorFeeBalanceUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   feeBalance: BigInt!
 }
 
-type OperatorFeeCumulativeEarnedRewardsUpdated implements Event @entity {
+type OperatorFeeCumulativeEarnedRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   cumulativeFeeEarnedRewards: BigInt!
 }
 
-type OperatorFeeCumulativePaidOutRewardsUpdated implements Event @entity {
+type OperatorFeeCumulativePaidOutRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   cumulativeFeePaidOutRewards: BigInt!
 }
 
-type DelegatorBaseStakeUpdated implements Event @entity {
+type DelegatorBaseStakeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   stakeBase: BigInt!
 }
 
-type DelegatorIndexedStakeUpdated implements Event @entity {
+type DelegatorIndexedStakeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   stakeIndexed: BigInt!
 }
 
-type DelegatorLastRewardIndexUpdated implements Event @entity {
+type DelegatorLastRewardIndexUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   lastIndex: BigInt!
 }
 
-type DelegatorCumulativeEarnedRewardsUpdated implements Event @entity {
+type DelegatorCumulativeEarnedRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   cumulativeEarnedRewards: BigInt!
 }
 
-type DelegatorCumulativePaidOutRewardsUpdated implements Event @entity {
+type DelegatorCumulativePaidOutRewardsUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   cumulativePaidOutRewards: BigInt!
 }
 
-type DelegatorWithdrawalRequestCreated implements Event @entity {
+type DelegatorWithdrawalRequestCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
   amount: BigInt!
@@ -376,54 +706,108 @@ type DelegatorWithdrawalRequestCreated implements Event @entity {
   timestamp: BigInt!
 }
 
-type DelegatorWithdrawalRequestDeleted implements Event @entity {
+type DelegatorWithdrawalRequestDeleted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   delegatorKey: String! @index
 }
 
-type OperatorFeeWithdrawalRequestCreated implements Event @entity {
+type OperatorFeeWithdrawalRequestCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   amount: BigInt!
   indexedOutAmount: BigInt!
   timestamp: BigInt!
 }
 
-type OperatorFeeWithdrawalRequestDeleted implements Event @entity {
+type OperatorFeeWithdrawalRequestDeleted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
 }
 
-type StakedTokensTransferred implements Event @entity {
+type StakedTokensTransferred implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   receiver: String! @index
   amount: BigInt!
 }
 
 # =================== WHITELIST STORAGE =================== #
-type AddressWhitelisted implements Event @entity {
+type AddressWhitelisted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   addr: String! @index
 }
 
-type AddressBlacklisted implements Event @entity {
+type AddressBlacklisted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   addr: String! @index
 }
 
-type WhitelistEnabled implements Event @entity {}
+type WhitelistEnabled implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+}
 
-type WhitelistDisabled implements Event @entity {}
-
+type WhitelistDisabled implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+}
 
 # =================== IDENTITY =================== #
-type IdentityCreated implements Event @entity {
+type IdentityCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   operationalKey: String! @index
   adminKey: String! @index
 }
 
-type IdentityDeleted implements Event @entity {
+type IdentityDeleted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
 }
 
 # =================== RANDOM SAMPLING =================== #
-type ChallengeCreated implements Event @entity {
+type ChallengeCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   epoch: BigInt! @index
   knowledgeCollectionId: BigInt!
@@ -432,22 +816,42 @@ type ChallengeCreated implements Event @entity {
   proofingPeriodDurationInBlocks: BigInt!
 }
 
-type ValidProofSubmitted implements Event @entity {
+type ValidProofSubmitted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   identityId: BigInt! @index
   epoch: BigInt! @index
   score: BigInt!
 }
 
-type AvgBlockTimeUpdated implements Event @entity {
+type AvgBlockTimeUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   avgBlockTimeInSeconds: BigInt!
 }
 
-type ProofingPeriodDurationInBlocksUpdated implements Event @entity {
+type ProofingPeriodDurationInBlocksUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   durationInBlocks: BigInt!
 }
 
 # =================== PARANET =================== #
-type ParanetRegistered implements Event @entity {
+type ParanetRegistered implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -458,49 +862,84 @@ type ParanetRegistered implements Event @entity {
   knowledgeCollectionsSubmissionPolicy: BigInt!
 }
 
-type ParanetPermissionedNodeAdded implements Event @entity {
+type ParanetPermissionedNodeAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   identityId: BigInt! @index
 }
 
-type ParanetPermissionedNodeRemoved implements Event @entity {
+type ParanetPermissionedNodeRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   identityId: BigInt! @index
 }
 
-type ParanetPermissionedNodeJoinRequestCreated implements Event @entity {
+type ParanetPermissionedNodeJoinRequestCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   identityId: BigInt! @index
 }
 
-type ParanetPermissionedNodeJoinRequestAccepted implements Event @entity {
+type ParanetPermissionedNodeJoinRequestAccepted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   identityId: BigInt! @index
 }
 
-type ParanetPermissionedNodeJoinRequestRejected implements Event @entity {
+type ParanetPermissionedNodeJoinRequestRejected implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   identityId: BigInt! @index
 }
 
-type ParanetIncetivesPoolDeployed implements Event @entity {
+type ParanetIncetivesPoolDeployed implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   incentivesPool: String! # Adjust type based on the structure of ParanetLib.IncentivesPool
 }
 
-type ParanetMetadataUpdated implements Event @entity {
+type ParanetMetadataUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -508,7 +947,12 @@ type ParanetMetadataUpdated implements Event @entity {
   newParanetDescription: String!
 }
 
-type ParanetServiceAdded implements Event @entity {
+type ParanetServiceAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -517,7 +961,12 @@ type ParanetServiceAdded implements Event @entity {
   paranetServiceKATokenId: BigInt!
 }
 
-type ParanetServiceRegistered implements Event @entity {
+type ParanetServiceRegistered implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetServiceKCStorageContract: String! @index
   paranetServiceKCTokenId: BigInt! @index
   paranetServiceKATokenId: BigInt! @index
@@ -526,7 +975,12 @@ type ParanetServiceRegistered implements Event @entity {
   paranetServiceAddresses: [String!]!
 }
 
-type ParanetServiceMetadataUpdated implements Event @entity {
+type ParanetServiceMetadataUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetServiceKCStorageContract: String! @index
   paranetServiceKCTokenId: BigInt! @index
   paranetServiceKATokenId: BigInt! @index
@@ -535,7 +989,12 @@ type ParanetServiceMetadataUpdated implements Event @entity {
   newParanetServiceAddresses: [String!]!
 }
 
-type KnowledgeCollectionSubmittedToParanet implements Event @entity {
+type KnowledgeCollectionSubmittedToParanet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -543,35 +1002,60 @@ type KnowledgeCollectionSubmittedToParanet implements Event @entity {
   knowledgeCollectionId: BigInt!
 }
 
-type ParanetPermissionedMinerAdded implements Event @entity {
+type ParanetPermissionedMinerAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   minerAddress: String!
 }
 
-type ParanetPermissionedMinerRemoved implements Event @entity {
+type ParanetPermissionedMinerRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   minerAddress: String!
 }
 
-type ParanetPermissionedMinerAccessRequestCreated implements Event @entity {
+type ParanetPermissionedMinerAccessRequestCreated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   minerAddress: String!
 }
 
-type ParanetPermissionedMinerAccessRequestAccepted implements Event @entity {
+type ParanetPermissionedMinerAccessRequestAccepted implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
   minerAddress: String!
 }
 
-type ParanetPermissionedMinerAccessRequestRejected implements Event @entity {
+type ParanetPermissionedMinerAccessRequestRejected implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -579,19 +1063,34 @@ type ParanetPermissionedMinerAccessRequestRejected implements Event @entity {
 }
 
 # =================== PARANET INCENTIVE POOL =================== #
-type TokenEmissionMultiplierUpdateInitiated implements Event @entity {
+type TokenEmissionMultiplierUpdateInitiated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldMultiplier: BigInt!
   newMultiplier: BigInt!
   timestamp: BigInt!
 }
 
-type TokenEmissionMultiplierUpdateFinalized implements Event @entity {
+type TokenEmissionMultiplierUpdateFinalized implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldMultiplier: BigInt!
   newMultiplier: BigInt!
 }
 
 # =================== PARANET INCENTIVE POOL FACTORY =================== #
-type ParanetIncentivesPoolDeployed implements Event @entity {
+type ParanetIncentivesPoolDeployed implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -600,7 +1099,12 @@ type ParanetIncentivesPoolDeployed implements Event @entity {
   rewardTokenAddress: String!
 }
 
-type ParanetIncentivesPoolRedeployed implements Event @entity {
+type ParanetIncentivesPoolRedeployed implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
   paranetKATokenId: BigInt! @index
@@ -609,104 +1113,204 @@ type ParanetIncentivesPoolRedeployed implements Event @entity {
 }
 
 # =================== PARANET INCENTIVE POOL STORAGE =================== #
-type TokenRewardDeposit implements Event @entity {
+type TokenRewardDeposit implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   sender: String!
   amount: BigInt!
 }
 
-type VoterWeightUpdated implements Event @entity {
+type VoterWeightUpdated implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   voter: String! @index
   oldWeight: BigInt!
   newWeight: BigInt!
 }
 
-type TotalMinersclaimedTokenSet implements Event @entity {
+type TotalMinersclaimedTokenSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldAmount: BigInt!
   newAmount: BigInt!
 }
 
-type TotalOperatorsclaimedTokenSet implements Event @entity {
+type TotalOperatorsclaimedTokenSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldAmount: BigInt!
   newAmount: BigInt!
 }
 
-type TotalVotersclaimedTokenSet implements Event @entity {
+type TotalVotersclaimedTokenSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldAmount: BigInt!
   newAmount: BigInt!
 }
 
-type TotalMinersclaimedTokenDecremented implements Event @entity {
+type TotalMinersclaimedTokenDecremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   amount: BigInt!
   newTotal: BigInt!
 }
 
-type TotalOperatorsclaimedTokenDecremented implements Event @entity {
+type TotalOperatorsclaimedTokenDecremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   amount: BigInt!
   newTotal: BigInt!
 }
 
-type TotalVotersclaimedTokenDecremented implements Event @entity {
+type TotalVotersclaimedTokenDecremented implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   amount: BigInt!
   newTotal: BigInt!
 }
 
-type VotersRegistrarTransferred implements Event @entity {
+type VotersRegistrarTransferred implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   previousRegistrar: String! @index
   newRegistrar: String! @index
 }
 
-type MinerRewardProfileAdded implements Event @entity {
+type MinerRewardProfileAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   miner: String! @index
   amount: BigInt!
 }
 
-type MinerRewardIncreased implements Event @entity {
+type MinerRewardIncreased implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   miner: String! @index
   additionalAmount: BigInt!
   newTotal: BigInt!
 }
 
-type OperatorRewardProfileAdded implements Event @entity {
+type OperatorRewardProfileAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   operator: String! @index
   amount: BigInt!
 }
 
-type OperatorRewardIncreased implements Event @entity {
+type OperatorRewardIncreased implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   operator: String! @index
   additionalAmount: BigInt!
   newTotal: BigInt!
 }
 
-type VoterAdded implements Event @entity {
+type VoterAdded implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   voter: String! @index
   weight: BigInt!
 }
 
-type VoterRemoved implements Event @entity {
+type VoterRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   voter: String! @index
   weight: BigInt!
 }
 
-type VotersRemoved implements Event @entity {
+type VotersRemoved implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   count: BigInt!
 }
 
-type VoterRewardClaimed implements Event @entity {
+type VoterRewardClaimed implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   voter: String! @index
   amount: BigInt!
 }
 
-type IncentivesPoolAddressSet implements Event @entity {
+type IncentivesPoolAddressSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldAddress: String! @index
   newAddress: String! @index
 }
 
-type RewardTransferred implements Event @entity {
+type RewardTransferred implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   recipient: String! @index
   amount: BigInt!
 }
 
-type TokenOriginSet implements Event @entity {
+type TokenOriginSet implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
   oldOrigin: String! @index
   newOrigin: String! @index
 }
