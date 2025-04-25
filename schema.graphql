@@ -7,9 +7,20 @@ interface Base {
 interface Event implements Base {
   contract: String! @index
   name: String! @index
+  transaction: Transaction! @index
 }
 
-# ================ HUB ================ #
+type Transaction implements Base @entity {
+  id: ID!
+  blockHash: String! @index
+  blockNumber: BigInt! @index
+  transactionHash: String! @index
+  timestamp: BigInt! @index
+  from: String! @index
+  to: String! @index
+}
+
+# =================== HUB =================== #
 type NewContract implements Event @entity {
   contractName: String!
   newContractAddress: String!
@@ -40,7 +51,7 @@ type AssetStorageRemoved implements Event @entity {
   contractAddress: String!
 }
 
-# ================ GUARDIAN ================ #
+# =================== GUARDIAN =================== #
 type TokenTransferred implements Event @entity {
   custodian: String! @index
   amount: BigInt! @index
@@ -57,7 +68,7 @@ type MisplacedERC20Withdrawn implements Event @entity {
   amount: BigInt! @index
 }
 
-# ================ DELEGATORS INFO ================ #
+# =================== DELEGATORS INFO =================== #
 type DelegatorAdded implements Event @entity {
   identityId: BigInt! @index
   delegator: String! @index
@@ -68,7 +79,7 @@ type DelegatorRemoved implements Event @entity {
   delegator: String! @index
 }
 
-# ================ EPOCH STORAGE ================ #
+# =================== EPOCH STORAGE =================== #
 type EpochProducedKnowledgeValueAdded implements Event @entity {
   identityId: BigInt! @index
   epoch: BigInt! @index
@@ -96,7 +107,7 @@ type EpochsFinalized implements Event @entity {
   endEpoch: BigInt!
 }
 
-# ================ KNOWLEDGE COLLECTION ================ #
+# =================== KNOWLEDGE COLLECTION =================== #
 interface KCBase implements Event {
   id: BigInt! @index
 }
@@ -173,19 +184,19 @@ type KnowledgeCollectionEndEpochUpdated implements KCBase @entity {
   endEpoch: BigInt!
 }
 
-# ================ PARAMETERS STORAGE ================ #
+# =================== PARAMETERS STORAGE =================== #
 type ParameterChanged implements Event @entity {
   parameterName: String!
   parameterValue: BigInt!
 }
 
-# ================ PAYMASTER MANAGER ================ #
+# =================== PAYMASTER MANAGER =================== #
 type PaymasterDeployed implements Event @entity {
   deployer: String! @index
   paymasterAddress: String! @index
 }
 
-# ================ PROFILE STORAGE ================ #
+# =================== PROFILE STORAGE =================== #
 type ProfileCreated implements Event @entity {
   identityId: BigInt! @index
   nodeName: String!
@@ -235,7 +246,7 @@ type OperatorFeesUpdated implements Event @entity {
   operatorFees: [String!]!
 }
 
-# ================ RANDOM SAMPLING STORAGE ================ #
+# =================== RANDOM SAMPLING STORAGE =================== #
 type ProofingPeriodDurationAdded implements Event @entity {
   durationInBlocks: BigInt!
   effectiveEpoch: BigInt! @index
@@ -247,7 +258,7 @@ type PendingProofingPeriodDurationReplaced implements Event @entity {
   effectiveEpoch: BigInt! @index
 }
 
-# ================ SHARDING TABLE STORAGE ================ #
+# =================== SHARDING TABLE STORAGE =================== #
 type NodesCountIncremented implements Event @entity {
   newCount: BigInt!
 }
@@ -282,7 +293,7 @@ type IdentityIdIndexSet implements Event @entity {
   index: BigInt!
 }
 
-# ================ STAKING STORAGE ================ #
+# =================== STAKING STORAGE =================== #
 type TotalStakeUpdated implements Event @entity {
   totalStake: BigInt!
 }
@@ -386,7 +397,7 @@ type StakedTokensTransferred implements Event @entity {
   amount: BigInt!
 }
 
-# ================ WHITELIST STORAGE ================ #
+# =================== WHITELIST STORAGE =================== #
 type AddressWhitelisted implements Event @entity {
   addr: String! @index
 }
@@ -400,7 +411,7 @@ type WhitelistEnabled implements Event @entity {}
 type WhitelistDisabled implements Event @entity {}
 
 
-# ================ IDENTITY ================ #
+# =================== IDENTITY =================== #
 type IdentityCreated implements Event @entity {
   identityId: BigInt! @index
   operationalKey: String! @index
@@ -411,7 +422,7 @@ type IdentityDeleted implements Event @entity {
   identityId: BigInt! @index
 }
 
-# ================ RANDOM SAMPLING ================ #
+# =================== RANDOM SAMPLING =================== #
 type ChallengeCreated implements Event @entity {
   identityId: BigInt! @index
   epoch: BigInt! @index
@@ -433,4 +444,269 @@ type AvgBlockTimeUpdated implements Event @entity {
 
 type ProofingPeriodDurationInBlocksUpdated implements Event @entity {
   durationInBlocks: BigInt!
+}
+
+# =================== PARANET =================== #
+type ParanetRegistered implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  paranetName: String!
+  paranetDescription: String!
+  nodesAccessPolicy: BigInt!
+  minersAccessPolicy: BigInt!
+  knowledgeCollectionsSubmissionPolicy: BigInt!
+}
+
+type ParanetPermissionedNodeAdded implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  identityId: BigInt! @index
+}
+
+type ParanetPermissionedNodeRemoved implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  identityId: BigInt! @index
+}
+
+type ParanetPermissionedNodeJoinRequestCreated implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  identityId: BigInt! @index
+}
+
+type ParanetPermissionedNodeJoinRequestAccepted implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  identityId: BigInt! @index
+}
+
+type ParanetPermissionedNodeJoinRequestRejected implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  identityId: BigInt! @index
+}
+
+type ParanetIncetivesPoolDeployed implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  incentivesPool: String! # Adjust type based on the structure of ParanetLib.IncentivesPool
+}
+
+type ParanetMetadataUpdated implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  newParanetName: String!
+  newParanetDescription: String!
+}
+
+type ParanetServiceAdded implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  paranetServiceKCStorageContract: String!
+  paranetServiceKCTokenId: BigInt!
+  paranetServiceKATokenId: BigInt!
+}
+
+type ParanetServiceRegistered implements Event @entity {
+  paranetServiceKCStorageContract: String! @index
+  paranetServiceKCTokenId: BigInt! @index
+  paranetServiceKATokenId: BigInt! @index
+  paranetServiceName: String!
+  paranetServiceDescription: String!
+  paranetServiceAddresses: [String!]!
+}
+
+type ParanetServiceMetadataUpdated implements Event @entity {
+  paranetServiceKCStorageContract: String! @index
+  paranetServiceKCTokenId: BigInt! @index
+  paranetServiceKATokenId: BigInt! @index
+  newParanetServiceName: String!
+  newParanetServiceDescription: String!
+  newParanetServiceAddresses: [String!]!
+}
+
+type KnowledgeCollectionSubmittedToParanet implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  knowledgeCollectionStorageContract: String!
+  knowledgeCollectionId: BigInt!
+}
+
+type ParanetPermissionedMinerAdded implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  minerAddress: String!
+}
+
+type ParanetPermissionedMinerRemoved implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  minerAddress: String!
+}
+
+type ParanetPermissionedMinerAccessRequestCreated implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  minerAddress: String!
+}
+
+type ParanetPermissionedMinerAccessRequestAccepted implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  minerAddress: String!
+}
+
+type ParanetPermissionedMinerAccessRequestRejected implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  minerAddress: String!
+}
+
+# =================== PARANET INCENTIVE POOL =================== #
+type TokenEmissionMultiplierUpdateInitiated implements Event @entity {
+  oldMultiplier: BigInt!
+  newMultiplier: BigInt!
+  timestamp: BigInt!
+}
+
+type TokenEmissionMultiplierUpdateFinalized implements Event @entity {
+  oldMultiplier: BigInt!
+  newMultiplier: BigInt!
+}
+
+# =================== PARANET INCENTIVE POOL FACTORY =================== #
+type ParanetIncentivesPoolDeployed implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  storageAddress: String!
+  poolAddress: String!
+  rewardTokenAddress: String!
+}
+
+type ParanetIncentivesPoolRedeployed implements Event @entity {
+  paranetKCStorageContract: String! @index
+  paranetKCTokenId: BigInt! @index
+  paranetKATokenId: BigInt! @index
+  storageAddress: String!
+  newPoolAddress: String!
+}
+
+# =================== PARANET INCENTIVE POOL STORAGE =================== #
+type TokenRewardDeposit implements Event @entity {
+  sender: String!
+  amount: BigInt!
+}
+
+type VoterWeightUpdated implements Event @entity {
+  voter: String! @index
+  oldWeight: BigInt!
+  newWeight: BigInt!
+}
+
+type TotalMinersclaimedTokenSet implements Event @entity {
+  oldAmount: BigInt!
+  newAmount: BigInt!
+}
+
+type TotalOperatorsclaimedTokenSet implements Event @entity {
+  oldAmount: BigInt!
+  newAmount: BigInt!
+}
+
+type TotalVotersclaimedTokenSet implements Event @entity {
+  oldAmount: BigInt!
+  newAmount: BigInt!
+}
+
+type TotalMinersclaimedTokenDecremented implements Event @entity {
+  amount: BigInt!
+  newTotal: BigInt!
+}
+
+type TotalOperatorsclaimedTokenDecremented implements Event @entity {
+  amount: BigInt!
+  newTotal: BigInt!
+}
+
+type TotalVotersclaimedTokenDecremented implements Event @entity {
+  amount: BigInt!
+  newTotal: BigInt!
+}
+
+type VotersRegistrarTransferred implements Event @entity {
+  previousRegistrar: String! @index
+  newRegistrar: String! @index
+}
+
+type MinerRewardProfileAdded implements Event @entity {
+  miner: String! @index
+  amount: BigInt!
+}
+
+type MinerRewardIncreased implements Event @entity {
+  miner: String! @index
+  additionalAmount: BigInt!
+  newTotal: BigInt!
+}
+
+type OperatorRewardProfileAdded implements Event @entity {
+  operator: String! @index
+  amount: BigInt!
+}
+
+type OperatorRewardIncreased implements Event @entity {
+  operator: String! @index
+  additionalAmount: BigInt!
+  newTotal: BigInt!
+}
+
+type VoterAdded implements Event @entity {
+  voter: String! @index
+  weight: BigInt!
+}
+
+type VoterRemoved implements Event @entity {
+  voter: String! @index
+  weight: BigInt!
+}
+
+type VotersRemoved implements Event @entity {
+  count: BigInt!
+}
+
+type VoterRewardClaimed implements Event @entity {
+  voter: String! @index
+  amount: BigInt!
+}
+
+type IncentivesPoolAddressSet implements Event @entity {
+  oldAddress: String! @index
+  newAddress: String! @index
+}
+
+type RewardTransferred implements Event @entity {
+  recipient: String! @index
+  amount: BigInt!
+}
+
+type TokenOriginSet implements Event @entity {
+  oldOrigin: String! @index
+  newOrigin: String! @index
 }
