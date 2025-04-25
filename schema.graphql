@@ -1,14 +1,21 @@
-type Transaction @entity {
+interface Base {
+  id: ID!
+  createdAt: DateTime! @index
+  updatedAt: DateTime! @index
+}
+
+type Transaction implements @entity {
   id: ID!
   blockHash: String! @index
   blockNumber: BigInt! @index
   transactionHash: String! @index
   timestamp: BigInt! @index
   from: String! @index
+  to: String! @index
   createdAt: DateTime! @index
 }
 
-type Log @entity {
+type Log implements @entity {
   id: ID!
   contract: String! @index
   name: String! @index
