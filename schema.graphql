@@ -1,22 +1,437 @@
-type Transaction @entity {
+
+interface Base {
   id: ID!
-  blockHash: String! @index
-  blockNumber: BigInt! @index
-  transactionHash: String! @index
-  timestamp: BigInt! @index
-  from: String! @index
   createdAt: DateTime! @index
+  updatedAt: DateTime! @index
 }
 
-type Log @entity {
-  id: ID!
+interface Event implements Base {
   contract: String! @index
   name: String! @index
-  transactionHash: String! @index
-  blockNumber: BigInt! @index
-  blockHash: String! @index
-  timestamp: BigInt! @index
-  address: String! @index
-  data: String! @index
-  createdAt: DateTime! @index
+}
+
+# ================ HUB ================ #
+type NewContract implements Event @entity {
+  contractName: String!
+  newContractAddress: String!
+}
+
+type ContractChanged implements Event @entity {
+  contractName: String!
+  newContractAddress: String!
+}
+
+type NewAssetStorage implements Event @entity {
+  contractName: String!
+  newContractAddress: String!
+}
+
+type AssetStorageChanged implements Event @entity {
+  contractName: String!
+  newContractAddress: String!
+}
+
+type ContractRemoved implements Event @entity {
+  contractName: String!
+  contractAddress: String!
+}
+
+type AssetStorageRemoved implements Event @entity {
+  contractName: String!
+  contractAddress: String!
+}
+
+# ================ GUARDIAN ================ #
+type TokenTransferred implements Event @entity {
+  custodian: String! @index
+  amount: BigInt! @index
+}
+
+type MisplacedEtherWithdrawn implements Event @entity {
+  custodian: String! @index
+  amount: BigInt! @index
+}
+
+type MisplacedERC20Withdrawn implements Event @entity {
+  custodian: String! @index
+  tokenContract: String! @index
+  amount: BigInt! @index
+}
+
+# ================ DELEGATORS INFO ================ #
+type DelegatorAdded implements Event @entity {
+  identityId: BigInt! @index
+  delegator: String! @index
+}
+
+type DelegatorRemoved implements Event @entity {
+  identityId: BigInt! @index
+  delegator: String! @index
+}
+
+# ================ EPOCH STORAGE ================ #
+type EpochProducedKnowledgeValueAdded implements Event @entity {
+  identityId: BigInt! @index
+  epoch: BigInt! @index
+  knowledgeValue: BigInt!
+}
+
+type TokensAddedToEpochRange implements Event @entity {
+  shardId: BigInt! @index
+  startEpoch: BigInt!
+  endEpoch: BigInt!
+  tokenAmount: BigInt!
+  remainder: BigInt!
+}
+
+type EpochTokensPaidOut implements Event @entity {
+  shardId: BigInt! @index
+  epoch: BigInt! @index
+  identityId: BigInt! @index
+  amount: BigInt!
+}
+
+type EpochsFinalized implements Event @entity {
+  shardId: BigInt! @index
+  startEpoch: BigInt!
+  endEpoch: BigInt!
+}
+
+# ================ KNOWLEDGE COLLECTION ================ #
+interface KCBase implements Event {
+  id: BigInt! @index
+}
+
+type KnowledgeCollectionCreated implements KCBase @entity {
+  publishOperationId: String!
+  merkleRoot: String!
+  byteSize: BigInt!
+  startEpoch: BigInt!
+  endEpoch: BigInt!
+  tokenAmount: BigInt!
+  isImmutable: Boolean!
+}
+
+type KnowledgeCollectionUpdated implements KCBase @entity {
+  updateOperationId: String!
+  merkleRoot: String!
+  byteSize: BigInt!
+  tokenAmount: BigInt!
+}
+
+type KnowledgeAssetsMinted implements KCBase @entity {
+  to: String! @index
+  startId: BigInt!
+  endId: BigInt!
+}
+
+type KnowledgeAssetsBurned implements KCBase @entity {
+  from: String! @index
+  tokenIds: [BigInt!]!
+}
+
+type KnowledgeCollectionPublisherUpdated implements KCBase @entity {
+  publisher: String!
+}
+
+type KnowledgeCollectionMerkleRootsUpdated implements KCBase @entity {
+  merkleRoots: [String!]!
+}
+
+type KnowledgeCollectionMerkleRootAdded implements KCBase @entity {
+  merkleRoot: String!
+}
+
+type KnowledgeCollectionMerkleRootRemoved implements KCBase @entity {
+  merkleRoot: String!
+}
+
+type KnowledgeCollectionMintedUpdated implements KCBase @entity {
+  minted: BigInt!
+}
+
+type KnowledgeCollectionBurnedUpdated implements KCBase @entity {
+  burned: [BigInt!]!
+}
+
+type KnowledgeCollectionByteSizeUpdated implements KCBase @entity {
+  byteSize: BigInt!
+}
+
+type KnowledgeCollectionChunksAmountUpdated implements KCBase @entity {
+  chunksAmount: BigInt!
+}
+
+type KnowledgeCollectionTokenAmountUpdated implements KCBase @entity {
+  tokenAmount: BigInt!
+}
+
+type KnowledgeCollectionStartEpochUpdated implements KCBase @entity {
+  startEpoch: BigInt!
+}
+
+type KnowledgeCollectionEndEpochUpdated implements KCBase @entity {
+  endEpoch: BigInt!
+}
+
+# ================ PARAMETERS STORAGE ================ #
+type ParameterChanged implements Event @entity {
+  parameterName: String!
+  parameterValue: BigInt!
+}
+
+# ================ PAYMASTER MANAGER ================ #
+type PaymasterDeployed implements Event @entity {
+  deployer: String! @index
+  paymasterAddress: String! @index
+}
+
+# ================ PROFILE STORAGE ================ #
+type ProfileCreated implements Event @entity {
+  identityId: BigInt! @index
+  nodeName: String!
+  nodeId: String!
+  initialOperatorFee: BigInt!
+}
+
+type ProfileDeleted implements Event @entity {
+  identityId: BigInt! @index
+  nodeId: String!
+}
+
+type NodeNameUpdated implements Event @entity {
+  identityId: BigInt! @index
+  oldName: String!
+  newName: String!
+}
+
+type NodeIdUpdated implements Event @entity {
+  identityId: BigInt! @index
+  oldNodeId: String!
+  newNodeId: String!
+}
+
+type NodeAskUpdated implements Event @entity {
+  identityId: BigInt! @index
+  oldAsk: BigInt!
+  newAsk: BigInt!
+}
+
+type OperatorFeeAdded implements Event @entity {
+  identityId: BigInt! @index
+  feePercentage: BigInt!
+  effectiveDate: BigInt!
+}
+
+type OperatorFeesReplaced implements Event @entity {
+  identityId: BigInt! @index
+  oldFeePercentage: BigInt!
+  newFeePercentage: BigInt!
+  effectiveDate: BigInt!
+}
+
+type OperatorFeesUpdated implements Event @entity {
+  identityId: BigInt! @index
+  # TODO: Doublecheck mapping
+  operatorFees: [String!]!
+}
+
+# ================ RANDOM SAMPLING STORAGE ================ #
+type ProofingPeriodDurationAdded implements Event @entity {
+  durationInBlocks: BigInt!
+  effectiveEpoch: BigInt! @index
+}
+
+type PendingProofingPeriodDurationReplaced implements Event @entity {
+  oldDurationInBlocks: BigInt!
+  newDurationInBlocks: BigInt!
+  effectiveEpoch: BigInt! @index
+}
+
+# ================ SHARDING TABLE STORAGE ================ #
+type NodesCountIncremented implements Event @entity {
+  newCount: BigInt!
+}
+
+type NodesCountDecremented implements Event @entity {
+  newCount: BigInt!
+}
+
+type NodeObjectCreated implements Event @entity {
+  identityId: BigInt! @index
+  nodeId: String!
+  hashRingPosition: BigInt!
+  index: BigInt!
+}
+
+type NodeObjectDeleted implements Event @entity {
+  identityId: BigInt! @index
+}
+
+type NodeIndexIncremented implements Event @entity {
+  identityId: BigInt! @index
+  newIndex: BigInt!
+}
+
+type NodeIndexDecremented implements Event @entity {
+  identityId: BigInt! @index
+  newIndex: BigInt!
+}
+
+type IdentityIdIndexSet implements Event @entity {
+  identityId: BigInt! @index
+  index: BigInt!
+}
+
+# ================ STAKING STORAGE ================ #
+type TotalStakeUpdated implements Event @entity {
+  totalStake: BigInt!
+}
+
+type NodeStakeUpdated implements Event @entity {
+  identityId: BigInt! @index
+  stake: BigInt!
+}
+
+type NodeRewardIndexUpdated implements Event @entity {
+  identityId: BigInt! @index
+  rewardIndex: BigInt!
+}
+
+type NodeCumulativeEarnedRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  cumulativeEarnedRewards: BigInt!
+}
+
+type NodeCumulativePaidOutRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  cumulativePaidOutRewards: BigInt!
+}
+
+type DelegatorCountUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorsCount: BigInt!
+}
+
+type OperatorFeeBalanceUpdated implements Event @entity {
+  identityId: BigInt! @index
+  feeBalance: BigInt!
+}
+
+type OperatorFeeCumulativeEarnedRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  cumulativeFeeEarnedRewards: BigInt!
+}
+
+type OperatorFeeCumulativePaidOutRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  cumulativeFeePaidOutRewards: BigInt!
+}
+
+type DelegatorBaseStakeUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  stakeBase: BigInt!
+}
+
+type DelegatorIndexedStakeUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  stakeIndexed: BigInt!
+}
+
+type DelegatorLastRewardIndexUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  lastIndex: BigInt!
+}
+
+type DelegatorCumulativeEarnedRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  cumulativeEarnedRewards: BigInt!
+}
+
+type DelegatorCumulativePaidOutRewardsUpdated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  cumulativePaidOutRewards: BigInt!
+}
+
+type DelegatorWithdrawalRequestCreated implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+  amount: BigInt!
+  indexedOutAmount: BigInt!
+  timestamp: BigInt!
+}
+
+type DelegatorWithdrawalRequestDeleted implements Event @entity {
+  identityId: BigInt! @index
+  delegatorKey: String! @index
+}
+
+type OperatorFeeWithdrawalRequestCreated implements Event @entity {
+  identityId: BigInt! @index
+  amount: BigInt!
+  indexedOutAmount: BigInt!
+  timestamp: BigInt!
+}
+
+type OperatorFeeWithdrawalRequestDeleted implements Event @entity {
+  identityId: BigInt! @index
+}
+
+type StakedTokensTransferred implements Event @entity {
+  receiver: String! @index
+  amount: BigInt!
+}
+
+# ================ WHITELIST STORAGE ================ #
+type AddressWhitelisted implements Event @entity {
+  addr: String! @index
+}
+
+type AddressBlacklisted implements Event @entity {
+  addr: String! @index
+}
+
+type WhitelistEnabled implements Event @entity {}
+
+type WhitelistDisabled implements Event @entity {}
+
+
+# ================ IDENTITY ================ #
+type IdentityCreated implements Event @entity {
+  identityId: BigInt! @index
+  operationalKey: String! @index
+  adminKey: String! @index
+}
+
+type IdentityDeleted implements Event @entity {
+  identityId: BigInt! @index
+}
+
+# ================ RANDOM SAMPLING ================ #
+type ChallengeCreated implements Event @entity {
+  identityId: BigInt! @index
+  epoch: BigInt! @index
+  knowledgeCollectionId: BigInt!
+  chunkId: BigInt!
+  activeProofPeriodBlock: BigInt! @index
+  proofingPeriodDurationInBlocks: BigInt!
+}
+
+type ValidProofSubmitted implements Event @entity {
+  identityId: BigInt! @index
+  epoch: BigInt! @index
+  score: BigInt!
+}
+
+type AvgBlockTimeUpdated implements Event @entity {
+  avgBlockTimeInSeconds: BigInt!
+}
+
+type ProofingPeriodDurationInBlocksUpdated implements Event @entity {
+  durationInBlocks: BigInt!
 }
