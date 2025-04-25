@@ -1,4 +1,3 @@
-
 interface Base {
   id: ID!
   createdAt: DateTime! @index
