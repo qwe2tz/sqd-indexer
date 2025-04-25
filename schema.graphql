@@ -77,6 +77,18 @@ type AssetStorageRemoved implements Base @entity {
   contractAddress: String!
 }
 
+# DEPRECATED
+type OwnershipTransferred implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  previousOwner: String!
+  newOwner: String!
+}
+
+
 # =================== GUARDIAN =================== #
 type TokenTransferred implements Base @entity {
   id: ID!

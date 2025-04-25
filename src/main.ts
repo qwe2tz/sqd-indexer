@@ -28,30 +28,34 @@ async function runProcessor() {
   const db = new TypeormDatabase();
   processor.run(db, async (ctx) => {
     const transactions: Transaction[] = [];
-    const events = [];
+    const eventPromises: Promise<any>[] = [];
 
     for (let block of ctx.blocks) {
       for (const log of block.logs) {
         const event = EventRegistry[log.topics[0]] as EventType;
+
+        console.log("Processing event:", event.name);
+
+        if (!event.ORMModel) {
+          console.error(`No ORM model found for event ${event.name}`);
+          continue;
+        }
+
         const decoded = event.abi.decode(log);
 
-        console.log(`Decoded event ${event.name}:`, serializeWithBigInt(decoded));
-
-        console.log("Event data: ", event);
-        if (!decoded) {
-          continue;
-        }
-
-        const model = event.ORMModel();
-        if (!model) {
-          console.error(`No model found for event ${event.name}`);
-          continue;
-        }
         const eventData = {
           id: log.id,
+          contract: event.contract,
+          name: event.name,
+          createdAt: new Date(),
+          ...decoded,
         };
 
-        console.log(`Processing event ${event.name} for block ${block.header.height}`);
+        const model = event.ORMModel;
+        if (model) {
+          const eventInstance = Object.assign(new event.ORMModel(), eventData);
+          eventPromises.push(ctx.store.insert([eventInstance]));
+        }
       }
 
       for (const tx of block.transactions) {
@@ -70,6 +74,7 @@ async function runProcessor() {
       }
     }
 
+    await Promise.all(eventPromises);
     await ctx.store.insert(transactions);
   });
 }
