@@ -5,18 +5,15 @@ interface Base {
   createdAt: DateTime!
 }
 
-type Transaction implements Base @entity {
-  blockHash: String! @index
+type Transaction @entity {
   id: ID!
-  contract: String! @index
-  name: String! @index
-  createdAt: DateTime! @index
-
+  blockHash: String! @index
   blockNumber: BigInt! @index
   transactionHash: String! @index
   timestamp: BigInt! @index
   from: String! @index
-  to: String! @index
+  to: String @index
+  createdAt: DateTime! @index
 }
 
 # =================== HUB =================== #
@@ -343,6 +340,7 @@ type KnowledgeCollectionEndEpochUpdated implements Base @entity {
   eventId: BigInt! @index
   endEpoch: BigInt
 }
+
 
 # =================== PARAMETERS STORAGE =================== #
 type ParameterChanged implements Base @entity {

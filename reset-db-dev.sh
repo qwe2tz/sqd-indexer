@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-docker stop sqd-indexer-db-1 &&
-docker rm sqd-indexer-db-1 && \
+docker stop sqd-indexer-postgres-1 &&
+docker rm sqd-indexer-postgres-1 && \
 docker volume rm sqd-indexer_db_data && \
 rm -rf db &&
 docker compose up -d

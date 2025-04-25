@@ -1,60 +1,79 @@
 import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-// import { Transaction } from "./model";
-import { EventRegistry, EventType } from "./constants/types";
+import { Transaction } from "./model";
+import { initEventRegistry, EventType } from "./events";
 import { serializeWithBigInt } from "./utils";
 
-// TODO: Call HUB contract and check for address of existing contracts dynamicaly
+async function runProcessor() {
+  const EventRegistry = await initEventRegistry();
+  const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 
-const topics0List = Object.keys(EventRegistry).map((topic) => topic);
-const processor = new EvmBatchProcessor()
-  .setRpcEndpoint({
-    url: "https://lofar-testnet.origin-trail.network",
-    rateLimit: 100,
-  })
-  .setBlockRange({ from: 7064034 })
-  .setFinalityConfirmation(75)
-  .addLog({
-    address: process.env.CONTRACTS.split(";"),
-    topic0: topics0List,
-  })
-  .addTransaction({});
+  const processor = new EvmBatchProcessor()
+    .setRpcEndpoint({
+      url: "https://lofar-testnet.origin-trail.network",
+      rateLimit: 100,
+    })
+    .setBlockRange({ from: 7064034 })
+    .setFinalityConfirmation(75)
+    .addLog({
+      address: process.env.CONTRACTS.split(";"),
+      topic0: topics0List,
+    })
+    .addTransaction({});
 
-if (process.env.GATEWAY) {
-  processor.setGateway(process.env.GATEWAY);
-}
+  if (process.env.SQD_GATEWAY) {
+    processor.setGateway(process.env.SQD_GATEWAY);
+  }
 
-const db = new TypeormDatabase();
-processor.run(db, async (ctx) => {
-  const transactions: Transaction[] = [];
-  // const logs: LogModel[] = [];
+  const db = new TypeormDatabase();
+  processor.run(db, async (ctx) => {
+    const transactions: Transaction[] = [];
+    const events = [];
 
-  for (let block of ctx.blocks) {
-    for (const log of block.logs) {
-      const event = EventRegistry[log.topics[0]] as EventType;
-      const decoded = event.abi.decode(log);
+    for (let block of ctx.blocks) {
+      for (const log of block.logs) {
+        const event = EventRegistry[log.topics[0]] as EventType;
+        const decoded = event.abi.decode(log);
 
-      if (!decoded) {
-        continue;
+        console.log(`Decoded event ${event.name}:`, serializeWithBigInt(decoded));
+
+        console.log("Event data: ", event);
+        if (!decoded) {
+          continue;
+        }
+
+        const model = event.ORMModel();
+        if (!model) {
+          console.error(`No model found for event ${event.name}`);
+          continue;
+        }
+        const eventData = {
+          id: log.id,
+        };
+
+        console.log(`Processing event ${event.name} for block ${block.header.height}`);
+      }
+
+      for (const tx of block.transactions) {
+        transactions.push(
+          new Transaction({
+            id: tx.hash,
+            blockHash: block.header.hash,
+            blockNumber: BigInt(block.header.height),
+            transactionHash: tx.hash,
+            timestamp: BigInt(block.header.timestamp),
+            from: tx.from,
+            to: tx.to,
+            createdAt: new Date(),
+          })
+        );
       }
     }
 
-    for (const tx of block.transactions) {
-      transactions.push(
-        new Transaction({
-          id: tx.hash,
-          blockHash: block.header.hash,
-          blockNumber: BigInt(block.header.height),
-          transactionHash: tx.hash,
-          timestamp: BigInt(block.header.timestamp),
-          from: tx.from,
-          createdAt: new Date(),
-        })
-      );
-    }
-  }
+    await ctx.store.insert(transactions);
+  });
+}
 
-  // Save everything to the database
-  await ctx.store.insert(transactions);
-  // await ctx.store.insert(logs);
+runProcessor().catch((err) => {
+  console.error("Error running processor:", err);
 });
