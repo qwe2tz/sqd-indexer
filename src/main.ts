@@ -13,7 +13,7 @@ async function runProcessor() {
       url: "https://lofar-testnet.origin-trail.network",
       rateLimit: 100,
     })
-    .setBlockRange({ from: 7064034 })
+    .setBlockRange({ from: parseInt(process.env.FROM_BLOCK) })
     .setFinalityConfirmation(75)
     .addLog({
       address: process.env.CONTRACTS.split(";"),
