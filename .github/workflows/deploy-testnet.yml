@@ -30,14 +30,14 @@ jobs:
             contracts: BASE_TESTNET_CONTRACTS
             archive: BASE_TESTNET_ARCHIVE
 
-          # - env: gnosis-testnet
-          #   db_name: GNOSIS_TESTNET_DB
-          #   indexer_name: GNOSIS_TESTNET_INDEXER_NAME
-          #   rpc_endpoint: GNOSIS_TESTNET_RPC_ENDPOINT
-          #   start_block: GNOSIS_TESTNET_START_BLOCK
-          #   finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
-          #   contracts: GNOSIS_TESTNET_CONTRACTS
-          #   archive: GNOSIS_TESTNET_ARCHIVE
+          - env: gnosis-testnet
+            db_name: GNOSIS_TESTNET_DB
+            indexer_name: GNOSIS_TESTNET_INDEXER_NAME
+            rpc_endpoint: GNOSIS_TESTNET_RPC_ENDPOINT
+            start_block: GNOSIS_TESTNET_START_BLOCK
+            finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
+            contracts: GNOSIS_TESTNET_CONTRACTS
+            archive: GNOSIS_TESTNET_ARCHIVE
 
     steps:
       - name: Checkout repository
