@@ -13,6 +13,9 @@ services:
     networks:
       - indexer_network
 
+volumes:
+  postgres_data:
+
 networks:
   indexer_network:
     external: true
