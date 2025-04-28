@@ -28,6 +28,6 @@ jobs:
           echo "FINALITY_CONFIRMATION=${{ secrets.NEUROWEB_TESTNET_FINALITY_CONFIRMATION }}" >> $GITHUB_ENV
           echo "CONTRACTS=${{ secrets.NEUROWEB_TESTNET_CONTRACTS }}" >> $GITHUB_ENV
           
-          docker-compose -f docker-compose.yml down
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml down
+          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml up -d
