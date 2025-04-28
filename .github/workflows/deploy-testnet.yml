@@ -72,7 +72,7 @@ jobs:
       - name: Build and deploy
         run: |
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
-          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --no-deps --force-recreate -d
+          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --force-recreate -d
 
   # deploy:
   #   runs-on: ubuntu-latest
