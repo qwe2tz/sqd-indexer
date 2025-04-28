@@ -20,9 +20,13 @@ jobs:
         run: |
           echo "DB_USER=${{ secrets.NEUROWEB_TESTNET_DB_USER }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.NEUROWEB_TESTNET_DB_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_NAME=${{ secrets.NEUROWEB_TESTNET_DB_NAME }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
           echo "DB_HOST=${{ secrets.NEUROWEB_TESTNET_DB_HOST }}" >> $GITHUB_ENV
           echo "INDEXER_NAME=neuroweb-testnet-indexer" >> $GITHUB_ENV
+          echo "RPC_ENDPOINT=${{ secrets.NEUROWEB_TESTNET_RPC_ENDPOINT }}" >> $GITHUB_ENV
+          echo "START_BLOCK=${{ secrets.NEUROWEB_TESTNET_START_BLOCK }}" >> $GITHUB_ENV
+          echo "FINALITY_CONFIRMATION=${{ secrets.NEUROWEB_TESTNET_FINALITY_CONFIRMATION }}" >> $GITHUB_ENV
+          echo "CONTRACTS=${{ secrets.NEUROWEB_TESTNET_CONTRACTS }}" >> $GITHUB_ENV
           
           docker-compose -f docker-compose.yml down
           docker-compose -f docker-compose.yml build
