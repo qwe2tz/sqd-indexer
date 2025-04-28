@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        env: [neuroweb-testnet, base-testnet]
+        env: [neuroweb-testnet, base-testnet, gnosis-testnet]
         include:
           - env: neuroweb-testnet
             db_name: NERUOWEB_TESTNET_DB
@@ -72,7 +72,7 @@ jobs:
       - name: Build and deploy
         run: |
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
-          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --force-recreate -d
+          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer -d
 
   # deploy:
   #   runs-on: ubuntu-latest
