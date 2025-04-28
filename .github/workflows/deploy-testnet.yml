@@ -6,8 +6,7 @@ on:
       - feature/deployment
 
 jobs:
-
-  deploy-indexers-mainnet:
+  deploy-indexers-testnet:
     runs-on: ubuntu-latest
     strategy:
       matrix:
