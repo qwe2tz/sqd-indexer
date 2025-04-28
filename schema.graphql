@@ -353,8 +353,60 @@ type KnowledgeCollectionEndEpochUpdated implements Base @entity {
   endEpoch: BigInt
 }
 
+type TransferSingle implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
 
+  operator: String! @index
+  from: String! @index
+  to: String! @index
+  amount: BigInt!
+}
 
+type TransferBatch implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  operator: String! @index
+  from: String! @index
+  tokenIds: [String!]!
+  amounts: [String!]!
+}
+
+type URIUpdate implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  newURI: String!
+}
+
+# NOTE: Could be deperecated, check
+type URI implements Base @entity {
+  id: ID!
+  name: String! @index
+  contract: String! @index
+  createdAt: DateTime! @index
+
+  tokenId: BigInt! @index
+  uri: String!
+}
+
+type ApprovalForAll implements Base @entity {
+  id: ID!
+  contract: String! @index
+  name: String! @index
+  createdAt: DateTime! @index
+
+  owner: String! @index
+  operator: String! @index
+  approved: Boolean!
+}
 
 # =================== PARAMETERS STORAGE =================== #
 type ParameterChanged implements Base @entity {

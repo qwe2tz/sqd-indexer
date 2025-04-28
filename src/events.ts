@@ -10,9 +10,19 @@ export type EventType = {
   ORMModel: ObjectConstructor | null;
 };
 
+function toModelFN(str: string) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w|\s+|_|\-)/g, (match, index) =>
+      index === 0 ? match.toLowerCase() : match.toUpperCase()
+    )
+    .replace(/\s+/g, "")
+    .replace("ERC", "Erc")
+    .replace("uRI", "uri");
+}
+
 async function loadModelForEvent(eventName: string) {
-  const model = String(eventName[0]).toLowerCase() + String(eventName).slice(1);
-  const importName = path.join(__dirname, `./model/generated/${model}`).replace(/\.ts$/, ".js");;
+  const model = toModelFN(eventName.split(".")[0]);
+  let importName = path.join(__dirname, `./model/generated/${model}.model.js`);
 
   try {
     const model = await import(importName);

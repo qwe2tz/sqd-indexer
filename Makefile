@@ -6,7 +6,7 @@ reset_db:
 
 run_clean_dev: reset_db run_dev
 
-makemigrations: generate-migrations apply-migrations
+migrate: generate-migrations apply-migrations
 
 generate-migrations:
 	npx squid-typeorm-migration generate
@@ -15,4 +15,4 @@ apply-migrations:
 	npx squid-typeorm-migration apply
 
 codegen:
-	squid-typeorm-codegen
+	npx squid-typeorm-codegen
