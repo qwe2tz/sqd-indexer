@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        env: [neuroweb-testnet]
+        env: [neuroweb-testnet, base-testnet]
         include:
           - env: neuroweb-testnet
             db_name: NERUOWEB_TESTNET_DB
@@ -21,14 +21,14 @@ jobs:
             contracts: NEUROWEB_TESTNET_CONTRACTS
             archive: NEUROWEB_TESTNET_ARCHIVE
             
-          # - env: base-testnet
-          #   db_name: BASE_TESTNET_DB
-          #   indexer_name: BASE_TESTNET_INDEXER_NAME
-          #   rpc_endpoint: BASE_TESTNET_RPC_ENDPOINT
-          #   start_block: BASE_TESTNET_START_BLOCK
-          #   finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
-          #   contracts: BASE_TESTNET_CONTRACTS
-          #   archive: BASE_TESTNET_ARCHIVE
+          - env: base-testnet
+            db_name: BASE_TESTNET_DB
+            indexer_name: BASE_TESTNET_INDEXER_NAME
+            rpc_endpoint: BASE_TESTNET_RPC_ENDPOINT
+            start_block: BASE_TESTNET_START_BLOCK
+            finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
+            contracts: BASE_TESTNET_CONTRACTS
+            archive: BASE_TESTNET_ARCHIVE
 
           # - env: gnosis-testnet
           #   db_name: GNOSIS_TESTNET_DB
@@ -71,8 +71,8 @@ jobs:
 
       - name: Build and deploy
         run: |
-          docker compose -f docker-compose.yml build
-          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up -d --force-recreate indexer
+          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
+          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --no-deps --force-recreate -d
 
   # deploy:
   #   runs-on: ubuntu-latest
