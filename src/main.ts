@@ -9,7 +9,7 @@ async function runProcessor() {
 
   const processor = new EvmBatchProcessor()
     .setRpcEndpoint({
-      url: "https://lofar-testnet.origin-trail.network",
+      url: process.env.RPC_ENDPOINT,
       rateLimit: 100,
     })
     .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
