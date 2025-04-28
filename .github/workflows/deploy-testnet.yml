@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [neuroweb_testnet, base_testnet, gnosis_testnet]
+        env: [neuroweb_testnet]
         include:
           - env: neuroweb_testnet
             db_name: NERUOWEB_TESTNET_DB
@@ -44,12 +44,20 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b
+        uses: docker/setup-buildx-action@v1
 
       - name: Setting environment variables
         run: |
           echo "Building and deploying indexer for ${{ matrix.env }}"
-          echo "DB_USER=${{ secrets[matrix.db_name] }}" >> $GITHUB_ENV
+          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets[matrix.db_name] }}" >> $GITHUB_ENV
+          echo "INDEXER_NAME=${{ secrets[matrix.indexer_name] }}" >> $GITHUB_ENV
+          echo "RPC_ENDPOINT=${{ secrets[matrix.rpc_endpoint] }}" >> $GITHUB_ENV
+          echo "START_BLOCK=${{ secrets[matrix.start_block] }}" >> $GITHUB_ENV
+          echo "FINALITY_CONFIRMATIONS=${{ secrets[matrix.finality_confirmations] }}" >> $GITHUB_ENV
+          echo "CONTRACTS=${{ secrets[matrix.contracts] }}" >> $GITHUB_ENV
+          echo "ARCHIVE=${{ secrets[matrix.archive] }}" >> $GITHUB_ENV
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
