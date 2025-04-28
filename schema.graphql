@@ -373,8 +373,8 @@ type TransferBatch implements Base @entity {
 
   operator: String! @index
   from: String! @index
-  tokenIds: [String!]!
-  amounts: [String!]!
+  tokenIds: [String!]
+  amounts: [String!]
 }
 
 type URIUpdate implements Base @entity {
