@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres:15
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -10,7 +10,7 @@ services:
     ports:
       - "23798:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   evm-indexer:
     build:
@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - postgres
 
 volumes:
-  db_data:
+  postgres_data:
