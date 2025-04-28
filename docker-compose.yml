@@ -26,8 +26,6 @@ services:
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
     restart: always
-    depends_on:
-      - postgres
 
 volumes:
   postgres_data:
