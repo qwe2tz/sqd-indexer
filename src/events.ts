@@ -1,5 +1,5 @@
 import { AbiEvent } from "@subsquid/evm-abi";
-import * as abi from "./abi";
+import * as abiModel from "./abi";
 
 import path from "path";
 
@@ -10,7 +10,7 @@ export type EventType = {
   ORMModel: ObjectConstructor | null;
 };
 
-function toModelFN(str: string) {
+function toModelFileName(str: string) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w|\s+|_|\-)/g, (match, index) =>
       index === 0 ? match.toLowerCase() : match.toUpperCase()
@@ -21,7 +21,7 @@ function toModelFN(str: string) {
 }
 
 async function loadModelForEvent(eventName: string) {
-  const model = toModelFN(eventName.split(".")[0]);
+  const model = toModelFileName(eventName);
   let importName = path.join(__dirname, `./model/generated/${model}.model.js`);
 
   try {
@@ -46,7 +46,7 @@ async function createEventRegistry(
         name: eventName,
         contract: contractName,
         abi: eventDef,
-        ORMModel: await loadModelForEvent(`${eventName}.model.ts`),
+        ORMModel: await loadModelForEvent(`${eventName}`),
       },
     ])
   );
@@ -54,10 +54,10 @@ async function createEventRegistry(
 }
 
 export async function initEventRegistry() {
-  const eventRegistry = {}
-  for (const key in abi) {
-    const contract = abi[key];
-    Object.assign(eventRegistry, await createEventRegistry(key, contract.events));
+  const eventRegistry = {};
+  for (const model in abiModel) {
+    const contract = abiModel[model];
+    Object.assign(eventRegistry, await createEventRegistry(model, contract.events));
   }
 
   return eventRegistry;

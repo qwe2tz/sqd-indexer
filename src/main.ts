@@ -34,8 +34,6 @@ async function runProcessor() {
       for (const log of block.logs) {
         const event = EventRegistry[log.topics[0]] as EventType;
 
-        console.log("Processing event:", event.name);
-
         if (!event.ORMModel) {
           console.error(`No ORM model found for event ${event.name}`);
           continue;
