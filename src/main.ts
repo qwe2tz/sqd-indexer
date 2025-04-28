@@ -13,7 +13,7 @@ async function runProcessor() {
       url: "https://lofar-testnet.origin-trail.network",
       rateLimit: 100,
     })
-    .setBlockRange({ from: parseInt(process.env.FROM_BLOCK) })
+    .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
     .setFinalityConfirmation(75)
     .addLog({
       address: process.env.CONTRACTS.split(";"),
@@ -21,8 +21,8 @@ async function runProcessor() {
     })
     .addTransaction({});
 
-  if (process.env.SQD_GATEWAY) {
-    processor.setGateway(process.env.SQD_GATEWAY);
+  if (process.env.ARCHIVE) {
+    processor.setGateway(process.env.ARCHIVE);
   }
 
   const db = new TypeormDatabase();
