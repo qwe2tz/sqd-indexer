@@ -15,6 +15,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - INDEXER_NAME=${INDEXER_NAME}
+      - RPC_ENDPOINT=${RPC_ENDPOINT}
+      - START_BLOCK=${START_BLOCK}
+      - FINALITY_CONFIRMATIONS=${FINALITY_CONFIRMATIONS}
+      - CONTRACTS=${CONTRACTS}
+      - ARCHIVE=${ARCHIVE}
     env_file:
       - .env
     depends_on:
