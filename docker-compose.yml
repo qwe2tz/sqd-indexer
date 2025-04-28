@@ -16,6 +16,8 @@ services:
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
     restart: always
+    networks:
+      - indexer_network
 
 networks:
   indexer_network:

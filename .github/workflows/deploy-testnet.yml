@@ -71,7 +71,6 @@ jobs:
 
       - name: Build and deploy
         run: |
-          docker compose -f docker-compose.db.yml -p shared-postgres up -d postgres
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer -d
 
