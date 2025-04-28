@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [neuroweb-mainnet]
+        env: [NEUROWEB)_MAINNET]
 
     steps:
       - name: Checkout repository

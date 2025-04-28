@@ -6,33 +6,80 @@ on:
       - feature/deployment
 
 jobs:
-  deploy-indexers-testnet:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [neuroweb-testnet]
+        env: [neuroweb_testnet, base_testnet, gnosis_testnet]
+        include:
+          - env: neuroweb_testnet
+            db_name: NERUOWEB_TESTNET_DB
+            indexer_name: NEUROWEB_TESTNET_INDEXER_NAME
+            rpc_endpoint: NEUROWEB_TESTNET_RPC_ENDPOINT
+            start_block: NEUROWEB_TESTNET_START_BLOCK
+            finality_confirmations: NEUROWEB_TESTNET_FINALITY_CONFIRMATIONS
+            contracts: NEUROWEB_TESTNET_CONTRACTS
+            archive: NEUROWEB_TESTNET_ARCHIVE
+            
+          - env: base_testnet
+            db_name: BASE_TESTNET_DB
+            indexer_name: BASE_TESTNET_INDEXER_NAME
+            rpc_endpoint: BASE_TESTNET_RPC_ENDPOINT
+            start_block: BASE_TESTNET_START_BLOCK
+            finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
+            contracts: BASE_TESTNET_CONTRACTS
+            archive: BASE_TESTNET_ARCHIVE
+
+          - env: gnosis_testnet
+            db_name: GNOSIS_TESTNET_DB
+            indexer_name: GNOSIS_TESTNET_INDEXER_NAME
+            rpc_endpoint: GNOSIS_TESTNET_RPC_ENDPOINT
+            start_block: GNOSIS_TESTNET_START_BLOCK
+            finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
+            contracts: GNOSIS_TESTNET_CONTRACTS
+            archive: GNOSIS_TESTNET_ARCHIVE
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b
 
-      - name: Inject environment variables
+      - name: Setting environment variables
         run: |
-          echo "DB_USER=${{ secrets[matrix.env | upper | replace('-', '_') + '_DB_USER'] }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets[matrix.env | upper | replace('-', '_') + '_DB_PASSWORD'] }}" >> $GITHUB_ENV
-          echo "DB_NAME=${{ secrets[matrix.env | upper | replace('-', '_') + '_DB_NAME'] }}" >> $GITHUB_ENV
-          echo "INDEXER_NAME=${{ matrix.env }}-indexer" >> $GITHUB_ENV
-          echo "RPC_ENDPOINT=${{ secrets[matrix.env | upper | replace('-', '_') + '_RPC_ENDPOINT'] }}" >> $GITHUB_ENV
-          echo "START_BLOCK=${{ secrets[matrix.env | upper | replace('-', '_') + '_RPC_ENDPOINT'] }}" >> $GITHUB_ENV
-          echo "FINALITY_CONFIRMATIONS=${{ secrets[matrix.env | upper | replace('-', '_') + '_RPC_ENDPOINT'] }}" >> $GITHUB_ENV
-          echo "CONTRACTS=${{ secrets[matrix.env | upper | replace('-', '_') + '_RPC_ENDPOINT'] }}" >> $GITHUB_ENV
-          echo "ARCHIVE=${{ secrets[matrix.env | upper | replace('-', '_') + '_RPC_ENDPOINT'] }}" >> $GITHUB_ENV
+          echo "Building and deploying indexer for ${{ matrix.env }}"
+          echo "DB_USER=${{ secrets[matrix.db_name] }}" >> $GITHUB_ENV
+
+      - name: Lowercase the repo name
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+      # - name: Build and push container image to registry
+      #   uses: docker/build-push-action@9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f
+      #   with:
+      #     push: true
+      #     tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
+      #     file: ./Dockerfile
 
       - name: Build and deploy
         run: |
           docker compose -f docker-compose.yml down ${{ matrix.env }}-indexer"
           docker compose -f docker-compose.yml build
           docker compose -f docker-compose.yml up -d ${{ matrix.env }}-indexer"
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+
+  #   needs: build
+
+  #   steps:
+  #     - name: Lowercase the repo name
+  #       run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+  #     - name: Deploy to Azure Web App
+  #       id: deploy-to-webapp
+  #       uses: azure/webapps-deploy@85270a1854658d167ab239bce43949edb336fa7c
+  #       with:
+  #         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  #         images: 'ghcr.io/${{ env.REPO }}:${{ github.sha }}'
