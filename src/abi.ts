@@ -1,7 +1,7 @@
 export * as RandomSampling from "./abi/RandomSampling";
 export * as RandomSamplingStorage from "./abi/RandomSamplingStorage";
 export * as StakingStorage from "./abi/StakingStorage";
-// export * as KnowledgeCollectionStorage from "./abi/KnowledgeCollectionStorage";
+export * as KnowledgeCollectionStorage from "./abi/KnowledgeCollectionStorage";
 export * as Paranet from "./abi/Paranet";
 export * as Identity from "./abi/Identity";
 export * as DelegatorsInfo from "./abi/DelegatorsInfo";

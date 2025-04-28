@@ -354,6 +354,8 @@ type KnowledgeCollectionEndEpochUpdated implements Base @entity {
 }
 
 
+
+
 # =================== PARAMETERS STORAGE =================== #
 type ParameterChanged implements Base @entity {
   id: ID!
@@ -864,7 +866,7 @@ type ParanetRegistered implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   paranetName: String!
   paranetDescription: String!
   nodesAccessPolicy: BigInt!
@@ -880,7 +882,7 @@ type ParanetPermissionedNodeAdded implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   identityId: BigInt! @index
 }
 
@@ -892,7 +894,7 @@ type ParanetPermissionedNodeRemoved implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   identityId: BigInt! @index
 }
 
@@ -904,7 +906,7 @@ type ParanetPermissionedNodeJoinRequestCreated implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   identityId: BigInt! @index
 }
 
@@ -916,7 +918,7 @@ type ParanetPermissionedNodeJoinRequestAccepted implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   identityId: BigInt! @index
 }
 
@@ -928,7 +930,7 @@ type ParanetPermissionedNodeJoinRequestRejected implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   identityId: BigInt! @index
 }
 
@@ -940,7 +942,7 @@ type ParanetIncetivesPoolDeployed implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   incentivesPool: String! # Adjust type based on the structure of ParanetLib.IncentivesPool
 }
 
@@ -952,7 +954,7 @@ type ParanetMetadataUpdated implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   newParanetName: String!
   newParanetDescription: String!
 }
@@ -965,7 +967,7 @@ type ParanetServiceAdded implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   paranetServiceKCStorageContract: String!
   paranetServiceKCTokenId: BigInt!
   paranetServiceKATokenId: BigInt!
@@ -1007,7 +1009,7 @@ type KnowledgeCollectionSubmittedToParanet implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   knowledgeCollectionStorageContract: String!
   knowledgeCollectionId: BigInt!
 }
@@ -1020,7 +1022,7 @@ type ParanetPermissionedMinerAdded implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   minerAddress: String!
 }
 
@@ -1032,7 +1034,7 @@ type ParanetPermissionedMinerRemoved implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   minerAddress: String!
 }
 
@@ -1044,7 +1046,7 @@ type ParanetPermissionedMinerAccessRequestCreated implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   minerAddress: String!
 }
 
@@ -1056,7 +1058,7 @@ type ParanetPermissionedMinerAccessRequestAccepted implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   minerAddress: String!
 }
 
@@ -1068,7 +1070,7 @@ type ParanetPermissionedMinerAccessRequestRejected implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   minerAddress: String!
 }
 
@@ -1103,7 +1105,7 @@ type ParanetIncentivesPoolDeployed implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   storageAddress: String!
   poolAddress: String!
   rewardTokenAddress: String!
@@ -1117,7 +1119,7 @@ type ParanetIncentivesPoolRedeployed implements Base @entity {
 
   paranetKCStorageContract: String! @index
   paranetKCTokenId: BigInt! @index
-  paranetKATokenId: BigInt! @index
+  paranetKATokenId: BigInt @index
   storageAddress: String!
   newPoolAddress: String!
 }
