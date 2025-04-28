@@ -7,12 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
-        env: [neuroweb_testnet]
+        env: [neuroweb-testnet]
         include:
-          - env: neuroweb_testnet
+          - env: neuroweb-testnet
             db_name: NERUOWEB_TESTNET_DB
             indexer_name: NEUROWEB_TESTNET_INDEXER_NAME
             rpc_endpoint: NEUROWEB_TESTNET_RPC_ENDPOINT
@@ -21,23 +21,23 @@ jobs:
             contracts: NEUROWEB_TESTNET_CONTRACTS
             archive: NEUROWEB_TESTNET_ARCHIVE
             
-          - env: base_testnet
-            db_name: BASE_TESTNET_DB
-            indexer_name: BASE_TESTNET_INDEXER_NAME
-            rpc_endpoint: BASE_TESTNET_RPC_ENDPOINT
-            start_block: BASE_TESTNET_START_BLOCK
-            finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
-            contracts: BASE_TESTNET_CONTRACTS
-            archive: BASE_TESTNET_ARCHIVE
+          # - env: base-testnet
+          #   db_name: BASE_TESTNET_DB
+          #   indexer_name: BASE_TESTNET_INDEXER_NAME
+          #   rpc_endpoint: BASE_TESTNET_RPC_ENDPOINT
+          #   start_block: BASE_TESTNET_START_BLOCK
+          #   finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
+          #   contracts: BASE_TESTNET_CONTRACTS
+          #   archive: BASE_TESTNET_ARCHIVE
 
-          - env: gnosis_testnet
-            db_name: GNOSIS_TESTNET_DB
-            indexer_name: GNOSIS_TESTNET_INDEXER_NAME
-            rpc_endpoint: GNOSIS_TESTNET_RPC_ENDPOINT
-            start_block: GNOSIS_TESTNET_START_BLOCK
-            finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
-            contracts: GNOSIS_TESTNET_CONTRACTS
-            archive: GNOSIS_TESTNET_ARCHIVE
+          # - env: gnosis-testnet
+          #   db_name: GNOSIS_TESTNET_DB
+          #   indexer_name: GNOSIS_TESTNET_INDEXER_NAME
+          #   rpc_endpoint: GNOSIS_TESTNET_RPC_ENDPOINT
+          #   start_block: GNOSIS_TESTNET_START_BLOCK
+          #   finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
+          #   contracts: GNOSIS_TESTNET_CONTRACTS
+          #   archive: GNOSIS_TESTNET_ARCHIVE
 
     steps:
       - name: Checkout repository
@@ -71,9 +71,8 @@ jobs:
 
       - name: Build and deploy
         run: |
-          docker compose -f docker-compose.yml down ${{ matrix.env }}-indexer"
           docker compose -f docker-compose.yml build
-          docker compose -f docker-compose.yml up -d ${{ matrix.env }}-indexer"
+          docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up -d --force-recreate indexer
 
   # deploy:
   #   runs-on: ubuntu-latest

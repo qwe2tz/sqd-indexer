@@ -11,7 +11,6 @@ services:
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
   indexer:
-    container_name: ${INDEXER_NAME}
     build:
       context: .
       dockerfile: Dockerfile
@@ -27,8 +26,6 @@ services:
       - FINALITY_CONFIRMATIONS=${FINALITY_CONFIRMATIONS}
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
-    env_file:
-      - .env
     depends_on:
       - postgres
 
