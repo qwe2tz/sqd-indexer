@@ -4,6 +4,7 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    restart: always
     ports:
       - "23798:5432"
     volumes:
@@ -26,6 +27,7 @@ services:
       - FINALITY_CONFIRMATIONS=${FINALITY_CONFIRMATIONS}
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
+    restart: always
     depends_on:
       - postgres
 
