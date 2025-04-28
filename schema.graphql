@@ -1377,3 +1377,15 @@ type TokenOriginSet implements Base @entity {
   oldOrigin: String @index
   newOrigin: String @index
 }
+
+
+type TEST implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+  createdAt: DateTime! @index
+
+  oldOrigin: String @index
+  newOrigin: String @index
+}
+
