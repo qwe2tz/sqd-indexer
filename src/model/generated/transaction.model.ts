@@ -30,6 +30,10 @@ export class Transaction {
     from!: string
 
     @Index_()
+    @StringColumn_({nullable: true})
+    to!: string | undefined | null
+
+    @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 }

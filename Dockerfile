@@ -6,6 +6,9 @@ COPY . /app/
 RUN npm install
 
 RUN npx squid-typeorm-codegen
+RUN npx squid-evm-typegen /app/src/abi /app/abi/*
+
+
 
 RUN npx tsc
 
