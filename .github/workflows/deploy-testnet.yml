@@ -1,4 +1,5 @@
 name: Indexer Deployment - Testnet
+
 on:
   push:
     branches:

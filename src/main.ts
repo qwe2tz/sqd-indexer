@@ -2,7 +2,6 @@ import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
-import { serializeWithBigInt } from "./utils";
 
 async function runProcessor() {
   const EventRegistry = await initEventRegistry();
