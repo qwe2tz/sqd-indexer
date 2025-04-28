@@ -1,8 +1,0 @@
-CREATE DATABASE IF NOT EXISTS nw-testnet-db;
-CREATE DATABASE IF NOT EXISTS base-testnet-db;
-CREATE DATABASE IF NOT EXISTS gnosis-testnet-db;
-
-CREATE DATABASE IF NOT EXISTS nw-mainnet-db;
-CREATE DATABASE IF NOT EXISTS gnosis-mainnet-db;
-CREATE DATABASE IF NOT EXISTS base-mainnet-db;
-
