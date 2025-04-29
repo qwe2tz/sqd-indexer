@@ -19,7 +19,10 @@ async function runProcessor() {
       address: process.env.CONTRACTS.split(";"),
       topic0: topics0List,
     })
-    .addTransaction({});
+    .addTransaction({
+      from: process.env.CONTRACTS.split(";"),
+      to: process.env.CONTRACTS.split(";"),
+    });
 
   if (process.env.ARCHIVE) {
     processor.setGateway(process.env.ARCHIVE);
