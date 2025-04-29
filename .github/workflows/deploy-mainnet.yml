@@ -3,7 +3,7 @@ name: Indexer Deployment - Mainnet
 on:
   push:
     branches:
-      - release/mainnet
+      - feature/rpc-test
 
 jobs:
   build:

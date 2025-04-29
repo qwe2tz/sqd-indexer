@@ -11,7 +11,8 @@ async function runProcessor() {
   const processor = new EvmBatchProcessor()
     .setRpcEndpoint({
       url: process.env.RPC_ENDPOINT,
-      rateLimit: 100,
+      rateLimit: 1,
+      capacity: 1,
     })
     .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
     .setFinalityConfirmation(75)
