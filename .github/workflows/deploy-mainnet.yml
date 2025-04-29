@@ -3,7 +3,7 @@ name: Indexer Deployment - Mainnet
 on:
   push:
     branches:
-      - feature/deployment
+      - main
 
 jobs:
   build:
