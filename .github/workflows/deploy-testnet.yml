@@ -3,7 +3,7 @@ name: Indexer Deployment - Testnet
 on:
   push:
     branches:
-      - feature/deployment
+      - main
 
 jobs:
   build:
