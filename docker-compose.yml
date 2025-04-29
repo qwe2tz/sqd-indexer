@@ -15,6 +15,7 @@ services:
       - FINALITY_CONFIRMATIONS=${FINALITY_CONFIRMATIONS}
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
+      - PROMETHEUS_PORT=${PROMETHEUS_PORT}
     restart: always
     networks:
       - indexer_network

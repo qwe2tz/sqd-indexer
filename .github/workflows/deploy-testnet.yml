@@ -3,7 +3,7 @@ name: Indexer Deployment - Testnet
 on:
   push:
     branches:
-      - main
+      - release/testnet
 
 jobs:
   build:
@@ -20,6 +20,7 @@ jobs:
             finality_confirmations: NEUROWEB_TESTNET_FINALITY_CONFIRMATIONS
             contracts: NEUROWEB_TESTNET_CONTRACTS
             archive: NEUROWEB_TESTNET_ARCHIVE
+            prometheus_port: NEUROWEB_TESTNET_PROMETHEUS_PORT
             
           - env: base-testnet
             db_name: BASE_TESTNET_DB
@@ -29,6 +30,7 @@ jobs:
             finality_confirmations: BASE_TESTNET_FINALITY_CONFIRMATIONS
             contracts: BASE_TESTNET_CONTRACTS
             archive: BASE_TESTNET_ARCHIVE
+            prometheus_port: BASE_TESTNET_PROMETHEUS_PORT
 
           - env: gnosis-testnet
             db_name: GNOSIS_TESTNET_DB
@@ -38,6 +40,7 @@ jobs:
             finality_confirmations: GNOSIS_TESTNET_FINALITY_CONFIRMATIONS
             contracts: GNOSIS_TESTNET_CONTRACTS
             archive: GNOSIS_TESTNET_ARCHIVE
+            prometheus_port: GNOSIS_TESTNET_PROMETHEUS_PORT
 
     steps:
       - name: Checkout repository
@@ -58,6 +61,7 @@ jobs:
           echo "FINALITY_CONFIRMATIONS=${{ secrets[matrix.finality_confirmations] }}" >> $GITHUB_ENV
           echo "CONTRACTS=${{ secrets[matrix.contracts] }}" >> $GITHUB_ENV
           echo "ARCHIVE=${{ secrets[matrix.archive] }}" >> $GITHUB_ENV
+          echo "PROMETHEUS_PORT=${{ secrets[matrix.prometheus_port] }}" >> $GITHUB_ENV
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
