@@ -1,25 +1,24 @@
 services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    env_file:
-      - .env
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  evm-indexer:
+  indexer:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - .env
-    depends_on:
-      - postgres
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - INDEXER_NAME=${INDEXER_NAME}
+      - RPC_ENDPOINT=${RPC_ENDPOINT}
+      - START_BLOCK=${START_BLOCK}
+      - FINALITY_CONFIRMATIONS=${FINALITY_CONFIRMATIONS}
+      - CONTRACTS=${CONTRACTS}
+      - ARCHIVE=${ARCHIVE}
+    restart: always
+    networks:
+      - indexer_network
 
-volumes:
-  postgres_data:
+networks:
+  indexer_network:
+    external: true

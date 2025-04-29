@@ -2,18 +2,18 @@ import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
-import { serializeWithBigInt } from "./utils";
 
 async function runProcessor() {
   const EventRegistry = await initEventRegistry();
+
   const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 
   const processor = new EvmBatchProcessor()
     .setRpcEndpoint({
-      url: "https://lofar-testnet.origin-trail.network",
+      url: process.env.RPC_ENDPOINT,
       rateLimit: 100,
     })
-    .setBlockRange({ from: parseInt(process.env.FROM_BLOCK) })
+    .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
     .setFinalityConfirmation(75)
     .addLog({
       address: process.env.CONTRACTS.split(";"),
@@ -21,11 +21,11 @@ async function runProcessor() {
     })
     .addTransaction({});
 
-  if (process.env.SQD_GATEWAY) {
-    processor.setGateway(process.env.SQD_GATEWAY);
+  if (process.env.ARCHIVE) {
+    processor.setGateway(process.env.ARCHIVE);
   }
 
-  const db = new TypeormDatabase();
+  const db = new TypeormDatabase({ stateSchema: process.env.INDEXER_NAME });
   processor.run(db, async (ctx) => {
     const transactions: Transaction[] = [];
     const eventPromises: Promise<any>[] = [];
@@ -52,7 +52,7 @@ async function runProcessor() {
         const model = event.ORMModel;
         if (model) {
           const eventInstance = Object.assign(new event.ORMModel(), eventData);
-          eventPromises.push(ctx.store.insert([eventInstance]));
+          eventPromises.push(ctx.store.upsert([eventInstance]));
         }
       }
 
@@ -73,7 +73,7 @@ async function runProcessor() {
     }
 
     await Promise.all(eventPromises);
-    await ctx.store.insert(transactions);
+    await ctx.store.upsert(transactions);
   });
 }
 
