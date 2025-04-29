@@ -5,6 +5,7 @@ import { initEventRegistry, EventType } from "./events";
 
 async function runProcessor() {
   const EventRegistry = await initEventRegistry();
+
   const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 
   const processor = new EvmBatchProcessor()
