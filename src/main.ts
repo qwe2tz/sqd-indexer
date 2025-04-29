@@ -52,7 +52,7 @@ async function runProcessor() {
         const model = event.ORMModel;
         if (model) {
           const eventInstance = Object.assign(new event.ORMModel(), eventData);
-          eventPromises.push(ctx.store.insert([eventInstance]));
+          eventPromises.push(ctx.store.upsert([eventInstance]));
         }
       }
 
@@ -73,7 +73,7 @@ async function runProcessor() {
     }
 
     await Promise.all(eventPromises);
-    await ctx.store.insert(transactions);
+    await ctx.store.upsert(transactions);
   });
 }
 
