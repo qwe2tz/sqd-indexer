@@ -16,6 +16,8 @@ services:
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+    ports:
+      - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
     restart: always
     networks:
       - indexer_network
