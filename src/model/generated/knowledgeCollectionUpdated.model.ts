@@ -10,29 +10,29 @@ export class KnowledgeCollectionUpdated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    eventId!: bigint
+    @BigIntColumn_({nullable: true})
+    eventId!: bigint | undefined | null
 
-    @StringColumn_({nullable: false})
-    merkleRoot!: string
+    @StringColumn_({nullable: true})
+    merkleRoot!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    byteSize!: bigint
+    @BigIntColumn_({nullable: true})
+    byteSize!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    tokenAmount!: bigint
+    @BigIntColumn_({nullable: true})
+    tokenAmount!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     updateOperationId!: string | undefined | null

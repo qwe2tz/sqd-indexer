@@ -10,17 +10,17 @@ export class TotalStakeUpdated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @BigIntColumn_({nullable: false})
-    totalStake!: bigint
+    @BigIntColumn_({nullable: true})
+    totalStake!: bigint | undefined | null
 }

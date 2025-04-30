@@ -10,18 +10,18 @@ export class AddressWhitelisted {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    addr!: string
+    @StringColumn_({nullable: true})
+    addr!: string | undefined | null
 }

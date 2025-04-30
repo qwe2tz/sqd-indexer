@@ -7,28 +7,28 @@ export class KnowledgeAssetsBurned {
     }
 
     @Index_()
-    @StringColumn_({nullable: false})
-    from!: string
+    @StringColumn_({nullable: true})
+    from!: string | undefined | null
 
     @PrimaryColumn_()
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    eventId!: bigint
+    @BigIntColumn_({nullable: true})
+    eventId!: bigint | undefined | null
 
     @StringColumn_({array: true, nullable: false})
-    tokenIds!: (string)[]
+    tokenIds!: (string | undefined | null)[]
 }

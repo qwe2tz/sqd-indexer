@@ -10,24 +10,24 @@ export class MinerRewardIncreased {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    miner!: string
+    @StringColumn_({nullable: true})
+    miner!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    additionalAmount!: bigint
+    @BigIntColumn_({nullable: true})
+    additionalAmount!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    newTotal!: bigint
+    @BigIntColumn_({nullable: true})
+    newTotal!: bigint | undefined | null
 }

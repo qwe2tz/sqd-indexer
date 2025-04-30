@@ -10,20 +10,20 @@ export class ParameterChanged {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @StringColumn_({nullable: false})
-    parameterName!: string
+    @StringColumn_({nullable: true})
+    parameterName!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    parameterValue!: bigint
+    @BigIntColumn_({nullable: true})
+    parameterValue!: bigint | undefined | null
 }

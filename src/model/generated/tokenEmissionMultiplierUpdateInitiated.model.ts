@@ -10,23 +10,23 @@ export class TokenEmissionMultiplierUpdateInitiated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @BigIntColumn_({nullable: false})
-    oldMultiplier!: bigint
+    @BigIntColumn_({nullable: true})
+    oldMultiplier!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    newMultiplier!: bigint
+    @BigIntColumn_({nullable: true})
+    newMultiplier!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    timestamp!: bigint
+    @BigIntColumn_({nullable: true})
+    timestamp!: bigint | undefined | null
 }

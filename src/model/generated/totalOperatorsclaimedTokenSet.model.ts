@@ -10,20 +10,20 @@ export class TotalOperatorsclaimedTokenSet {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @BigIntColumn_({nullable: false})
-    oldAmount!: bigint
+    @BigIntColumn_({nullable: true})
+    oldAmount!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    newAmount!: bigint
+    @BigIntColumn_({nullable: true})
+    newAmount!: bigint | undefined | null
 }

@@ -10,22 +10,22 @@ export class IncentivesPoolAddressSet {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    oldAddress!: string
+    @StringColumn_({nullable: true})
+    oldAddress!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    newAddress!: string
+    @StringColumn_({nullable: true})
+    newAddress!: string | undefined | null
 }

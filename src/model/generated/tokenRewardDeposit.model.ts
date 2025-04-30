@@ -10,20 +10,20 @@ export class TokenRewardDeposit {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @StringColumn_({nullable: false})
-    sender!: string
+    @StringColumn_({nullable: true})
+    sender!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    amount!: bigint
+    @BigIntColumn_({nullable: true})
+    amount!: bigint | undefined | null
 }
