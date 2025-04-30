@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class KnowledgeCollectionUpdated {
@@ -22,18 +22,24 @@ export class KnowledgeCollectionUpdated {
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    eventId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    eventId!: string | undefined | null
 
     @StringColumn_({nullable: true})
     merkleRoot!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    byteSize!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    byteSize!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    tokenAmount!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    tokenAmount!: string | undefined | null
 
     @StringColumn_({nullable: true})
     updateOperationId!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

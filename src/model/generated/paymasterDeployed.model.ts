@@ -28,4 +28,10 @@ export class PaymasterDeployed {
     @Index_()
     @StringColumn_({nullable: true})
     paymasterAddress!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

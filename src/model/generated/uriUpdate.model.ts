@@ -23,4 +23,10 @@ export class URIUpdate {
 
     @StringColumn_({nullable: true})
     newURI!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

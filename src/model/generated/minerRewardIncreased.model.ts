@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class MinerRewardIncreased {
@@ -25,9 +25,15 @@ export class MinerRewardIncreased {
     @StringColumn_({nullable: true})
     miner!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    additionalAmount!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    additionalAmount!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    newTotal!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    newTotal!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

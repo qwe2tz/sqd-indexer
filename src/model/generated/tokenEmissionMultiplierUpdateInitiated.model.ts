@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class TokenEmissionMultiplierUpdateInitiated {
@@ -21,12 +21,18 @@ export class TokenEmissionMultiplierUpdateInitiated {
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @BigIntColumn_({nullable: true})
-    oldMultiplier!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    oldMultiplier!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    newMultiplier!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    newMultiplier!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    timestamp!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    timestamp!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }
