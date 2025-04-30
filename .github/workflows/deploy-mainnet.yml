@@ -30,6 +30,7 @@ jobs:
             contracts: NEUROWEB_MAINNET_CONTRACTS
             archive: NEUROWEB_MAINNET_ARCHIVE
             prometheus_port: NEUROWEB_MAINNET_PROMETHEUS_PORT
+            rate_limit: NEUROWEB_MAINNET_RATE_LIMIT
             
           - env: base-mainnet
             db_name: BASE_MAINNET_DB
@@ -40,6 +41,7 @@ jobs:
             contracts: BASE_MAINNET_CONTRACTS
             archive: BASE_MAINNET_ARCHIVE
             prometheus_port: BASE_MAINNET_PROMETHEUS_PORT
+            rate_limit: BASE_MAINNET_RATE_LIMIT
 
           - env: gnosis-mainnet
             db_name: GNOSIS_MAINNET_DB
@@ -50,6 +52,7 @@ jobs:
             contracts: GNOSIS_MAINNET_CONTRACTS
             archive: GNOSIS_MAINNET_ARCHIVE
             prometheus_port: GNOSIS_MAINNET_PROMETHEUS_PORT
+            rate_limit: GNOSIS_MAINNET_RATE_LIMIT
 
     steps:
       - name: Checkout repository
@@ -71,6 +74,7 @@ jobs:
           echo "CONTRACTS=${{ secrets[matrix.contracts] }}" >> $GITHUB_ENV
           echo "ARCHIVE=${{ secrets[matrix.archive] }}" >> $GITHUB_ENV
           echo "PROMETHEUS_PORT=${{ secrets[matrix.prometheus_port] }}" >> $GITHUB_ENV
+          echo "RATE_LIMIT=${{ secrets[matrix.rate_limit] }}" >> $GITHUB_ENV
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
