@@ -26,4 +26,10 @@ export class AssetStorageChanged {
 
     @StringColumn_({nullable: true})
     newContractAddress!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class ParanetIncentivesPoolDeployed {
@@ -26,12 +26,12 @@ export class ParanetIncentivesPoolDeployed {
     paranetKCStorageContract!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetKCTokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetKCTokenId!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetKATokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetKATokenId!: string | undefined | null
 
     @StringColumn_({nullable: true})
     storageAddress!: string | undefined | null
@@ -41,4 +41,10 @@ export class ParanetIncentivesPoolDeployed {
 
     @StringColumn_({nullable: true})
     rewardTokenAddress!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

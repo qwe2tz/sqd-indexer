@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class ParanetServiceRegistered {
@@ -26,12 +26,12 @@ export class ParanetServiceRegistered {
     paranetServiceKCStorageContract!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetServiceKCTokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetServiceKCTokenId!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetServiceKATokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetServiceKATokenId!: string | undefined | null
 
     @StringColumn_({nullable: true})
     paranetServiceName!: string | undefined | null
@@ -41,4 +41,10 @@ export class ParanetServiceRegistered {
 
     @StringColumn_({array: true, nullable: false})
     paranetServiceAddresses!: (string | undefined | null)[]
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

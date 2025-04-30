@@ -48,9 +48,9 @@ async function runProcessor() {
           new Transaction({
             id: tx.hash,
             blockHash: block.header.hash,
-            blockNumber: BigInt(block.header.height),
+            blockNumber: String(block.header.height),
             transactionHash: tx.hash,
-            timestamp: BigInt(block.header.timestamp),
+            timestamp: String(block.header.timestamp),
             from: tx.from,
             to: tx.to,
             createdAt: new Date(),
@@ -93,9 +93,9 @@ async function runProcessor() {
         await ctx.store.upsert(
           new Block({
             id: block.header.hash,
-            blockNumber: BigInt(block.header.height),
+            blockNumber: String(block.header.height),
             blockHash: block.header.hash,
-            timestamp: BigInt(block.header.timestamp),
+            timestamp: String(block.header.timestamp),
             createdAt: new Date(),
           })
         );

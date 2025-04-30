@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class EpochsFinalized {
@@ -22,12 +22,18 @@ export class EpochsFinalized {
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    shardId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    shardId!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    startEpoch!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    startEpoch!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    endEpoch!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    endEpoch!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

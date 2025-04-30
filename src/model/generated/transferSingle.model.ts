@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class TransferSingle {
@@ -33,6 +33,12 @@ export class TransferSingle {
     @StringColumn_({nullable: true})
     to!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    amount!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    amount!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }
