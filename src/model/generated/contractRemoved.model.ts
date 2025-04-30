@@ -10,20 +10,20 @@ export class ContractRemoved {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @StringColumn_({nullable: false})
-    contractName!: string
+    @StringColumn_({nullable: true})
+    contractName!: string | undefined | null
 
-    @StringColumn_({nullable: false})
-    contractAddress!: string
+    @StringColumn_({nullable: true})
+    contractAddress!: string | undefined | null
 }

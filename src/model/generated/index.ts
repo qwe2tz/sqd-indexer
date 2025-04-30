@@ -1,4 +1,5 @@
 export * from "./transaction.model"
+export * from "./block.model"
 export * from "./newContract.model"
 export * from "./contractChanged.model"
 export * from "./newAssetStorage.model"

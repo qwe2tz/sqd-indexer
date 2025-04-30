@@ -10,22 +10,22 @@ export class TokenOriginSet {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    oldOrigin!: string
+    @StringColumn_({nullable: true})
+    oldOrigin!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    newOrigin!: string
+    @StringColumn_({nullable: true})
+    newOrigin!: string | undefined | null
 }

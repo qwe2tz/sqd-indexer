@@ -10,28 +10,28 @@ export class TransferBatch {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    operator!: string
+    @StringColumn_({nullable: true})
+    operator!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    from!: string
+    @StringColumn_({nullable: true})
+    from!: string | undefined | null
 
-    @StringColumn_({array: true, nullable: false})
-    tokenIds!: (string)[]
+    @StringColumn_({array: true, nullable: true})
+    tokenIds!: (string | undefined | null)[] | undefined | null
 
-    @StringColumn_({array: true, nullable: false})
-    amounts!: (string)[]
+    @StringColumn_({array: true, nullable: true})
+    amounts!: (string | undefined | null)[] | undefined | null
 }

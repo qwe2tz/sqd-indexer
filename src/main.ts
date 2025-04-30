@@ -1,6 +1,6 @@
 import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-import { Transaction } from "./model";
+import { Block, Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
 
 type EventInstance = Object & {
@@ -12,7 +12,6 @@ type EventInstance = Object & {
 
 async function runProcessor() {
   const EventRegistry = await initEventRegistry();
-
   const topics0List = Object.keys(EventRegistry).map((topic) => topic);
 
   const processor = new EvmBatchProcessor()
@@ -26,6 +25,8 @@ async function runProcessor() {
     .addLog({
       address: process.env.CONTRACTS.split(";"),
       topic0: topics0List,
+      // TODO: Check if this is the most efficient way to do this
+      transaction: true,
     })
     .addTransaction({
       from: process.env.CONTRACTS.split(";"),
@@ -42,6 +43,21 @@ async function runProcessor() {
     const eventPromises: Promise<void>[] = [];
 
     for (let block of ctx.blocks) {
+      for (const tx of block.transactions) {
+        transactions.push(
+          new Transaction({
+            id: tx.hash,
+            blockHash: block.header.hash,
+            blockNumber: BigInt(block.header.height),
+            transactionHash: tx.hash,
+            timestamp: BigInt(block.header.timestamp),
+            from: tx.from,
+            to: tx.to,
+            createdAt: new Date(),
+          })
+        );
+      }
+
       for (const log of block.logs) {
         const event = EventRegistry[log.topics[0]] as EventType;
 
@@ -61,6 +77,8 @@ async function runProcessor() {
           contract: event.contract,
           name: event.name,
           createdAt: new Date(),
+          transactionHash: log.transaction.hash,
+          blockNumber: block.header.height,
           ...decoded,
         };
 
@@ -71,24 +89,33 @@ async function runProcessor() {
         }
       }
 
-      for (const tx of block.transactions) {
-        transactions.push(
-          new Transaction({
-            id: tx.hash,
-            blockHash: block.header.hash,
+      try {
+        await ctx.store.upsert(
+          new Block({
+            id: block.header.hash,
             blockNumber: BigInt(block.header.height),
-            transactionHash: tx.hash,
+            blockHash: block.header.hash,
             timestamp: BigInt(block.header.timestamp),
-            from: tx.from,
-            to: tx.to,
             createdAt: new Date(),
           })
+        );
+      } catch (error) {
+        console.error(
+          `[${new Date().toISOString()}][CRITICAL]: Error upserting block ${block.header.height}:`,
+          error
         );
       }
     }
 
-    await Promise.all(eventPromises);
-    await ctx.store.upsert(transactions);
+    try {
+      await Promise.all(eventPromises);
+      await ctx.store.upsert(transactions);
+    } catch (error) {
+      console.error(
+        `[${new Date().toISOString()}][CRITICAL]: Error upserting events or transactions:`,
+        error
+      );
+    }
   });
 }
 

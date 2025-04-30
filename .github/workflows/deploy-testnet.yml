@@ -3,8 +3,7 @@ name: Indexer Deployment - Testnet
 on:
   push:
     branches:
-      - feature/rpc-test
-      # - release/testnet
+       - release/testnet
 
 # on:
 #   pull_request:
