@@ -12,7 +12,7 @@ async function runProcessor() {
     .setRpcEndpoint({
       url: process.env.RPC_ENDPOINT,
       rateLimit: 50,
-      capacity: 5,
+      capacity: 1,
     })
     .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
     .setFinalityConfirmation(75)

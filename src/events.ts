@@ -53,8 +53,8 @@ async function createEventRegistry(
   return Object.fromEntries(entries);
 }
 
-export async function initEventRegistry() {
-  const eventRegistry = {};
+export async function initEventRegistry(): Promise<Record<string, EventType>> {
+  const eventRegistry: Record<string, EventType> = {};
   for (const model in abiModel) {
     const contract = abiModel[model];
     Object.assign(eventRegistry, await createEventRegistry(model, contract.events));
