@@ -10,24 +10,24 @@ export class VoterWeightUpdated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @StringColumn_({nullable: false})
-    voter!: string
+    @StringColumn_({nullable: true})
+    voter!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    oldWeight!: bigint
+    @BigIntColumn_({nullable: true})
+    oldWeight!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    newWeight!: bigint
+    @BigIntColumn_({nullable: true})
+    newWeight!: bigint | undefined | null
 }

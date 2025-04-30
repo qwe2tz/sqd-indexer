@@ -10,27 +10,27 @@ export class ProfileCreated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    identityId!: bigint
+    @BigIntColumn_({nullable: true})
+    identityId!: bigint | undefined | null
 
-    @StringColumn_({nullable: false})
-    nodeName!: string
+    @StringColumn_({nullable: true})
+    nodeName!: string | undefined | null
 
-    @StringColumn_({nullable: false})
-    nodeId!: string
+    @StringColumn_({nullable: true})
+    nodeId!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    initialOperatorFee!: bigint
+    @BigIntColumn_({nullable: true})
+    initialOperatorFee!: bigint | undefined | null
 }

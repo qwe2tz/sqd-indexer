@@ -10,28 +10,28 @@ export class KnowledgeAssetsMinted {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    eventId!: bigint
+    @BigIntColumn_({nullable: true})
+    eventId!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    startId!: bigint
+    @BigIntColumn_({nullable: true})
+    startId!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    endId!: bigint
+    @BigIntColumn_({nullable: true})
+    endId!: bigint | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    to!: string
+    @StringColumn_({nullable: true})
+    to!: string | undefined | null
 }

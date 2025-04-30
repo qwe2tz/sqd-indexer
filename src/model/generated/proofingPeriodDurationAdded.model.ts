@@ -10,21 +10,21 @@ export class ProofingPeriodDurationAdded {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
-    @BigIntColumn_({nullable: false})
-    durationInBlocks!: bigint
+    @BigIntColumn_({nullable: true})
+    durationInBlocks!: bigint | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    effectiveEpoch!: bigint
+    @BigIntColumn_({nullable: true})
+    effectiveEpoch!: bigint | undefined | null
 }

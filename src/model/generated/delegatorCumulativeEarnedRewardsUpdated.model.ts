@@ -10,25 +10,25 @@ export class DelegatorCumulativeEarnedRewardsUpdated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    identityId!: bigint
+    @BigIntColumn_({nullable: true})
+    identityId!: bigint | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    delegatorKey!: string
+    @StringColumn_({nullable: true})
+    delegatorKey!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    cumulativeEarnedRewards!: bigint
+    @BigIntColumn_({nullable: true})
+    cumulativeEarnedRewards!: bigint | undefined | null
 }

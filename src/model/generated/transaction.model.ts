@@ -10,24 +10,24 @@ export class Transaction {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    blockHash!: string
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    blockNumber!: bigint
+    @StringColumn_({nullable: true})
+    blockHash!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    transactionHash!: string
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    timestamp!: bigint
+    @BigIntColumn_({nullable: true})
+    timestamp!: bigint | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    from!: string
+    @StringColumn_({nullable: true})
+    from!: string | undefined | null
 
     @Index_()
     @StringColumn_({nullable: true})

@@ -10,38 +10,38 @@ export class KnowledgeCollectionCreated {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: false})
-    eventId!: bigint
+    @BigIntColumn_({nullable: true})
+    eventId!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     publishOperationId!: string | undefined | null
 
-    @StringColumn_({nullable: false})
-    merkleRoot!: string
+    @StringColumn_({nullable: true})
+    merkleRoot!: string | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    byteSize!: bigint
+    @BigIntColumn_({nullable: true})
+    byteSize!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    startEpoch!: bigint
+    @BigIntColumn_({nullable: true})
+    startEpoch!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    endEpoch!: bigint
+    @BigIntColumn_({nullable: true})
+    endEpoch!: bigint | undefined | null
 
-    @BigIntColumn_({nullable: false})
-    tokenAmount!: bigint
+    @BigIntColumn_({nullable: true})
+    tokenAmount!: bigint | undefined | null
 
     @BooleanColumn_({nullable: false})
     isImmutable!: boolean

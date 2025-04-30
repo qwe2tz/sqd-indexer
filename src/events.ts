@@ -6,6 +6,7 @@ import path from "path";
 export type EventType = {
   name: string;
   contract: string;
+  // TODO: make type safe
   abi: AbiEvent<any>;
   DBModel: ObjectConstructor | null;
 };
