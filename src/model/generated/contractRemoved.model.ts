@@ -26,4 +26,10 @@ export class ContractRemoved {
 
     @StringColumn_({nullable: true})
     contractAddress!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

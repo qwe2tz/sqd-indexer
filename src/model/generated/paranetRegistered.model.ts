@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class ParanetRegistered {
@@ -26,12 +26,12 @@ export class ParanetRegistered {
     paranetKCStorageContract!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetKCTokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetKCTokenId!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    paranetKATokenId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    paranetKATokenId!: string | undefined | null
 
     @StringColumn_({nullable: true})
     paranetName!: string | undefined | null
@@ -39,12 +39,18 @@ export class ParanetRegistered {
     @StringColumn_({nullable: true})
     paranetDescription!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    nodesAccessPolicy!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    nodesAccessPolicy!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    minersAccessPolicy!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    minersAccessPolicy!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    knowledgeCollectionsSubmissionPolicy!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    knowledgeCollectionsSubmissionPolicy!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

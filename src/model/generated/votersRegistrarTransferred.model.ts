@@ -28,4 +28,10 @@ export class VotersRegistrarTransferred {
     @Index_()
     @StringColumn_({nullable: true})
     newRegistrar!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

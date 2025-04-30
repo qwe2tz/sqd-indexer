@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class NodeObjectCreated {
@@ -22,15 +22,21 @@ export class NodeObjectCreated {
     createdAt!: Date
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    identityId!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    identityId!: string | undefined | null
 
     @StringColumn_({nullable: true})
     nodeId!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    hashRingPosition!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    hashRingPosition!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    index!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    index!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

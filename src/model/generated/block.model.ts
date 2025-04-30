@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, Index as Index_, StringColumn as StringColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Block {
@@ -10,16 +10,16 @@ export class Block {
     id!: string
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    blockNumber!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 
     @Index_()
     @StringColumn_({nullable: true})
     blockHash!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    timestamp!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    timestamp!: string | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})

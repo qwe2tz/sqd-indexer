@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Transaction {
@@ -18,12 +18,12 @@ export class Transaction {
     blockHash!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    blockNumber!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 
     @Index_()
-    @BigIntColumn_({nullable: true})
-    timestamp!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    timestamp!: string | undefined | null
 
     @Index_()
     @StringColumn_({nullable: true})

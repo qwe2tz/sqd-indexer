@@ -24,4 +24,10 @@ export class AddressWhitelisted {
     @Index_()
     @StringColumn_({nullable: true})
     addr!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

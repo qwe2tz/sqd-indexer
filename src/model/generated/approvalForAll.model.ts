@@ -31,4 +31,10 @@ export class ApprovalForAll {
 
     @BooleanColumn_({nullable: false})
     approved!: boolean
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

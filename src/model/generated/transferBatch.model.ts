@@ -34,4 +34,10 @@ export class TransferBatch {
 
     @StringColumn_({array: true, nullable: true})
     amounts!: (string | undefined | null)[] | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }

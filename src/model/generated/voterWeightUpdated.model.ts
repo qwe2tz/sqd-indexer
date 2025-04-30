@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class VoterWeightUpdated {
@@ -25,9 +25,15 @@ export class VoterWeightUpdated {
     @StringColumn_({nullable: true})
     voter!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    oldWeight!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    oldWeight!: string | undefined | null
 
-    @BigIntColumn_({nullable: true})
-    newWeight!: bigint | undefined | null
+    @StringColumn_({nullable: true})
+    newWeight!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @StringColumn_({nullable: true})
+    blockNumber!: string | undefined | null
 }
