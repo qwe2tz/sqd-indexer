@@ -7,12 +7,20 @@ interface Base {
 
 type Transaction @entity {
   id: ID!
+  transactionHash: String @index
   blockHash: String @index
   blockNumber: BigInt @index
-  transactionHash: String @index
   timestamp: BigInt @index
   from: String @index
   to: String @index
+  createdAt: DateTime! @index
+}
+
+type Block @entity {
+  id: ID!
+  blockNumber: BigInt @index
+  blockHash: String @index
+  timestamp: BigInt @index
   createdAt: DateTime! @index
 }
 

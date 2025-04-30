@@ -7,7 +7,7 @@ export type EventType = {
   name: string;
   contract: string;
   abi: AbiEvent<any>;
-  ORMModel: ObjectConstructor | null;
+  DBModel: ObjectConstructor | null;
 };
 
 function toModelFileName(str: string) {
@@ -46,7 +46,7 @@ async function createEventRegistry(
         name: eventName,
         contract: contractName,
         abi: eventDef,
-        ORMModel: await loadModelForEvent(`${eventName}`),
+        DBModel: await loadModelForEvent(`${eventName}`),
       },
     ])
   );

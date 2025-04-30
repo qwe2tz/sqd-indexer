@@ -3,6 +3,13 @@ import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
 
+type EventInstance = Object & {
+  id: string;
+  contract: string;
+  name: string;
+  createdAt: Date;
+};
+
 async function runProcessor() {
   const EventRegistry = await initEventRegistry();
 
@@ -32,14 +39,18 @@ async function runProcessor() {
   const db = new TypeormDatabase({ stateSchema: process.env.INDEXER_NAME });
   processor.run(db, async (ctx) => {
     const transactions: Transaction[] = [];
-    const eventPromises: Promise<any>[] = [];
+    const eventPromises: Promise<void>[] = [];
 
     for (let block of ctx.blocks) {
       for (const log of block.logs) {
         const event = EventRegistry[log.topics[0]] as EventType;
 
-        if (!event.ORMModel) {
-          console.error(`No ORM model found for event ${event.name}`);
+        if (!event.DBModel) {
+          console.error(
+            `[${new Date().toISOString()}][CRITICAL]: No ORM model found for event ${
+              event.name
+            } at block ${block.header.height}`
+          );
           continue;
         }
 
@@ -53,9 +64,9 @@ async function runProcessor() {
           ...decoded,
         };
 
-        const model = event.ORMModel;
+        const model = event.DBModel;
         if (model) {
-          const eventInstance = Object.assign(new event.ORMModel(), eventData);
+          const eventInstance: EventInstance = Object.assign(new event.DBModel(), eventData);
           eventPromises.push(ctx.store.upsert([eventInstance]));
         }
       }
