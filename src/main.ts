@@ -38,7 +38,11 @@ async function runProcessor() {
     processor.setGateway(process.env.ARCHIVE);
   }
 
-  const db = new TypeormDatabase({ stateSchema: process.env.INDEXER_NAME });
+  const db = new TypeormDatabase({
+    stateSchema: process.env.INDEXER_NAME,
+    supportHotBlocks: false,
+  });
+
   processor.run(db, async (ctx) => {
     const transactions: Transaction[] = [];
     const eventPromises: Promise<void>[] = [];
