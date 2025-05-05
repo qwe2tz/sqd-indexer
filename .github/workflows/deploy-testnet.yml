@@ -3,7 +3,7 @@ name: Indexer Deployment - Testnet
 on:
   push:
     branches:
-       - release/testnet
+      - main
 
 # on:
 #   pull_request:
