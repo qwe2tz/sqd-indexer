@@ -45,18 +45,28 @@ async function runProcessor() {
 
     for (let block of ctx.blocks) {
       for (const tx of block.transactions) {
-        transactions.push(
-          new Transaction({
-            id: tx.hash,
-            blockHash: block.header.hash,
-            blockNumber: String(block.header.height),
-            transactionHash: tx.hash,
-            timestamp: String(block.header.timestamp),
-            from: tx.from,
-            to: tx.to,
-            createdAt: new Date(),
-          })
-        );
+        try {
+          transactions.push(
+            new Transaction({
+              id: tx.hash,
+              blockHash: block.header.hash,
+              blockNumber: String(block.header.height),
+              transactionHash: tx.hash,
+              timestamp: String(block.header.timestamp),
+              from: tx.from,
+              to: tx.to,
+              createdAt: new Date(),
+            })
+          );
+        } catch (error) {
+          console.error(
+            `[${new Date().toISOString()}][CRITICAL]: Error creating transaction instance for ${
+              tx.hash
+            }:`,
+            error
+          );
+        }
+
       }
 
       for (const log of block.logs) {
