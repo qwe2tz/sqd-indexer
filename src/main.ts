@@ -18,8 +18,10 @@ async function runProcessor() {
     .setRpcEndpoint({
       url: process.env.RPC_ENDPOINT,
       rateLimit: parseInt(process.env.RATE_LIMIT) || 100,
-      maxBatchCallSize: parseInt(process.env.MAX_BATCH_SIZE) || 50,
+      maxBatchCallSize: parseInt(process.env.MAX_BATCH_SIZE) || 1,
+      capacity: parseInt(process.env.RPC_CAPACITY) || 10,
     })
+    .setFinalityConfirmation(parseInt(process.env.FINALITY_CONFIRMATIONS) || 50)
     .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
     .addLog({
       address: process.env.CONTRACTS.split(";"),
