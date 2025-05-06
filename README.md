@@ -19,3 +19,6 @@ Additionally, we are using docker compose files to spin up the enviornment. You 
 ```
 make run_dev
 ```
+
+TODO:
+* Deploying indexers using a release.

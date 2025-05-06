@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class TotalVotersclaimedTokenSet {
@@ -17,19 +17,19 @@ export class TotalVotersclaimedTokenSet {
     @StringColumn_({nullable: true})
     name!: string | undefined | null
 
-    @Index_()
-    @DateTimeColumn_({nullable: false})
-    createdAt!: Date
+    @BigIntColumn_({nullable: true})
+    oldAmount!: bigint | undefined | null
 
-    @StringColumn_({nullable: true})
-    oldAmount!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    newAmount!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    newAmount!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     transactionHash!: string | undefined | null
 
-    @StringColumn_({nullable: true})
-    blockNumber!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
+
+    @Index_()
+    @DateTimeColumn_({nullable: false})
+    createdAt!: Date
 }
