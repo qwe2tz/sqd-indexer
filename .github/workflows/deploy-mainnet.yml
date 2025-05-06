@@ -3,8 +3,7 @@ name: Indexer Deployment - Mainnet
 on:
   push:
     branches:
-      - main
-      # - release/mainnet
+      - release/mainnet
 
 # on:
 #   pull_request:
