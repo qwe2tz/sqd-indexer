@@ -16,6 +16,9 @@ services:
       - CONTRACTS=${CONTRACTS}
       - ARCHIVE=${ARCHIVE}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+      - MAX_BATCH_SIZE=${MAX_BATCH_SIZE}
+      - RATE_LIMIT=${RATE_LIMIT}
+      - RPC_CAPACITY=${RPC_CAPACITY}
     ports:
       - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
     restart: always
