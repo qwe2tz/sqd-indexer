@@ -1,13 +1,10 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class KnowledgeCollectionBurnedUpdated {
     constructor(props?: Partial<KnowledgeCollectionBurnedUpdated>) {
         Object.assign(this, props)
     }
-
-    @StringColumn_({array: true, nullable: true})
-    burned!: (string | undefined | null)[] | undefined | null
 
     @PrimaryColumn_()
     id!: string
@@ -21,16 +18,19 @@ export class KnowledgeCollectionBurnedUpdated {
     name!: string | undefined | null
 
     @Index_()
-    @DateTimeColumn_({nullable: false})
-    createdAt!: Date
+    @BigIntColumn_({nullable: true})
+    knowledgeCollectionId!: bigint | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    eventId!: string | undefined | null
+    @StringColumn_({array: true, nullable: false})
+    burned!: (string)[]
 
     @StringColumn_({nullable: true})
     transactionHash!: string | undefined | null
 
-    @StringColumn_({nullable: true})
-    blockNumber!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
+
+    @Index_()
+    @DateTimeColumn_({nullable: false})
+    createdAt!: Date
 }

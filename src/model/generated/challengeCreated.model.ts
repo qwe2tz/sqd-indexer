@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class ChallengeCreated {
@@ -18,33 +18,33 @@ export class ChallengeCreated {
     name!: string | undefined | null
 
     @Index_()
-    @DateTimeColumn_({nullable: false})
-    createdAt!: Date
+    @BigIntColumn_({nullable: true})
+    identityId!: bigint | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: true})
-    identityId!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    epoch!: bigint | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    knowledgeCollectionId!: bigint | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    chunkId!: bigint | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: true})
-    epoch!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    activeProofPeriodBlock!: bigint | undefined | null
 
-    @StringColumn_({nullable: true})
-    knowledgeCollectionId!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    chunkId!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
-    activeProofPeriodBlock!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    proofingPeriodDurationInBlocks!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    proofingPeriodDurationInBlocks!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     transactionHash!: string | undefined | null
 
-    @StringColumn_({nullable: true})
-    blockNumber!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
+
+    @Index_()
+    @DateTimeColumn_({nullable: false})
+    createdAt!: Date
 }

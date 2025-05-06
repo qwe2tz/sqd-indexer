@@ -9,7 +9,7 @@ type Transaction @entity {
   id: ID!
   transactionHash: String @index
   blockHash: String @index
-  blockNumber: String @index
+  blockNumber: BigInt @index
   timestamp: String @index
   from: String @index
   to: String @index
@@ -18,7 +18,7 @@ type Transaction @entity {
 
 type Block @entity {
   id: ID!
-  blockNumber: String @index
+  blockNumber: BigInt @index
   blockHash: String @index
   timestamp: String @index
   createdAt: DateTime! @index
@@ -26,76 +26,69 @@ type Block @entity {
 
 # =================== HUB =================== #
 type NewContract implements Base @entity {
-  contractName: String
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
+  contractName: String
   newContractAddress: String
-
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ContractChanged implements Base @entity {
-  contractName: String
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
+  contractName: String
   newContractAddress: String
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NewAssetStorage implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
   contractName: String
   newContractAddress: String
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type AssetStorageChanged implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
   contractName: String
   newContractAddress: String
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ContractRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
   contractName: String
   contractAddress: String
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type AssetStorageRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
-
   contractName: String
   contractAddress: String
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # DEPRECATED
@@ -103,12 +96,13 @@ type OwnershipTransferred implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   previousOwner: String
   newOwner: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== GUARDIAN =================== #
@@ -116,37 +110,40 @@ type TokenTransferred implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   custodian: String @index
-  amount: String @index
+  amount: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type MisplacedEtherWithdrawn implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   custodian: String @index
-  amount: String @index
+  amount: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type MisplacedERC20Withdrawn implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   custodian: String @index
   tokenContract: String @index
-  amount: String @index
+  amount: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== DELEGATORS INFO =================== #
@@ -154,24 +151,26 @@ type DelegatorAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: Int @index
   delegator: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: Int @index
   delegator: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== EPOCH STORAGE =================== #
@@ -179,287 +178,279 @@ type EpochProducedKnowledgeValueAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  epoch: String @index
-  knowledgeValue: String
+  identityId: BigInt @index
+  epoch: BigInt @index
+  knowledgeValue: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TokensAddedToEpochRange implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  shardId: String @index
-  startEpoch: String
-  endEpoch: String
-  tokenAmount: String
-  remainder: String
+  shardId: BigInt @index
+  startEpoch: BigInt
+  endEpoch: BigInt
+  tokenAmount: BigInt
+  remainder: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type EpochTokensPaidOut implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  shardId: String @index
-  epoch: String @index
-  identityId: String @index
-  amount: String
+  shardId: BigInt @index
+  epoch: BigInt @index
+  identityId: BigInt @index
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type EpochsFinalized implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  shardId: String @index
-  startEpoch: String
-  endEpoch: String
+  shardId: BigInt @index
+  startEpoch: BigInt
+  endEpoch: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
-# =================== KNOWLEDGE COLLECTION =================== #
+# =================== KNOWLEDGE COLLECTION STORAGE =================== #
 type KnowledgeCollectionCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
+  knowledgeCollectionId: BigInt @index
   publishOperationId: String
   merkleRoot: String
-  byteSize: String
-  startEpoch: String
-  endEpoch: String
-  tokenAmount: String
-  isImmutable: Boolean!
+  byteSize: BigInt
+  startEpoch: BigInt
+  endEpoch: BigInt
+  tokenAmount: BigInt
+  isImmutable: Boolean
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  merkleRoot: String
-  byteSize: String
-  tokenAmount: String
+  knowledgeCollectionId: BigInt @index
   updateOperationId: String
+  merkleRoot: String
+  byteSize: BigInt
+  tokenAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeAssetsMinted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  startId: String
-  endId: String
+  knowledgeCollectionId: BigInt @index
   to: String @index
+  startId: BigInt
+  endId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeAssetsBurned implements Base @entity {
-  from: String @index
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  tokenIds: [String]!
+  knowledgeCollectionId: BigInt @index
+  from: String @index
+  tokenIds: [String!]!
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionPublisherUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
+  knowledgeCollectionId: BigInt @index
   publisher: String
-  eventId: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionMerkleRootsUpdated implements Base @entity {
-  merkleRoots: [String]
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
+  knowledgeCollectionId: BigInt @index
+  merkleRoots: [String!]!
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionMerkleRootAdded implements Base @entity {
-  merkleRoot: String
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
+  knowledgeCollectionId: BigInt @index
+  merkleRoot: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionMerkleRootRemoved implements Base @entity {
-  merkleRoot: String
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
+  knowledgeCollectionId: BigInt @index
+  merkleRoot: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionMintedUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  minted: String
+  knowledgeCollectionId: BigInt @index
+  minted: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionBurnedUpdated implements Base @entity {
-  burned: [String]
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
+  knowledgeCollectionId: BigInt @index
+  burned: [String!]!
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionByteSizeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  byteSize: String
+  knowledgeCollectionId: BigInt @index
+  byteSize: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionChunksAmountUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  chunksAmount: String
+  knowledgeCollectionId: BigInt @index
+  chunksAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionTokenAmountUpdated implements Base @entity {
   id: ID!
-  name: String @index
   contract: String @index
-  createdAt: DateTime! @index
+  name: String @index
 
-  eventId: String @index
-  tokenAmount: String
+  knowledgeCollectionId: BigInt @index
+  tokenAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionStartEpochUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  startEpoch: String
+  knowledgeCollectionId: BigInt @index
+  startEpoch: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionEndEpochUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  eventId: String @index
-  endEpoch: String
+  knowledgeCollectionId: BigInt @index
+  endEpoch: BigInt
+
   transactionHash: String
-  blockNumber: String
-}
-
-type TransferSingle implements Base @entity {
-  id: ID!
-  contract: String @index
-  name: String @index
+  blockNumber: BigInt
   createdAt: DateTime! @index
-
-  operator: String @index
-  from: String @index
-  to: String @index
-  amount: String
-  transactionHash: String
-  blockNumber: String
-}
-
-type TransferBatch implements Base @entity {
-  id: ID!
-  contract: String @index
-  name: String @index
-  createdAt: DateTime! @index
-
-  operator: String @index
-  from: String @index
-  tokenIds: [String]
-  amounts: [String]
-  transactionHash: String
-  blockNumber: String
 }
 
 type URIUpdate implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   newURI: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # NOTE: Could be deperecated, check
@@ -467,25 +458,27 @@ type URI implements Base @entity {
   id: ID!
   name: String @index
   contract: String @index
-  createdAt: DateTime! @index
 
   tokenId: String @index
   uri: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ApprovalForAll implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   owner: String @index
   operator: String @index
   approved: Boolean!
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+
+  createdAt: DateTime! @index
 }
 
 # =================== PARAMETERS STORAGE =================== #
@@ -493,12 +486,13 @@ type ParameterChanged implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   parameterName: String
-  parameterValue: String
+  parameterValue: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== PAYMASTER MANAGER =================== #
@@ -511,7 +505,7 @@ type PaymasterDeployed implements Base @entity {
   deployer: String @index
   paymasterAddress: String @index
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
 }
 
 # =================== PROFILE STORAGE =================== #
@@ -519,131 +513,111 @@ type ProfileCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   nodeName: String
   nodeId: String
-  initialOperatorFee: String
+  initialOperatorFee: Int
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ProfileDeleted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   nodeId: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeNameUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   oldName: String
   newName: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeIdUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   oldNodeId: String
   newNodeId: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeAskUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  oldAsk: String
-  newAsk: String
+  identityId: BigInt @index
+  oldAsk: BigInt
+  newAsk: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  feePercentage: String
-  effectiveDate: String
+  identityId: BigInt @index
+  feePercentage: Int
+  effectiveDate: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeesReplaced implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  oldFeePercentage: String
-  newFeePercentage: String
-  effectiveDate: String
+  identityId: BigInt @index
+  oldFeePercentage: Int
+  newFeePercentage: Int
+  effectiveDate: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeesUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  # TODO: Doublecheck mapping
-  operatorFees: [String]!
+  identityId: BigInt @index
+  operatorFees: [String!]!
   transactionHash: String
-  blockNumber: String
-}
-
-# =================== RANDOM SAMPLING STORAGE =================== #
-type ProofingPeriodDurationAdded implements Base @entity {
-  id: ID!
-  contract: String @index
-  name: String @index
+  blockNumber: BigInt
   createdAt: DateTime! @index
-
-  durationInBlocks: String
-  effectiveEpoch: String @index
-  transactionHash: String
-  blockNumber: String
-}
-
-type PendingProofingPeriodDurationReplaced implements Base @entity {
-  id: ID!
-  contract: String @index
-  name: String @index
-  createdAt: DateTime! @index
-
-  oldDurationInBlocks: String
-  newDurationInBlocks: String
-  effectiveEpoch: String @index
-  transactionHash: String
-  blockNumber: String
 }
 
 # =================== SHARDING TABLE STORAGE =================== #
@@ -651,83 +625,90 @@ type NodesCountIncremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  newCount: String
+  newCount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodesCountDecremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  newCount: String
+  newCount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeObjectCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   nodeId: String
-  hashRingPosition: String
-  index: String
+  hashRingPosition: BigInt
+  index: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeObjectDeleted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeIndexIncremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  newIndex: String
+  identityId: BigInt @index
+  newIndex: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeIndexDecremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  newIndex: String
+  identityId: BigInt @index
+  newIndex: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type IdentityIdIndexSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  index: String
+  identityId: BigInt @index
+  index: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== STAKING STORAGE =================== #
@@ -735,236 +716,255 @@ type TotalStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  totalStake: String
+  totalStake: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  stake: String
+  identityId: BigInt @index
+  stake: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeRewardIndexUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  rewardIndex: String
+  identityId: BigInt @index
+  rewardIndex: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  cumulativeEarnedRewards: String
+  identityId: BigInt @index
+  cumulativeEarnedRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type NodeCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  cumulativePaidOutRewards: String
+  identityId: BigInt @index
+  cumulativePaidOutRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorCountUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  delegatorsCount: String
+  identityId: BigInt @index
+  delegatorsCount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeBalanceUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  feeBalance: String
+  identityId: BigInt @index
+  feeBalance: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  cumulativeFeeEarnedRewards: String
+  identityId: BigInt @index
+  cumulativeFeeEarnedRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  cumulativeFeePaidOutRewards: String
+  identityId: BigInt @index
+  cumulativeFeePaidOutRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorBaseStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  stakeBase: String
+  stakeBase: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorIndexedStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  stakeIndexed: String
+  stakeIndexed: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorLastRewardIndexUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  lastIndex: String
+  lastIndex: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  cumulativeEarnedRewards: String
+  cumulativeEarnedRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  cumulativePaidOutRewards: String
+  cumulativePaidOutRewards: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorWithdrawalRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
-  amount: String
-  indexedOutAmount: String
-  timestamp: String
+  amount: BigInt
+  indexedOutAmount: BigInt
+  timestamp: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type DelegatorWithdrawalRequestDeleted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   delegatorKey: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeWithdrawalRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  amount: String
-  indexedOutAmount: String
-  timestamp: String
+  identityId: BigInt @index
+  amount: BigInt
+  indexedOutAmount: BigInt
+  timestamp: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorFeeWithdrawalRequestDeleted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type StakedTokensTransferred implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   receiver: String @index
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== WHITELIST STORAGE =================== #
@@ -972,40 +972,44 @@ type AddressWhitelisted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   addr: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type AddressBlacklisted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   addr: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type WhitelistEnabled implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type WhitelistDisabled implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== IDENTITY =================== #
@@ -1013,24 +1017,54 @@ type IdentityCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
   operationalKey: String @index
   adminKey: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type IdentityDeleted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
+  identityId: BigInt @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
+}
+
+# =================== RANDOM SAMPLING STORAGE =================== #
+type ProofingPeriodDurationAdded implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  durationInBlocks: Int
+  effectiveEpoch: BigInt @index
+
+  transactionHash: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
+}
+
+type PendingProofingPeriodDurationReplaced implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  oldDurationInBlocks: Int
+  newDurationInBlocks: Int
+  effectiveEpoch: BigInt @index
+
+  transactionHash: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== RANDOM SAMPLING =================== #
@@ -1038,313 +1072,338 @@ type ChallengeCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  epoch: String @index
-  knowledgeCollectionId: String
-  chunkId: String
-  activeProofPeriodBlock: String @index
-  proofingPeriodDurationInBlocks: String
+  identityId: BigInt @index
+  epoch: BigInt @index
+  knowledgeCollectionId: BigInt
+  chunkId: BigInt
+  activeProofPeriodBlock: BigInt @index
+  proofingPeriodDurationInBlocks: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ValidProofSubmitted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  identityId: String @index
-  epoch: String @index
-  score: String
+  identityId: BigInt @index
+  epoch: BigInt @index
+  score: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type AvgBlockTimeUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  avgBlockTimeInSeconds: String
+  avgBlockTimeInSeconds: Int
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ProofingPeriodDurationInBlocksUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  durationInBlocks: String
+  durationInBlocks: Int
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type RewardsClaimed implements Base @entity {
   id: ID!
-  contract: String! @index
-  name: String! @index
-  createdAt: DateTime! @index
+  contract: String @index
+  name: String @index
 
-  identityId: String! @index
-  epoch: String! @index
-  delegator: String! @index
-  amount: String!
+  identityId: BigInt @index
+  epoch: BigInt @index
+  delegator: String @index
+  amount: BigInt
+
+  transactionHash: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
+
 # =================== PARANET =================== #
 type ParanetRegistered implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  parnetKATokenId: BigInt @index
   paranetName: String
   paranetDescription: String
-  nodesAccessPolicy: String
-  minersAccessPolicy: String
-  knowledgeCollectionsSubmissionPolicy: String
+  nodesAccessPolicy: Int
+  minersAccessPolicy: Int
+  knowledgeCollectionsSubmissionPolicy: Int
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedNodeAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  identityId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  identityId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedNodeRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  identityId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  identityId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedNodeJoinRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  identityId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  identityId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedNodeJoinRequestAccepted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  identityId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  identityId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedNodeJoinRequestRejected implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  identityId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  identityId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetIncetivesPoolDeployed implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
-  incentivesPool: String # Adjust type based on the structure of ParanetLib.IncentivesPool
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
+  incentivesPool: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetMetadataUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   newParanetName: String
   newParanetDescription: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetServiceAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   paranetServiceKCStorageContract: String
-  paranetServiceKCTokenId: String
-  paranetServiceKATokenId: String
+  paranetServiceKCTokenId: BigInt
+  paranetServiceKATokenId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetServiceRegistered implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetServiceKCStorageContract: String @index
-  paranetServiceKCTokenId: String @index
-  paranetServiceKATokenId: String @index
+  paranetServiceKCTokenId: BigInt @index
+  paranetServiceKATokenId: BigInt @index
   paranetServiceName: String
   paranetServiceDescription: String
-  paranetServiceAddresses: [String]!
+  paranetServiceAddresses: [String!]!
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetServiceMetadataUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetServiceKCStorageContract: String @index
-  paranetServiceKCTokenId: String @index
-  paranetServiceKATokenId: String @index
+  paranetServiceKCTokenId: BigInt @index
+  paranetServiceKATokenId: BigInt @index
   newParanetServiceName: String
   newParanetServiceDescription: String
-  newParanetServiceAddresses: [String]!
+  newParanetServiceAddresses: [String!]!
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type KnowledgeCollectionSubmittedToParanet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   knowledgeCollectionStorageContract: String
-  knowledgeCollectionId: String
+  knowledgeCollectionId: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedMinerAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   minerAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedMinerRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   minerAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedMinerAccessRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   minerAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedMinerAccessRequestAccepted implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   minerAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetPermissionedMinerAccessRequestRejected implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   minerAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== PARANET INCENTIVE POOL =================== #
@@ -1352,25 +1411,27 @@ type TokenEmissionMultiplierUpdateInitiated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  oldMultiplier: String
-  newMultiplier: String
-  timestamp: String
+  oldMultiplier: BigInt
+  newMultiplier: BigInt
+  timestamp: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TokenEmissionMultiplierUpdateFinalized implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  oldMultiplier: String
-  newMultiplier: String
+  oldMultiplier: BigInt
+  newMultiplier: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== PARANET INCENTIVE POOL FACTORY =================== #
@@ -1378,31 +1439,33 @@ type ParanetIncentivesPoolDeployed implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   storageAddress: String
   poolAddress: String
   rewardTokenAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type ParanetIncentivesPoolRedeployed implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   paranetKCStorageContract: String @index
-  paranetKCTokenId: String @index
-  paranetKATokenId: String @index
+  paranetKCTokenId: BigInt @index
+  paranetKATokenId: BigInt @index
   storageAddress: String
   newPoolAddress: String
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 # =================== PARANET INCENTIVE POOL STORAGE =================== #
@@ -1410,240 +1473,260 @@ type TokenRewardDeposit implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   sender: String
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VoterWeightUpdated implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   voter: String @index
-  oldWeight: String
-  newWeight: String
+  oldWeight: BigInt
+  newWeight: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalMinersclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  oldAmount: String
-  newAmount: String
+  oldAmount: BigInt
+  newAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalOperatorsclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  oldAmount: String
-  newAmount: String
+  oldAmount: BigInt
+  newAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalVotersclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  oldAmount: String
-  newAmount: String
+  oldAmount: BigInt
+  newAmount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalMinersclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  amount: String
-  newTotal: String
+  amount: BigInt
+  newTotal: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalOperatorsclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  amount: String
-  newTotal: String
+  amount: BigInt
+  newTotal: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TotalVotersclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  amount: String
-  newTotal: String
+  amount: BigInt
+  newTotal: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VotersRegistrarTransferred implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   previousRegistrar: String @index
   newRegistrar: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type MinerRewardProfileAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   miner: String @index
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type MinerRewardIncreased implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   miner: String @index
-  additionalAmount: String
-  newTotal: String
+  additionalAmount: BigInt
+  newTotal: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorRewardProfileAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   operator: String @index
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type OperatorRewardIncreased implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   operator: String @index
-  additionalAmount: String
-  newTotal: String
+  additionalAmount: BigInt
+  newTotal: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VoterAdded implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   voter: String @index
-  weight: String
+  weight: Int
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VoterRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   voter: String @index
-  weight: String
+  weight: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VotersRemoved implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
-  count: String
+  count: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type VoterRewardClaimed implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   voter: String @index
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type IncentivesPoolAddressSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   oldAddress: String @index
   newAddress: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type RewardTransferred implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   recipient: String @index
-  amount: String
+  amount: BigInt
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }
 
 type TokenOriginSet implements Base @entity {
   id: ID!
   contract: String @index
   name: String @index
-  createdAt: DateTime! @index
 
   oldOrigin: String @index
   newOrigin: String @index
+
   transactionHash: String
-  blockNumber: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
 }

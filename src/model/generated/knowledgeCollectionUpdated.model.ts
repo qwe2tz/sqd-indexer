@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class KnowledgeCollectionUpdated {
@@ -18,28 +18,28 @@ export class KnowledgeCollectionUpdated {
     name!: string | undefined | null
 
     @Index_()
-    @DateTimeColumn_({nullable: false})
-    createdAt!: Date
-
-    @Index_()
-    @StringColumn_({nullable: true})
-    eventId!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    merkleRoot!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    byteSize!: string | undefined | null
-
-    @StringColumn_({nullable: true})
-    tokenAmount!: string | undefined | null
+    @BigIntColumn_({nullable: true})
+    knowledgeCollectionId!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     updateOperationId!: string | undefined | null
 
     @StringColumn_({nullable: true})
-    transactionHash!: string | undefined | null
+    merkleRoot!: string | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    byteSize!: bigint | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    tokenAmount!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
-    blockNumber!: string | undefined | null
+    transactionHash!: string | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
+
+    @Index_()
+    @DateTimeColumn_({nullable: false})
+    createdAt!: Date
 }

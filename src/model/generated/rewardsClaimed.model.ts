@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class RewardsClaimed {
@@ -10,29 +10,35 @@ export class RewardsClaimed {
     id!: string
 
     @Index_()
-    @StringColumn_({nullable: false})
-    contract!: string
+    @StringColumn_({nullable: true})
+    contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: false})
-    name!: string
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
+
+    @Index_()
+    @BigIntColumn_({nullable: true})
+    identityId!: bigint | undefined | null
+
+    @Index_()
+    @BigIntColumn_({nullable: true})
+    epoch!: bigint | undefined | null
+
+    @Index_()
+    @StringColumn_({nullable: true})
+    delegator!: string | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    amount!: bigint | undefined | null
+
+    @StringColumn_({nullable: true})
+    transactionHash!: string | undefined | null
+
+    @BigIntColumn_({nullable: true})
+    blockNumber!: bigint | undefined | null
 
     @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
-
-    @Index_()
-    @StringColumn_({nullable: false})
-    identityId!: string
-
-    @Index_()
-    @StringColumn_({nullable: false})
-    epoch!: string
-
-    @Index_()
-    @StringColumn_({nullable: false})
-    delegator!: string
-
-    @StringColumn_({nullable: false})
-    amount!: string
 }
