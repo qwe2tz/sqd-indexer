@@ -54,7 +54,7 @@ async function runProcessor() {
             new Transaction({
               id: tx.hash,
               blockHash: block.header.hash,
-              blockNumber: String(block.header.height),
+              blockNumber: BigInt(block.header.height),
               transactionHash: tx.hash,
               timestamp: String(block.header.timestamp),
               from: tx.from,
@@ -70,7 +70,6 @@ async function runProcessor() {
             error
           );
         }
-
       }
 
       for (const log of block.logs) {
@@ -108,7 +107,7 @@ async function runProcessor() {
         await ctx.store.upsert(
           new Block({
             id: block.header.hash,
-            blockNumber: String(block.header.height),
+            blockNumber: BigInt(block.header.height),
             blockHash: block.header.hash,
             timestamp: String(block.header.timestamp),
             createdAt: new Date(),
