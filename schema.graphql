@@ -441,6 +441,38 @@ type KnowledgeCollectionEndEpochUpdated implements Base @entity {
   createdAt: DateTime! @index
 }
 
+type TransferBatch implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  operator: String @index
+  from: String @index
+  to: String @index
+  tokenId: [String]
+  amounts: [String]
+
+  transactionHash: String
+  blockNumber: String
+  createdAt: DateTime! @index
+}
+
+type TransferSingle implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  operator: String @index
+  from: String @index
+  to: String @index
+  tokenIds: BigInt @index
+  amount: String
+
+  transactionHash: String
+  blockNumber: String
+  createdAt: DateTime! @index
+}
+
 type URIUpdate implements Base @entity {
   id: ID!
   contract: String @index
