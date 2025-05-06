@@ -18,10 +18,11 @@ async function runProcessor() {
     .setRpcEndpoint({
       url: process.env.RPC_ENDPOINT,
       rateLimit: parseInt(process.env.RATE_LIMIT) || 100,
-      capacity: 1,
+      maxBatchCallSize: parseInt(process.env.MAX_BATCH_SIZE) || 1,
+      capacity: parseInt(process.env.RPC_CAPACITY) || 10,
     })
+    .setFinalityConfirmation(parseInt(process.env.FINALITY_CONFIRMATIONS) || 50)
     .setBlockRange({ from: parseInt(process.env.START_BLOCK) })
-    .setFinalityConfirmation(75)
     .addLog({
       address: process.env.CONTRACTS.split(";"),
       topic0: topics0List,
@@ -37,25 +38,39 @@ async function runProcessor() {
     processor.setGateway(process.env.ARCHIVE);
   }
 
-  const db = new TypeormDatabase({ stateSchema: process.env.INDEXER_NAME });
+  const db = new TypeormDatabase({
+    stateSchema: process.env.INDEXER_NAME,
+    supportHotBlocks: false,
+  });
+
   processor.run(db, async (ctx) => {
     const transactions: Transaction[] = [];
     const eventPromises: Promise<void>[] = [];
 
     for (let block of ctx.blocks) {
       for (const tx of block.transactions) {
-        transactions.push(
-          new Transaction({
-            id: tx.hash,
-            blockHash: block.header.hash,
-            blockNumber: String(block.header.height),
-            transactionHash: tx.hash,
-            timestamp: String(block.header.timestamp),
-            from: tx.from,
-            to: tx.to,
-            createdAt: new Date(),
-          })
-        );
+        try {
+          transactions.push(
+            new Transaction({
+              id: tx.hash,
+              blockHash: block.header.hash,
+              blockNumber: String(block.header.height),
+              transactionHash: tx.hash,
+              timestamp: String(block.header.timestamp),
+              from: tx.from,
+              to: tx.to,
+              createdAt: new Date(),
+            })
+          );
+        } catch (error) {
+          console.error(
+            `[${new Date().toISOString()}][CRITICAL]: Error creating transaction instance for ${
+              tx.hash
+            }:`,
+            error
+          );
+        }
+
       }
 
       for (const log of block.logs) {
