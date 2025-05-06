@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - release/mainnet
-      # - release/mainnet
 
 # on:
 #   pull_request:
@@ -31,6 +30,8 @@ jobs:
             archive: NEUROWEB_MAINNET_ARCHIVE
             prometheus_port: NEUROWEB_MAINNET_PROMETHEUS_PORT
             rate_limit: NEUROWEB_MAINNET_RATE_LIMIT
+            capacity: NEUROWEB_MAINNET_RPC_CAPACITY
+            max_batch_size: NEUROWEB_MAINNET_MAX_BATCH_SIZE
             
           - env: base-mainnet
             db_name: BASE_MAINNET_DB
@@ -42,6 +43,8 @@ jobs:
             archive: BASE_MAINNET_ARCHIVE
             prometheus_port: BASE_MAINNET_PROMETHEUS_PORT
             rate_limit: BASE_MAINNET_RATE_LIMIT
+            capacity: BASE_MAINNET_RPC_CAPACITY
+            max_batch_size: BASE_MAINNET_MAX_BATCH_SIZE
 
           - env: gnosis-mainnet
             db_name: GNOSIS_MAINNET_DB
@@ -53,6 +56,8 @@ jobs:
             archive: GNOSIS_MAINNET_ARCHIVE
             prometheus_port: GNOSIS_MAINNET_PROMETHEUS_PORT
             rate_limit: GNOSIS_MAINNET_RATE_LIMIT
+            capacity: GNOSIS_MAINNET_RPC_CAPACITY
+            max_batch_size: GNOSIS_MAINNET_MAX_BATCH_SIZE
 
     steps:
       - name: Checkout repository
@@ -75,12 +80,13 @@ jobs:
           echo "ARCHIVE=${{ secrets[matrix.archive] }}" >> $GITHUB_ENV
           echo "PROMETHEUS_PORT=${{ secrets[matrix.prometheus_port] }}" >> $GITHUB_ENV
           echo "RATE_LIMIT=${{ secrets[matrix.rate_limit] }}" >> $GITHUB_ENV
+          echo "RPC_CAPACITY=${{ secrets[matrix.capacity] }}" >> $GITHUB_ENV
+          echo "MAX_BATCH_SIZE=${{ secrets[matrix.max_batch_size] }}" >> $GITHUB_ENV
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
       - name: Build and deploy
         run: |
-          docker compose -f docker-compose.db.yml up postgres --force-recreate -d
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --force-recreate -d
