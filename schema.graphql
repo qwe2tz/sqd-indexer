@@ -1170,6 +1170,32 @@ type RewardsClaimed implements Base @entity {
   createdAt: DateTime! @index
 }
 
+type W1Updated implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  oldW1: BigInt @index
+  newW1: BigInt @index
+
+  transactionHash: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
+}
+
+type W2Updated implements Base @entity {
+  id: ID!
+  contract: String @index
+  name: String @index
+
+  oldW2: BigInt @index
+  newW2: BigInt @index
+
+  transactionHash: String
+  blockNumber: BigInt
+  createdAt: DateTime! @index
+}
+
 # =================== PARANET =================== #
 type ParanetRegistered implements Base @entity {
   id: ID!
