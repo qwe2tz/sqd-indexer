@@ -1,7 +1,8 @@
 import { DataSource } from "typeorm";
-import { CollectedReward } from "@/model/staking/CollectedRewards";
-import { EstimatedReward } from "@/model/staking/EstimatedRewards";
-import { NodeProofRate } from "@/model/staking/NodeProofRate";
+import { CollectedReward } from "../model/staking/CollectedRewards";
+import { NodeProofRate } from "../model/staking/NodeProofRate";
+import { EstimatedReward } from "../model/staking/EstimatedRewards";
+
 
 let AppDataSource: DataSource;
 
