@@ -1,4 +1,4 @@
-import { initDatabase } from "./typeormDataSource";
+import { initDatabase } from "./database";
 import { processStakingData } from "./procedures/staking";
 
 export async function processData(blocks: Number[]) {
