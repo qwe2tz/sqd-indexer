@@ -1,7 +1,7 @@
-import { initDatabase } from "./database";
+import { initOrGetDatabase } from "./database";
 import { processStakingData } from "./procedures/staking";
 
 export async function processData(blocks: Number[]) {
-  const db = await initDatabase();
+  const db = await initOrGetDatabase();
   await processStakingData(db, blocks);
 }
