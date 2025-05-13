@@ -1,10 +1,8 @@
-import { initAndGetDataSource } from "./typeormDataSource";
-import { processStakingData } from "./processing/staking";
-import { BlockData } from "@subsquid/evm-processor";
+import { initDatabase } from "./typeormDataSource";
+import { processStakingData } from "./computed/staking";
 
-
-export async function processData(blocks: BlockData<{}>[]) {
-  const db = initAndGetDataSource();
+export async function processData(blocks: Number[]) {
+  const db = initDatabase();
 
   await processStakingData(db, blocks);
 }

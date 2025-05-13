@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Unique } from "typeorm";
 
-@Entity({ name: "estimated_rewards", schema: "staking" })
+@Entity({ name: "estimated_rewards", schema: "computed" })
+@Unique(["identityId", "epoch"])
 export class EstimatedReward {
   @PrimaryGeneratedColumn("uuid")
   id: string;

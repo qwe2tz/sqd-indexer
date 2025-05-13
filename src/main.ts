@@ -133,7 +133,7 @@ async function runProcessor() {
       );
     }
 
-    await processData(ctx.blocks);
+    // await processData(ctx.blocks);
   });
 }
 
