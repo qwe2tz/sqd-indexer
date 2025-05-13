@@ -1,5 +1,5 @@
 import { initDatabase } from "./typeormDataSource";
-import { processStakingData } from "./computed/staking";
+import { processStakingData } from "./procedures/staking";
 
 export async function processData(blocks: Number[]) {
   const db = initDatabase();
