@@ -2,6 +2,7 @@ import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Block, Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
+import { processData } from "./db";
 
 type EventInstance = Object & {
   id: string;
@@ -38,6 +39,7 @@ async function runProcessor() {
     processor.setGateway(process.env.ARCHIVE);
   }
 
+  // Database instance used for subsquid processor
   const db = new TypeormDatabase({
     stateSchema: process.env.INDEXER_NAME,
     supportHotBlocks: false,
@@ -130,6 +132,8 @@ async function runProcessor() {
         error
       );
     }
+
+    await processData(ctx.blocks);
   });
 }
 
