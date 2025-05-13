@@ -57,7 +57,6 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: N
 }
 
 export async function processStakingData(AppDataSource: DataSource, blocks: Number[]) {
-  console.log("Processing staking data... ");
   await _processCollectedReward(AppDataSource, blocks);
   await _processNodeProofRate(AppDataSource, blocks);
 }
