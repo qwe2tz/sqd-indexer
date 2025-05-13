@@ -16,7 +16,7 @@ export function initDatabase() {
     entities: [CollectedReward, EstimatedReward, NodeProofRate],
     // This means we always update the database schema to match the entities
     synchronize: true,
-    schema: process.env.DB_SCHEMA || "public",
+    schema: process.env.DB_SCHEMA || "computed",
   });
 
   AppDataSource.initialize().catch((error) => console.log(error));
