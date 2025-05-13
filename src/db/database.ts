@@ -1,11 +1,12 @@
 import { DataSource } from "typeorm";
-import { CollectedReward } from "@/model/staking/CollectedRewards";
-import { EstimatedReward } from "@/model/staking/EstimatedRewards";
-import { NodeProofRate } from "@/model/staking/NodeProofRate";
+import { CollectedReward } from "../model/staking/CollectedRewards";
+import { NodeProofRate } from "../model/staking/NodeProofRate";
+import { EstimatedReward } from "../model/staking/EstimatedRewards";
+
 
 let AppDataSource: DataSource;
 
-export function initDatabase() {
+export async function initDatabase() {
   AppDataSource = new DataSource({
     type: "postgres",
     host: process.env.PG_HOST,
@@ -19,7 +20,7 @@ export function initDatabase() {
     schema: process.env.DB_SCHEMA || "computed",
   });
 
-  AppDataSource.initialize().catch((error) => console.log(error));
+  await AppDataSource.initialize().catch((error) => console.log(error));
   console.log("[✔] Type ORM Data Source initialized. Using schema:", process.env.DB_SCHEMA);
   return AppDataSource;
 }
