@@ -11,10 +11,10 @@ export async function initDatabase() {
 
   AppDataSource = new DataSource({
     type: "postgres",
-    host: process.env.DB_HOST,
+    host: "postgres",
     port: parseInt(process.env.DB_PORT) || 5432,
     username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     entities: [CollectedReward, EstimatedReward, NodeProofRate],
     // This means we always update the database schema to match the entities
