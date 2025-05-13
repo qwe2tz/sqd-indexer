@@ -25,7 +25,7 @@ export async function initOrGetDatabase() {
 
     await AppDataSource.initialize()
       .then(() => {
-        console.log("[✔] Type ORM Data Source initialized. Using schema:", schema);
+        console.log("Agreggator database initialized. Using schema:", schema);
       })
       .catch((error) => console.log(error));
   }

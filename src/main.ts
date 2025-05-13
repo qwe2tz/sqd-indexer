@@ -133,6 +133,7 @@ async function runProcessor() {
       );
     }
 
+    // Process, compute, aggregate all data for external consumption
     await processData(ctx.blocks.map((block) => block.header.height));
   });
 }
