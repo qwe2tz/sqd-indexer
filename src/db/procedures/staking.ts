@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { CollectedReward } from "@/model/staking/CollectedRewards";
-import { NodeProofRate } from "@/model/staking/NodeProofRate";
+import { CollectedReward } from "../../model/staking/CollectedRewards";
+import { NodeProofRate } from "../../model/staking/NodeProofRate";
 // import { EstimatedReward } from "@/model/staking/EstimatedRewards";
 
 async function _processCollectedReward(AppDataSource: DataSource, blocks: Number[]) {
