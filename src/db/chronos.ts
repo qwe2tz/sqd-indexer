@@ -6,13 +6,13 @@ let chronos: ethers.Contract = null;
 
 export function initOrGetChronos() {
   if (!provider) {
-    provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+    provider = new ethers.JsonRpcProvider(process.env.RPC_ENDPOINT);
   }
 
   if (!chronos) {
-    chronos = new ethers.Contract(process.env.CHRONOS_ADDRESS, ChronosAbi, provider);
+    chronos = new ethers.Contract(process.env.CHRONOS_CONTRACT, ChronosAbi, provider);
   }
-  
+
   return chronos;
 }
 
@@ -22,11 +22,10 @@ export async function getCurrentEpoch(): Promise<number> {
   return currentEpoch;
 }
 
-
 export async function getStartTime(): Promise<number> {
   const chronos = initOrGetChronos();
   const startTime = await chronos.startTime();
-  return startTime.toNumber();
+  return startTime;
 }
 
 export async function getEpochProgress(): Promise<number> {
@@ -35,6 +34,6 @@ export async function getEpochProgress(): Promise<number> {
   const epochLength = await chronos.epochLength();
 
   // Percentage of epoch completed
-  return 1 - timeUntilNextEpoch.toNumber() / epochLength.toNumber();
+  return 1 - parseInt(timeUntilNextEpoch) / parseInt(epochLength);
 }
 

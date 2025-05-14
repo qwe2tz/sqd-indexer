@@ -15,10 +15,6 @@ export class TransferSingle {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     operator!: string | undefined | null
 
     @Index_()

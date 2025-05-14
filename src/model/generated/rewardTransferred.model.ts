@@ -15,10 +15,6 @@ export class RewardTransferred {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     recipient!: string | undefined | null
 
     @BigIntColumn_({nullable: true})

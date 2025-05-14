@@ -15,10 +15,6 @@ export class VotersRegistrarTransferred {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     previousRegistrar!: string | undefined | null
 
     @Index_()

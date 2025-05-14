@@ -13,10 +13,6 @@ export class ParameterChanged {
     @StringColumn_({nullable: true})
     contract!: string | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
     @StringColumn_({nullable: true})
     parameterName!: string | undefined | null
 

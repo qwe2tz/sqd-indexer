@@ -15,10 +15,6 @@ export class ApprovalForAll {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     owner!: string | undefined | null
 
     @Index_()

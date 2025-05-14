@@ -35,7 +35,7 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: N
         c.epoch,
         COUNT(DISTINCT v.id) AS valid_proof_count,
         COUNT(DISTINCT c.id) AS challenge_count,
-        (COUNT(DISTINCT v.id) / ($1 * $2)) AS success_rate
+        (COUNT(DISTINCT v.id) / (($1::NUMERIC) * ($2::NUMERIC))) AS success_rate
       FROM challenge_created c
       LEFT JOIN valid_proof_submitted v
         ON c.identity_id = v.identity_id AND c.epoch = v.epoch
@@ -47,6 +47,7 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: N
   );
 
   for (const row of result) {
+    console.log("Inserting node proof rate", row);
     const data = {
       identityId: row.identity_id,
       epoch: row.epoch,

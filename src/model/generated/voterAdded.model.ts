@@ -15,10 +15,6 @@ export class VoterAdded {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     voter!: string | undefined | null
 
     @IntColumn_({nullable: true})

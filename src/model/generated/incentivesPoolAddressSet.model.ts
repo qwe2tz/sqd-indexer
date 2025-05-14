@@ -15,10 +15,6 @@ export class IncentivesPoolAddressSet {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     oldAddress!: string | undefined | null
 
     @Index_()
