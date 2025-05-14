@@ -20,7 +20,6 @@ export async function initOrGetDatabase() {
       entities: [CollectedReward, EstimatedReward, NodeProofRate],
       // This means we always update the database schema to match the entities
       synchronize: true,
-      schema,
     });
 
     await AppDataSource.initialize()

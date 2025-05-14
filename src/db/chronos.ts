@@ -22,10 +22,10 @@ export async function getCurrentEpoch(): Promise<number> {
   return currentEpoch;
 }
 
-export async function getStartTime(): Promise<number> {
+export async function getTimestampForEpoch(epoch: number): Promise<number> {
   const chronos = initOrGetChronos();
-  const startTime = await chronos.startTime();
-  return startTime;
+  const timestamp = await chronos.timestampForEpoch(epoch);
+  return timestamp;
 }
 
 export async function getEpochProgress(): Promise<number> {

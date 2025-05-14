@@ -12,14 +12,8 @@ export class NodeProofRate {
   @Column("bigint")
   epoch: number;
 
-  @Column("int")
-  validProofs: number;
-
-  @Column("int")
-  totalChallenges: number;
-
-  @Column("numeric")
-  successRatePercentage: number;
+  @Column("decimal")
+  successRate: number;
 
   @Column({ type: "timestamp", default: () => "now()" })
   createdAt: Date;

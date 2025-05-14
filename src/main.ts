@@ -3,7 +3,6 @@ import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Block, Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
 import { processData } from "./db";
-import { time } from "console";
 
 type EventInstance = Object & {
   id: string;
@@ -111,6 +110,7 @@ async function runProcessor() {
           new Block({
             id: block.header.hash,
             blockNumber: BigInt(block.header.height),
+            processed: false,
             blockHash: block.header.hash,
             timestamp: String(block.header.timestamp),
             createdAt: new Date(),
@@ -135,11 +135,7 @@ async function runProcessor() {
     }
 
     // Process, compute, aggregate all data for external consumption
-    await processData(
-      ctx.blocks.map((block: BlockData<{}>) => {
-        return Number(block.header.height);
-      })
-    );
+    await processData();
   });
 }
 

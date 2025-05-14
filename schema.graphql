@@ -19,6 +19,7 @@ type Block @entity {
   id: ID!
   blockNumber: BigInt @index
   blockHash: String @index
+  processed: Boolean @index
   timestamp: String @index
   createdAt: DateTime! @index
 }
