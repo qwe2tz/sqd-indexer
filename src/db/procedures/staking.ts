@@ -23,21 +23,20 @@ async function _processCollectedReward(AppDataSource: DataSource, blocks: Number
   }
 }
 
+
+// SR =
+//   count(valid_proof) /
+//   ((EXPECTED_CHALLENGES_PER_EPOCH * (currentTime - epochStartTime)) / epochLength);
 export async function _processNodeProofRate(AppDataSource: DataSource, blocks: Number[]) {
   const repo = AppDataSource.getRepository(NodeProofRate);
   const result = await AppDataSource.query(
     `SELECT
-      c.identity_id,
+      c.identity_id, 
       c.epoch,
       COUNT(DISTINCT v.id) AS valid_proof_count,
       COUNT(DISTINCT c.id) AS challenge_count,
-      ROUND(COUNT(DISTINCT v.id) * 100 / COUNT(DISTINCT c.id), 2) AS success_rate_percentage
-    FROM challenge_created c
-    LEFT JOIN valid_proof_submitted v
-      ON c.identity_id = v.identity_id AND c.epoch = v.epoch
-    WHERE c.block_number IN (${blocks.join(",")})
-    GROUP BY c.identity_id, c.epoch
-    ORDER BY c.identity_id, c.epoch`
+      (COUNT(DISTINCT v.id) / (${process.env.EXPECTED_CHALLENGES_PER_EPOCH})
+    `
   );
 
 
