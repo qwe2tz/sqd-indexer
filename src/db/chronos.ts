@@ -16,24 +16,43 @@ export function initOrGetChronos() {
   return chronos;
 }
 
+export async function getChronosStartTime(): Promise<number> {
+  const chronos = initOrGetChronos();
+  const startTime = await chronos.startTime();
+  return parseInt(startTime);
+}
+
+export async function getEpochLength(): Promise<number> {
+  const chronos = initOrGetChronos();
+  const epochLength = await chronos.getEpochLength();
+  return parseInt(epochLength);
+}
+
 export async function getCurrentEpoch(): Promise<number> {
   const chronos = initOrGetChronos();
   const currentEpoch = await chronos.getCurrentEpoch();
   return currentEpoch;
 }
 
-export async function getTimestampForEpoch(epoch: number): Promise<number> {
+export async function getTimestampForEpoch(epoch: any): Promise<number> {
   const chronos = initOrGetChronos();
   const timestamp = await chronos.timestampForEpoch(epoch);
   return timestamp;
 }
 
-export async function getEpochProgress(): Promise<number> {
+export async function getEpochAtTimestamp(timestamp: number): Promise<number> {
   const chronos = initOrGetChronos();
-  const timeUntilNextEpoch = await chronos.timeUntilNextEpoch();
-  const epochLength = await chronos.epochLength();
+  const epoch = await chronos.epochAtTimestamp(timestamp);
+  return epoch;
+}
+
+export async function getEpochProgress(timestamp: number): Promise<number> {
+  const chronos = initOrGetChronos();
+  const epochLength = await chronos.getEpochLength();
+  const startTime = await chronos.getChronosStartTime();
+  const epochAtTimestamp = await chronos.epochAtTimestamp(timestamp);
 
   // Percentage of epoch completed
-  return 1 - parseInt(timeUntilNextEpoch) / parseInt(epochLength);
+  return 1 - (startTime * (epochAtTimestamp - 1)) / parseInt(epochLength);
 }
 
