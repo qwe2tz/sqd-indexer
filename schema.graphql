@@ -1,7 +1,6 @@
 interface Base {
   id: ID!
   contract: String
-  name: String
   createdAt: DateTime!
 }
 
@@ -20,6 +19,7 @@ type Block @entity {
   id: ID!
   blockNumber: BigInt @index
   blockHash: String @index
+  processed: Boolean @index
   timestamp: String @index
   createdAt: DateTime! @index
 }
@@ -28,7 +28,6 @@ type Block @entity {
 type NewContract implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   newContractAddress: String
   transactionHash: String
@@ -39,7 +38,6 @@ type NewContract implements Base @entity {
 type ContractChanged implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   newContractAddress: String
   transactionHash: String
@@ -50,7 +48,6 @@ type ContractChanged implements Base @entity {
 type NewAssetStorage implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   newContractAddress: String
   transactionHash: String
@@ -61,7 +58,6 @@ type NewAssetStorage implements Base @entity {
 type AssetStorageChanged implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   newContractAddress: String
   transactionHash: String
@@ -72,7 +68,6 @@ type AssetStorageChanged implements Base @entity {
 type ContractRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   contractAddress: String
   transactionHash: String
@@ -83,7 +78,6 @@ type ContractRemoved implements Base @entity {
 type AssetStorageRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   contractName: String
   contractAddress: String
   transactionHash: String
@@ -95,7 +89,6 @@ type AssetStorageRemoved implements Base @entity {
 type OwnershipTransferred implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   previousOwner: String
   newOwner: String
@@ -109,7 +102,6 @@ type OwnershipTransferred implements Base @entity {
 type TokenTransferred implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   custodian: String @index
   amount: BigInt @index
@@ -122,7 +114,6 @@ type TokenTransferred implements Base @entity {
 type MisplacedEtherWithdrawn implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   custodian: String @index
   amount: BigInt @index
@@ -135,7 +126,6 @@ type MisplacedEtherWithdrawn implements Base @entity {
 type MisplacedERC20Withdrawn implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   custodian: String @index
   tokenContract: String @index
@@ -150,7 +140,6 @@ type MisplacedERC20Withdrawn implements Base @entity {
 type DelegatorAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: Int @index
   delegator: String @index
@@ -163,7 +152,6 @@ type DelegatorAdded implements Base @entity {
 type DelegatorRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: Int @index
   delegator: String @index
@@ -177,7 +165,6 @@ type DelegatorRemoved implements Base @entity {
 type EpochProducedKnowledgeValueAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   epoch: BigInt @index
@@ -191,7 +178,6 @@ type EpochProducedKnowledgeValueAdded implements Base @entity {
 type TokensAddedToEpochRange implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   shardId: BigInt @index
   startEpoch: BigInt
@@ -207,7 +193,6 @@ type TokensAddedToEpochRange implements Base @entity {
 type EpochTokensPaidOut implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   shardId: BigInt @index
   epoch: BigInt @index
@@ -222,7 +207,6 @@ type EpochTokensPaidOut implements Base @entity {
 type EpochsFinalized implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   shardId: BigInt @index
   startEpoch: BigInt
@@ -237,7 +221,6 @@ type EpochsFinalized implements Base @entity {
 type KnowledgeCollectionCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   publishOperationId: String
@@ -256,7 +239,6 @@ type KnowledgeCollectionCreated implements Base @entity {
 type KnowledgeCollectionUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   updateOperationId: String
@@ -272,7 +254,6 @@ type KnowledgeCollectionUpdated implements Base @entity {
 type KnowledgeAssetsMinted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   to: String @index
@@ -287,7 +268,6 @@ type KnowledgeAssetsMinted implements Base @entity {
 type KnowledgeAssetsBurned implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   from: String @index
@@ -301,7 +281,6 @@ type KnowledgeAssetsBurned implements Base @entity {
 type KnowledgeCollectionPublisherUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   publisher: String
@@ -314,7 +293,6 @@ type KnowledgeCollectionPublisherUpdated implements Base @entity {
 type KnowledgeCollectionMerkleRootsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   merkleRoots: [String!]!
@@ -327,7 +305,6 @@ type KnowledgeCollectionMerkleRootsUpdated implements Base @entity {
 type KnowledgeCollectionMerkleRootAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   merkleRoot: String
@@ -340,7 +317,6 @@ type KnowledgeCollectionMerkleRootAdded implements Base @entity {
 type KnowledgeCollectionMerkleRootRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   merkleRoot: String
@@ -353,7 +329,6 @@ type KnowledgeCollectionMerkleRootRemoved implements Base @entity {
 type KnowledgeCollectionMintedUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   minted: BigInt
@@ -366,7 +341,6 @@ type KnowledgeCollectionMintedUpdated implements Base @entity {
 type KnowledgeCollectionBurnedUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   burned: [String!]!
@@ -379,7 +353,6 @@ type KnowledgeCollectionBurnedUpdated implements Base @entity {
 type KnowledgeCollectionByteSizeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   byteSize: BigInt
@@ -392,7 +365,6 @@ type KnowledgeCollectionByteSizeUpdated implements Base @entity {
 type KnowledgeCollectionChunksAmountUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   chunksAmount: BigInt
@@ -405,7 +377,6 @@ type KnowledgeCollectionChunksAmountUpdated implements Base @entity {
 type KnowledgeCollectionTokenAmountUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   tokenAmount: BigInt
@@ -418,7 +389,6 @@ type KnowledgeCollectionTokenAmountUpdated implements Base @entity {
 type KnowledgeCollectionStartEpochUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   startEpoch: BigInt
@@ -431,7 +401,6 @@ type KnowledgeCollectionStartEpochUpdated implements Base @entity {
 type KnowledgeCollectionEndEpochUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   knowledgeCollectionId: BigInt @index
   endEpoch: BigInt
@@ -444,7 +413,6 @@ type KnowledgeCollectionEndEpochUpdated implements Base @entity {
 type TransferBatch implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   operator: String @index
   from: String @index
@@ -460,7 +428,6 @@ type TransferBatch implements Base @entity {
 type TransferSingle implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   operator: String @index
   from: String @index
@@ -476,7 +443,6 @@ type TransferSingle implements Base @entity {
 type URIUpdate implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   newURI: String
 
@@ -488,7 +454,6 @@ type URIUpdate implements Base @entity {
 # NOTE: Could be deperecated, check
 type URI implements Base @entity {
   id: ID!
-  name: String @index
   contract: String @index
 
   tokenId: String @index
@@ -502,7 +467,6 @@ type URI implements Base @entity {
 type ApprovalForAll implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   owner: String @index
   operator: String @index
@@ -517,7 +481,6 @@ type ApprovalForAll implements Base @entity {
 type ParameterChanged implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   parameterName: String
   parameterValue: BigInt
@@ -531,7 +494,6 @@ type ParameterChanged implements Base @entity {
 type PaymasterDeployed implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
   createdAt: DateTime! @index
 
   deployer: String @index
@@ -544,7 +506,6 @@ type PaymasterDeployed implements Base @entity {
 type ProfileCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   nodeName: String
@@ -559,7 +520,6 @@ type ProfileCreated implements Base @entity {
 type ProfileDeleted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   nodeId: String
@@ -572,7 +532,6 @@ type ProfileDeleted implements Base @entity {
 type NodeNameUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   oldName: String
@@ -586,7 +545,6 @@ type NodeNameUpdated implements Base @entity {
 type NodeIdUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   oldNodeId: String
@@ -600,7 +558,6 @@ type NodeIdUpdated implements Base @entity {
 type NodeAskUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   oldAsk: BigInt
@@ -614,7 +571,6 @@ type NodeAskUpdated implements Base @entity {
 type OperatorFeeAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   feePercentage: Int
@@ -628,7 +584,6 @@ type OperatorFeeAdded implements Base @entity {
 type OperatorFeesReplaced implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   oldFeePercentage: Int
@@ -643,7 +598,6 @@ type OperatorFeesReplaced implements Base @entity {
 type OperatorFeesUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   operatorFees: [String!]!
@@ -656,7 +610,6 @@ type OperatorFeesUpdated implements Base @entity {
 type NodesCountIncremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   newCount: BigInt
 
@@ -668,7 +621,6 @@ type NodesCountIncremented implements Base @entity {
 type NodesCountDecremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   newCount: BigInt
 
@@ -680,7 +632,6 @@ type NodesCountDecremented implements Base @entity {
 type NodeObjectCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   nodeId: String
@@ -695,7 +646,6 @@ type NodeObjectCreated implements Base @entity {
 type NodeObjectDeleted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
 
@@ -707,7 +657,6 @@ type NodeObjectDeleted implements Base @entity {
 type NodeIndexIncremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   newIndex: BigInt
@@ -720,7 +669,6 @@ type NodeIndexIncremented implements Base @entity {
 type NodeIndexDecremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   newIndex: BigInt
@@ -733,7 +681,6 @@ type NodeIndexDecremented implements Base @entity {
 type IdentityIdIndexSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   index: BigInt
@@ -747,7 +694,6 @@ type IdentityIdIndexSet implements Base @entity {
 type TotalStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   totalStake: BigInt
 
@@ -759,7 +705,6 @@ type TotalStakeUpdated implements Base @entity {
 type NodeStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   stake: BigInt
@@ -772,7 +717,6 @@ type NodeStakeUpdated implements Base @entity {
 type NodeRewardIndexUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   rewardIndex: BigInt
@@ -785,7 +729,6 @@ type NodeRewardIndexUpdated implements Base @entity {
 type NodeCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   cumulativeEarnedRewards: BigInt
@@ -798,7 +741,6 @@ type NodeCumulativeEarnedRewardsUpdated implements Base @entity {
 type NodeCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   cumulativePaidOutRewards: BigInt
@@ -811,7 +753,6 @@ type NodeCumulativePaidOutRewardsUpdated implements Base @entity {
 type DelegatorCountUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorsCount: BigInt
@@ -824,7 +765,6 @@ type DelegatorCountUpdated implements Base @entity {
 type OperatorFeeBalanceUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   feeBalance: BigInt
@@ -837,7 +777,6 @@ type OperatorFeeBalanceUpdated implements Base @entity {
 type OperatorFeeCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   cumulativeFeeEarnedRewards: BigInt
@@ -850,7 +789,6 @@ type OperatorFeeCumulativeEarnedRewardsUpdated implements Base @entity {
 type OperatorFeeCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   cumulativeFeePaidOutRewards: BigInt
@@ -863,7 +801,6 @@ type OperatorFeeCumulativePaidOutRewardsUpdated implements Base @entity {
 type DelegatorBaseStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -877,7 +814,6 @@ type DelegatorBaseStakeUpdated implements Base @entity {
 type DelegatorIndexedStakeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -891,7 +827,6 @@ type DelegatorIndexedStakeUpdated implements Base @entity {
 type DelegatorLastRewardIndexUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -905,7 +840,6 @@ type DelegatorLastRewardIndexUpdated implements Base @entity {
 type DelegatorCumulativeEarnedRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -919,7 +853,6 @@ type DelegatorCumulativeEarnedRewardsUpdated implements Base @entity {
 type DelegatorCumulativePaidOutRewardsUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -933,7 +866,6 @@ type DelegatorCumulativePaidOutRewardsUpdated implements Base @entity {
 type DelegatorWithdrawalRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -949,7 +881,6 @@ type DelegatorWithdrawalRequestCreated implements Base @entity {
 type DelegatorWithdrawalRequestDeleted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   delegatorKey: String @index
@@ -962,7 +893,6 @@ type DelegatorWithdrawalRequestDeleted implements Base @entity {
 type OperatorFeeWithdrawalRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   amount: BigInt
@@ -977,7 +907,6 @@ type OperatorFeeWithdrawalRequestCreated implements Base @entity {
 type OperatorFeeWithdrawalRequestDeleted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
 
@@ -989,7 +918,6 @@ type OperatorFeeWithdrawalRequestDeleted implements Base @entity {
 type StakedTokensTransferred implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   receiver: String @index
   amount: BigInt
@@ -1003,7 +931,6 @@ type StakedTokensTransferred implements Base @entity {
 type AddressWhitelisted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   addr: String @index
 
@@ -1015,7 +942,6 @@ type AddressWhitelisted implements Base @entity {
 type AddressBlacklisted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   addr: String @index
 
@@ -1027,7 +953,6 @@ type AddressBlacklisted implements Base @entity {
 type WhitelistEnabled implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   transactionHash: String
   blockNumber: BigInt
@@ -1037,7 +962,6 @@ type WhitelistEnabled implements Base @entity {
 type WhitelistDisabled implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   transactionHash: String
   blockNumber: BigInt
@@ -1048,7 +972,6 @@ type WhitelistDisabled implements Base @entity {
 type IdentityCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   operationalKey: String @index
@@ -1062,7 +985,6 @@ type IdentityCreated implements Base @entity {
 type IdentityDeleted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
 
@@ -1075,7 +997,6 @@ type IdentityDeleted implements Base @entity {
 type ProofingPeriodDurationAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   durationInBlocks: Int
   effectiveEpoch: BigInt @index
@@ -1088,7 +1009,6 @@ type ProofingPeriodDurationAdded implements Base @entity {
 type PendingProofingPeriodDurationReplaced implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldDurationInBlocks: Int
   newDurationInBlocks: Int
@@ -1103,7 +1023,6 @@ type PendingProofingPeriodDurationReplaced implements Base @entity {
 type ChallengeCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   epoch: BigInt @index
@@ -1120,7 +1039,6 @@ type ChallengeCreated implements Base @entity {
 type ValidProofSubmitted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   epoch: BigInt @index
@@ -1134,7 +1052,6 @@ type ValidProofSubmitted implements Base @entity {
 type AvgBlockTimeUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   avgBlockTimeInSeconds: Int
 
@@ -1146,7 +1063,6 @@ type AvgBlockTimeUpdated implements Base @entity {
 type ProofingPeriodDurationInBlocksUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   durationInBlocks: Int
 
@@ -1158,7 +1074,6 @@ type ProofingPeriodDurationInBlocksUpdated implements Base @entity {
 type RewardsClaimed implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   identityId: BigInt @index
   epoch: BigInt @index
@@ -1173,7 +1088,6 @@ type RewardsClaimed implements Base @entity {
 type W1Updated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldW1: BigInt @index
   newW1: BigInt @index
@@ -1186,7 +1100,6 @@ type W1Updated implements Base @entity {
 type W2Updated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldW2: BigInt @index
   newW2: BigInt @index
@@ -1200,7 +1113,6 @@ type W2Updated implements Base @entity {
 type ParanetRegistered implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1219,7 +1131,6 @@ type ParanetRegistered implements Base @entity {
 type ParanetPermissionedNodeAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1234,7 +1145,6 @@ type ParanetPermissionedNodeAdded implements Base @entity {
 type ParanetPermissionedNodeRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1249,7 +1159,6 @@ type ParanetPermissionedNodeRemoved implements Base @entity {
 type ParanetPermissionedNodeJoinRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1264,7 +1173,6 @@ type ParanetPermissionedNodeJoinRequestCreated implements Base @entity {
 type ParanetPermissionedNodeJoinRequestAccepted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1279,7 +1187,6 @@ type ParanetPermissionedNodeJoinRequestAccepted implements Base @entity {
 type ParanetPermissionedNodeJoinRequestRejected implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1294,7 +1201,6 @@ type ParanetPermissionedNodeJoinRequestRejected implements Base @entity {
 type ParanetIncetivesPoolDeployed implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1309,7 +1215,6 @@ type ParanetIncetivesPoolDeployed implements Base @entity {
 type ParanetMetadataUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1325,7 +1230,6 @@ type ParanetMetadataUpdated implements Base @entity {
 type ParanetServiceAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1342,7 +1246,6 @@ type ParanetServiceAdded implements Base @entity {
 type ParanetServiceRegistered implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetServiceKCStorageContract: String @index
   paranetServiceKCTokenId: BigInt @index
@@ -1359,7 +1262,6 @@ type ParanetServiceRegistered implements Base @entity {
 type ParanetServiceMetadataUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetServiceKCStorageContract: String @index
   paranetServiceKCTokenId: BigInt @index
@@ -1376,7 +1278,6 @@ type ParanetServiceMetadataUpdated implements Base @entity {
 type KnowledgeCollectionSubmittedToParanet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1392,7 +1293,6 @@ type KnowledgeCollectionSubmittedToParanet implements Base @entity {
 type ParanetPermissionedMinerAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1407,7 +1307,6 @@ type ParanetPermissionedMinerAdded implements Base @entity {
 type ParanetPermissionedMinerRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1422,7 +1321,6 @@ type ParanetPermissionedMinerRemoved implements Base @entity {
 type ParanetPermissionedMinerAccessRequestCreated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1437,7 +1335,6 @@ type ParanetPermissionedMinerAccessRequestCreated implements Base @entity {
 type ParanetPermissionedMinerAccessRequestAccepted implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1452,7 +1349,6 @@ type ParanetPermissionedMinerAccessRequestAccepted implements Base @entity {
 type ParanetPermissionedMinerAccessRequestRejected implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1468,7 +1364,6 @@ type ParanetPermissionedMinerAccessRequestRejected implements Base @entity {
 type TokenEmissionMultiplierUpdateInitiated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldMultiplier: BigInt
   newMultiplier: BigInt
@@ -1482,7 +1377,6 @@ type TokenEmissionMultiplierUpdateInitiated implements Base @entity {
 type TokenEmissionMultiplierUpdateFinalized implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldMultiplier: BigInt
   newMultiplier: BigInt
@@ -1494,9 +1388,8 @@ type TokenEmissionMultiplierUpdateFinalized implements Base @entity {
 
 # =================== PARANET INCENTIVE POOL FACTORY =================== #
 type ParanetIncentivesPoolDeployed implements Base @entity {
-  id: ID!
+  id: ID! 
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1513,7 +1406,6 @@ type ParanetIncentivesPoolDeployed implements Base @entity {
 type ParanetIncentivesPoolRedeployed implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   paranetKCStorageContract: String @index
   paranetKCTokenId: BigInt @index
@@ -1530,7 +1422,6 @@ type ParanetIncentivesPoolRedeployed implements Base @entity {
 type TokenRewardDeposit implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   sender: String
   amount: BigInt
@@ -1543,7 +1434,6 @@ type TokenRewardDeposit implements Base @entity {
 type VoterWeightUpdated implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   voter: String @index
   oldWeight: BigInt
@@ -1557,7 +1447,6 @@ type VoterWeightUpdated implements Base @entity {
 type TotalMinersclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldAmount: BigInt
   newAmount: BigInt
@@ -1570,7 +1459,6 @@ type TotalMinersclaimedTokenSet implements Base @entity {
 type TotalOperatorsclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldAmount: BigInt
   newAmount: BigInt
@@ -1583,7 +1471,6 @@ type TotalOperatorsclaimedTokenSet implements Base @entity {
 type TotalVotersclaimedTokenSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldAmount: BigInt
   newAmount: BigInt
@@ -1596,7 +1483,6 @@ type TotalVotersclaimedTokenSet implements Base @entity {
 type TotalMinersclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   amount: BigInt
   newTotal: BigInt
@@ -1609,7 +1495,6 @@ type TotalMinersclaimedTokenDecremented implements Base @entity {
 type TotalOperatorsclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   amount: BigInt
   newTotal: BigInt
@@ -1622,7 +1507,6 @@ type TotalOperatorsclaimedTokenDecremented implements Base @entity {
 type TotalVotersclaimedTokenDecremented implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   amount: BigInt
   newTotal: BigInt
@@ -1635,7 +1519,6 @@ type TotalVotersclaimedTokenDecremented implements Base @entity {
 type VotersRegistrarTransferred implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   previousRegistrar: String @index
   newRegistrar: String @index
@@ -1648,7 +1531,6 @@ type VotersRegistrarTransferred implements Base @entity {
 type MinerRewardProfileAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   miner: String @index
   amount: BigInt
@@ -1661,7 +1543,6 @@ type MinerRewardProfileAdded implements Base @entity {
 type MinerRewardIncreased implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   miner: String @index
   additionalAmount: BigInt
@@ -1675,7 +1556,6 @@ type MinerRewardIncreased implements Base @entity {
 type OperatorRewardProfileAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   operator: String @index
   amount: BigInt
@@ -1688,7 +1568,6 @@ type OperatorRewardProfileAdded implements Base @entity {
 type OperatorRewardIncreased implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   operator: String @index
   additionalAmount: BigInt
@@ -1702,7 +1581,6 @@ type OperatorRewardIncreased implements Base @entity {
 type VoterAdded implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   voter: String @index
   weight: Int
@@ -1715,7 +1593,6 @@ type VoterAdded implements Base @entity {
 type VoterRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   voter: String @index
   weight: BigInt
@@ -1728,7 +1605,6 @@ type VoterRemoved implements Base @entity {
 type VotersRemoved implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   count: BigInt
 
@@ -1740,7 +1616,6 @@ type VotersRemoved implements Base @entity {
 type VoterRewardClaimed implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   voter: String @index
   amount: BigInt
@@ -1753,7 +1628,6 @@ type VoterRewardClaimed implements Base @entity {
 type IncentivesPoolAddressSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldAddress: String @index
   newAddress: String @index
@@ -1766,7 +1640,6 @@ type IncentivesPoolAddressSet implements Base @entity {
 type RewardTransferred implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   recipient: String @index
   amount: BigInt
@@ -1779,7 +1652,6 @@ type RewardTransferred implements Base @entity {
 type TokenOriginSet implements Base @entity {
   id: ID!
   contract: String @index
-  name: String @index
 
   oldOrigin: String @index
   newOrigin: String @index

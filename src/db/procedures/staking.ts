@@ -1,13 +1,14 @@
 import { DataSource } from "typeorm";
 import { CollectedReward } from "../../model/staking/CollectedRewards";
 import { NodeProofRate } from "../../model/staking/NodeProofRate";
-// import { EstimatedReward } from "@/model/staking/EstimatedRewards";
+import { getEpochAtTimestamp } from "../chronos";
+import { DbBlock } from "../types";
 
-async function _processCollectedReward(AppDataSource: DataSource, blocks: Number[]) {
+async function _processCollectedReward(AppDataSource: DataSource, blocks: DbBlock[]) {
   const repo = AppDataSource.getRepository(CollectedReward);
   const result = await AppDataSource.query(
     `SELECT identity_id, epoch, SUM(amount) AS total FROM rewards_claimed
-     WHERE block_number IN (${blocks.join(",")})
+     WHERE block_number IN (${blocks.map((b) => b.block_number).join(",")})
      GROUP BY identity_id, epoch`
   );
 
@@ -23,40 +24,53 @@ async function _processCollectedReward(AppDataSource: DataSource, blocks: Number
   }
 }
 
-export async function _processNodeProofRate(AppDataSource: DataSource, blocks: Number[]) {
+export async function _processNodeProofRate(AppDataSource: DataSource, blocks: DbBlock[]) {
   const repo = AppDataSource.getRepository(NodeProofRate);
-  const result = await AppDataSource.query(
-    `SELECT
-      c.identity_id,
-      c.epoch,
+
+  const epochPromises = blocks.map((block) => getEpochAtTimestamp(Number(block.timestamp) / 1000));
+  const epochResults = await Promise.all(epochPromises);
+  const epochs = [...new Set(epochResults)];
+
+  console.log("epochs", epochs);
+
+  const successRates: {
+    identity_id: number;
+    valid_proof_count: number;
+    epoch: number;
+    challenge_count: number;
+    success_rate_percentage: number;
+  }[] = await AppDataSource.query(`
+    SELECT
+      v.identity_id,
+      v.epoch,
       COUNT(DISTINCT v.id) AS valid_proof_count,
       COUNT(DISTINCT c.id) AS challenge_count,
-      ROUND(COUNT(DISTINCT v.id) * 100 / COUNT(DISTINCT c.id), 2) AS success_rate_percentage
+      ROUND(COUNT(DISTINCT v.id) * 100 / COUNT(DISTINCT c.id), 4) AS success_rate_percentage
     FROM challenge_created c
     LEFT JOIN valid_proof_submitted v
-      ON c.identity_id = v.identity_id AND c.epoch = v.epoch
-    WHERE c.block_number IN (${blocks.join(",")})
-    GROUP BY c.identity_id, c.epoch
-    ORDER BY c.identity_id, c.epoch`
-  );
+      ON c.identity_id = v.identity_id
+    WHERE v.epoch IN (${epochs.join(",")}) AND c.epoch IN (${epochs.join(",")})
+    GROUP BY v.identity_id, v.epoch
+    ORDER BY v.identity_id, v.epoch;
+  `);
 
+  if (successRates.length === 0) return;
 
-  for (const row of result) {
+  for (const row of successRates) {
     const data = {
       identityId: row.identity_id,
       epoch: row.epoch,
-      validProofs: row.valid_proof_count,
-      totalChallenges: row.challenge_count,
-      // Could also be inferred by the caller
-      successRatePercentage: row.success_rate_percentage,
+      validProofsSubmitted: row.valid_proof_count,
+      challengesCreated: row.challenge_count,
+      successRate: row.success_rate_percentage,
     };
 
-    const successRate = repo.create(data);
-    await repo.upsert(successRate, ["identityId", "epoch"]);
+    const proofRate = repo.create(data);
+    await repo.upsert(proofRate, ["identityId", "epoch"]);
   }
 }
 
-export async function processStakingData(AppDataSource: DataSource, blocks: Number[]) {
+export async function processStakingData(AppDataSource: DataSource, blocks: DbBlock[]) {
   await _processCollectedReward(AppDataSource, blocks);
   await _processNodeProofRate(AppDataSource, blocks);
 }
