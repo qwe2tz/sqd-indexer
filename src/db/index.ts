@@ -12,7 +12,7 @@ export async function processData() {
     return;
   }
 
-  // NOTE: PROCEDURES
+  // NOTE: DATA PROCEDURES
   await processStakingData(db, unprocessedBlocks);
 
   await updateBlockStatus(db, unprocessedBlocks);
@@ -28,7 +28,7 @@ const fetchUnprocessedBlocks = async (db: DataSource) => {
 const updateBlockStatus = async (db: DataSource, blocks: DbBlock[]) => {
   await db.query(
     `UPDATE block SET processed = true WHERE block_number IN (${blocks
-      .map((b) => b.block_number)
+      .map((b) => BigInt(b.block_number))
       .join(",")})`
   );
 };

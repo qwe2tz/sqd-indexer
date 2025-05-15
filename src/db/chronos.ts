@@ -24,7 +24,7 @@ export async function getChronosStartTime(): Promise<number> {
 
 export async function getEpochLength(): Promise<number> {
   const chronos = initOrGetChronos();
-  const epochLength = await chronos.getEpochLength();
+  const epochLength = await chronos.epochLength();
   return parseInt(epochLength);
 }
 
@@ -34,10 +34,10 @@ export async function getCurrentEpoch(): Promise<number> {
   return currentEpoch;
 }
 
-export async function getTimestampForEpoch(epoch: any): Promise<number> {
+export async function getTimestampForEpoch(epoch: number): Promise<number> {
   const chronos = initOrGetChronos();
   const timestamp = await chronos.timestampForEpoch(epoch);
-  return timestamp;
+  return Number(timestamp);
 }
 
 export async function getEpochAtTimestamp(timestamp: number): Promise<number> {
