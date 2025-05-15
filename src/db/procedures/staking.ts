@@ -31,6 +31,8 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: D
   const epochResults = await Promise.all(epochPromises);
   const epochs = [...new Set(epochResults)];
 
+  console.log("epochs", epochs);
+
   const successRates: {
     identity_id: number;
     valid_proof_count: number;
@@ -47,7 +49,7 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: D
     FROM challenge_created c
     LEFT JOIN valid_proof_submitted v
       ON c.identity_id = v.identity_id
-    WHERE v.epoch IN (${epochs.join(",")})
+    WHERE v.epoch IN (${epochs.join(",")}) AND c.epoch IN (${epochs.join(",")})
     GROUP BY v.identity_id, v.epoch
     ORDER BY v.identity_id, v.epoch;
   `);
