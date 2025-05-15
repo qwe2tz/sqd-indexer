@@ -45,14 +45,3 @@ export async function getEpochAtTimestamp(timestamp: number): Promise<number> {
   const epoch = await chronos.epochAtTimestamp(timestamp);
   return epoch;
 }
-
-export async function getEpochProgress(timestamp: number): Promise<number> {
-  const chronos = initOrGetChronos();
-  const epochLength = await chronos.getEpochLength();
-  const startTime = await chronos.getChronosStartTime();
-  const epochAtTimestamp = await chronos.epochAtTimestamp(timestamp);
-
-  // Percentage of epoch completed
-  return 1 - (startTime * (epochAtTimestamp - 1)) / parseInt(epochLength);
-}
-

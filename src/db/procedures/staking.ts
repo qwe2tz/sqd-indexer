@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { CollectedReward } from "../../model/staking/CollectedRewards";
 import { NodeProofRate } from "../../model/staking/NodeProofRate";
-import { getTimestampForEpoch, getEpochLength, getEpochAtTimestamp } from "../chronos";
+import { getEpochAtTimestamp } from "../chronos";
 import { DbBlock } from "../types";
 
 async function _processCollectedReward(AppDataSource: DataSource, blocks: DbBlock[]) {
