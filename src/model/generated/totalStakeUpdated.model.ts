@@ -13,10 +13,6 @@ export class TotalStakeUpdated {
     @StringColumn_({nullable: true})
     contract!: string | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
     @BigIntColumn_({nullable: true})
     totalStake!: bigint | undefined | null
 

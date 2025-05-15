@@ -15,10 +15,6 @@ export class ParanetServiceMetadataUpdated {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     paranetServiceKCStorageContract!: string | undefined | null
 
     @Index_()

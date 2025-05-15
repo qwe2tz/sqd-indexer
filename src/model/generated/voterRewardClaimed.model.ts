@@ -15,10 +15,6 @@ export class VoterRewardClaimed {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     voter!: string | undefined | null
 
     @BigIntColumn_({nullable: true})

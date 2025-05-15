@@ -6,7 +6,7 @@ services:
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=postgres
       - DB_PORT=5432
       - INDEXER_NAME=${INDEXER_NAME}
@@ -19,6 +19,7 @@ services:
       - MAX_BATCH_SIZE=${MAX_BATCH_SIZE}
       - RATE_LIMIT=${RATE_LIMIT}
       - RPC_CAPACITY=${RPC_CAPACITY}
+      - CHRONOS_CONTRACT_ADDRESS=${CHRONOS_CONTRACT_ADDRESS}
     ports:
       - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
     restart: always

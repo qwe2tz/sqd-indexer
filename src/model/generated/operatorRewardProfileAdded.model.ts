@@ -15,10 +15,6 @@ export class OperatorRewardProfileAdded {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     operator!: string | undefined | null
 
     @BigIntColumn_({nullable: true})

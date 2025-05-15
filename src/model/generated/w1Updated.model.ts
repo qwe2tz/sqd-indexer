@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, Index as Index_, BigIntColumn as BigIntColumn_, DateTimeColumn as DateTimeColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class KnowledgeCollectionMintedUpdated {
-    constructor(props?: Partial<KnowledgeCollectionMintedUpdated>) {
+export class W1Updated {
+    constructor(props?: Partial<W1Updated>) {
         Object.assign(this, props)
     }
 
@@ -15,10 +15,11 @@ export class KnowledgeCollectionMintedUpdated {
 
     @Index_()
     @BigIntColumn_({nullable: true})
-    knowledgeCollectionId!: bigint | undefined | null
+    oldW1!: bigint | undefined | null
 
+    @Index_()
     @BigIntColumn_({nullable: true})
-    minted!: bigint | undefined | null
+    newW1!: bigint | undefined | null
 
     @StringColumn_({nullable: true})
     transactionHash!: string | undefined | null

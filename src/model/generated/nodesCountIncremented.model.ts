@@ -13,10 +13,6 @@ export class NodesCountIncremented {
     @StringColumn_({nullable: true})
     contract!: string | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
     @BigIntColumn_({nullable: true})
     newCount!: bigint | undefined | null
 

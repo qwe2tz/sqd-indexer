@@ -14,10 +14,6 @@ export class DelegatorAdded {
     contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
     @IntColumn_({nullable: true})
     identityId!: number | undefined | null
 

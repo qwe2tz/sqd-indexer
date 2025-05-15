@@ -15,10 +15,6 @@ export class MisplacedEtherWithdrawn {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     custodian!: string | undefined | null
 
     @Index_()

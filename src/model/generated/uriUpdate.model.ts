@@ -13,10 +13,6 @@ export class URIUpdate {
     @StringColumn_({nullable: true})
     contract!: string | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
     @StringColumn_({nullable: true})
     newURI!: string | undefined | null
 

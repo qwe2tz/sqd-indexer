@@ -14,10 +14,6 @@ export class PaymasterDeployed {
     contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
     @DateTimeColumn_({nullable: false})
     createdAt!: Date
 

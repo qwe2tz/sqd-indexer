@@ -15,10 +15,6 @@ export class MinerRewardProfileAdded {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     miner!: string | undefined | null
 
     @BigIntColumn_({nullable: true})

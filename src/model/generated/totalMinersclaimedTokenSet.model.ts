@@ -13,10 +13,6 @@ export class TotalMinersclaimedTokenSet {
     @StringColumn_({nullable: true})
     contract!: string | undefined | null
 
-    @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
     @BigIntColumn_({nullable: true})
     oldAmount!: bigint | undefined | null
 
