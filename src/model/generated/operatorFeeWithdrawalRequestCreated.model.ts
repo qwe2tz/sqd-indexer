@@ -14,10 +14,6 @@ export class OperatorFeeWithdrawalRequestCreated {
     contract!: string | undefined | null
 
     @Index_()
-    @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
     @BigIntColumn_({nullable: true})
     identityId!: bigint | undefined | null
 

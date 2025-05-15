@@ -1,4 +1,4 @@
-import { EvmBatchProcessor } from "@subsquid/evm-processor";
+import { BlockData, EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Block, Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
@@ -110,6 +110,7 @@ async function runProcessor() {
           new Block({
             id: block.header.hash,
             blockNumber: BigInt(block.header.height),
+            processed: false,
             blockHash: block.header.hash,
             timestamp: String(block.header.timestamp),
             createdAt: new Date(),
@@ -134,7 +135,7 @@ async function runProcessor() {
     }
 
     // Process, compute, aggregate all data for external consumption
-    await processData(ctx.blocks.map((block) => block.header.height));
+    await processData();
   });
 }
 

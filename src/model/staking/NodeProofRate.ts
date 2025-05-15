@@ -6,20 +6,20 @@ export class NodeProofRate {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column("bigint")
+  @Column("numeric")
   identityId: number;
 
-  @Column("bigint")
+  @Column("numeric")
   epoch: number;
 
-  @Column("int")
-  validProofs: number;
-
-  @Column("int")
-  totalChallenges: number;
+  @Column("numeric")
+  validProofsSubmitted: number;
 
   @Column("numeric")
-  successRatePercentage: number;
+  challengesCreated: number;
+
+  @Column("decimal")
+  successRate: number;
 
   @Column({ type: "timestamp", default: () => "now()" })
   createdAt: Date;

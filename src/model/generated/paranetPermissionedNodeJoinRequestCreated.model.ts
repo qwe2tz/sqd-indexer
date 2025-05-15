@@ -15,10 +15,6 @@ export class ParanetPermissionedNodeJoinRequestCreated {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     paranetKCStorageContract!: string | undefined | null
 
     @Index_()

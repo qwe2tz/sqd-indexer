@@ -15,10 +15,6 @@ export class AddressWhitelisted {
 
     @Index_()
     @StringColumn_({nullable: true})
-    name!: string | undefined | null
-
-    @Index_()
-    @StringColumn_({nullable: true})
     addr!: string | undefined | null
 
     @StringColumn_({nullable: true})
