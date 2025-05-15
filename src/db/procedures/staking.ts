@@ -31,8 +31,6 @@ export async function _processNodeProofRate(AppDataSource: DataSource, blocks: D
   const epochResults = await Promise.all(epochPromises);
   const epochs = [...new Set(epochResults)];
 
-  console.log("epochs", epochs);
-
   const successRates: {
     identity_id: number;
     valid_proof_count: number;
