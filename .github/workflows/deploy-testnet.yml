@@ -84,7 +84,7 @@ jobs:
           echo "RATE_LIMIT=${{ secrets[matrix.rate_limit] }}" >> $GITHUB_ENV
           echo "RPC_CAPACITY=${{ secrets[matrix.capacity] }}" >> $GITHUB_ENV
           echo "MAX_BATCH_SIZE=${{ secrets[matrix.max_batch_size] }}" >> $GITHUB_ENV
-          echo "CHRONOS_CONTRACT=${{ secrets[matrix.chronos_contract] }}" >> $GITHUB_ENV
+          echo "CHRONOS_CONTRACT_ADDRESS=${{ secrets[matrix.chronos_contract] }}" >> $GITHUB_ENV
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
