@@ -1,4 +1,4 @@
-import { BlockData, EvmBatchProcessor } from "@subsquid/evm-processor";
+import { EvmBatchProcessor } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
 import { Block, Transaction } from "./model";
 import { initEventRegistry, EventType } from "./events";
