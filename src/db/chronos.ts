@@ -10,7 +10,7 @@ export function initOrGetChronos() {
   }
 
   if (!chronos) {
-    chronos = new ethers.Contract(process.env.CHRONOS_CONTRACT, ChronosAbi, provider);
+    chronos = new ethers.Contract(process.env.CHRONOS_CONTRACT_ADDRESS, ChronosAbi, provider);
   }
 
   return chronos;
