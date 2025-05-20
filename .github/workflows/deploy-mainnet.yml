@@ -73,7 +73,7 @@ jobs:
         run: |
           echo "Building and deploying indexer for ${{ matrix.env }}"
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "DB_PASS=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
           echo "DB_NAME=${{ secrets[matrix.db_name] }}" >> $GITHUB_ENV
           echo "INDEXER_NAME=${{ secrets[matrix.indexer_name] }}" >> $GITHUB_ENV
           echo "RPC_ENDPOINT=${{ secrets[matrix.rpc_endpoint] }}" >> $GITHUB_ENV
