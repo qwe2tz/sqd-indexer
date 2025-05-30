@@ -103,10 +103,9 @@ jobs:
       steps:
         - name: Remove orphaned containers and dangling volumes
           run: |
+            docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer down --remove-orphans
             docker system prune -f --volumes
-            docker system prune -f --images
-            docker system prune -f --containers
 
         - name: Cleanup dangling images
           run: |
-            
+            docker image prune -f
