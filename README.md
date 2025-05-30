@@ -22,3 +22,4 @@ make run_dev
 
 TODO:
 * Deploying indexers using a release.
+
