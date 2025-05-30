@@ -99,7 +99,7 @@ jobs:
       needs: build_and_deploy
       if: always()
       steps:
-        - name: Stop and remove indexer containers
+        - name: Remove orphaned containers and dangling volumes
           run: |
             docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer down --remove-orphans
             docker system prune -f --volumes
@@ -107,5 +107,4 @@ jobs:
         - name: Cleanup dangling images
           run: |
             docker image prune -f
-            docker volume prune -f
 
