@@ -1,4 +1,4 @@
-name: Indexer Deployment - Mainnet
+name: Indexer CI - Mainnet
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
   # if_merged:
   #   if: github.event.pull_request.merged == true
 
-  build:
+  build_and_deploy:
     runs-on: self-hosted
     strategy:
       matrix:
@@ -94,3 +94,19 @@ jobs:
         run: |
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer build indexer
           docker compose -f docker-compose.yml -p ${{ matrix.env }}-indexer up indexer --force-recreate -d
+
+
+    cleanup:
+      runs-on: self-hosted
+      needs: build_and_deploy
+      if: always()
+      steps:
+        - name: Remove orphaned containers and dangling volumes
+          run: |
+            docker system prune -f --volumes
+            docker system prune -f --images
+            docker system prune -f --containers
+
+        - name: Cleanup dangling images
+          run: |
+            
